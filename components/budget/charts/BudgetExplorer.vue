@@ -1,20 +1,30 @@
 <template>
   <VizChart>
     <div class="flex flex-col lg:flex-row">
-      <div id="KeyWordBudget" class="max-w-[400px] flex flex-col gap-4 justify-between">
+      <div
+        id="KeyWordBudget"
+        class="max-w-[400px] flex flex-col gap-4 justify-between"
+      >
         <p class="wv-b3 flex-grow text-center sm:text-left">
-          หากไม่รู้ว่าจะเริ่มสำรวจการใช้งบจากตรงไหน ลองค้นหาด้วย
-          <span class="font-bold">คีย์เวิร์ดที่พบบ่อย</span>
-          ในชื่อและคำอธิบายรายการใช้งบ
+          หากไม่รู้ว่าจะเริ่มสำรวจ<br />
+          การใช้งบจากตรงไหน ลองค้นหา<br />
+          ด้วย
+          <span class="font-bold">“คีย์เวิร์ดที่พบบ่อย”</span>
+          ในชื่อ<br />และคำอธิบายรายการใช้งบ
         </p>
 
-        <p class="wv-b7 text-wv-gray-1 text-center sm:text-left">ขนาดคำ = จำนวนที่พบ</p>
+        <p class="wv-b7 text-wv-gray-1 text-center sm:text-left">
+          ขนาดคำ = จำนวนที่พบ
+        </p>
       </div>
       <div class="w-full flex flex-col justify-between gap-4">
         <div id="wordCloundWrapper"></div>
         <div class="flex justify-center sm:justify-end">
           <NuxtLink
-            :to="{ path: 'explore', query: { select: 'KeyWordBudget' } }"
+            :to="{
+              path: 'bkkbudget/explore',
+              query: { select: 'KeyWordBudget' },
+            }"
             class="flex items-center py-1 px-2 rounded border-wv-gray-1 hover:bg-gray-500 hover:text-white border text-wv-gray-1 h-min"
           >
             ค้นหางบด้วยคีย์เวิร์ด
@@ -60,7 +70,7 @@ export default Vue.extend({
             .slice(0, 50)
             .map(function (d) {
               return { text: d.Word, size: d.Count };
-            }),
+            })
         )
         .padding(5)
         .rotate(function () {
@@ -76,7 +86,11 @@ export default Vue.extend({
           .append("g")
           .attr(
             "transform",
-            "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")",
+            "translate(" +
+              layout.size()[0] / 2 +
+              "," +
+              layout.size()[1] / 2 +
+              ")"
           )
           .selectAll("text")
           .data(words)

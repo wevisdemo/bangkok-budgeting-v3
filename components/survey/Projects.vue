@@ -1,28 +1,28 @@
 <template>
   <div
-    class="min-h-screen md:max-w-[600px] md:w-[600px] mx-auto flex flex-col font-bold"
+    class="py-[20px] px-[10px] mx-3 rounded-[10px] bg-white flex flex-col font-bold"
   >
     <div id="projectsDevelopment" class="mb-2 scroll-mt-8">
-      <h5 class="wv-h5 wv-bold text-center wv-kondolar">เลือก 3 โครงการที่อยากพัฒนา</h5>
+      <h5 class="wv-h5 wv-bold text-center wv-kondolar">
+        เลือกอีก 1 ประเด็น<br />
+        ที่คุณอยากแก้ไข
+      </h5>
     </div>
-    <div v-for="item in projects" :key="projects.no">
-      <button
-        class="w-full wv-b4 text-left p-[20px] my-[4px] rounded-[5px] hover:bg-black hover:text-white"
-        v-for="(i, key) in item.Sub_problem"
-        :key="key"
-        @click="() => selectTopic(i.name, i.strategy)"
-        :class="[
-          selected.filter(s => s.problem === i.name).length != 0
-            ? `bg-black text-white`
-            : selected.length === 3
-            ? `opacity-50 bg-white`
-            : `bg-white`,
-          `border-2 `,
-        ]"
-      >
-        {{ i.name }}
-      </button>
-    </div>
+
+    <button
+      class="rounded-[5px] w-full my-1 flex items-center text-start px-[10px] py-[6px] hover:bg-black hover:text-white"
+      v-for="(item, key) in subProblem"
+      :key="key"
+      @click="() => selectTopic(item.strategy)"
+      :class="
+        selectedSurvey?.sub_policy === item.strategy
+          ? `bg-black text-white`
+          : `bg-wv-cream`
+      "
+    >
+      {{ item.no }}. {{ item.strategy }}
+    </button>
+
     <div class="flex justify-center mt-5 items-center">
       <button
         @click="() => prevPage()"
@@ -32,8 +32,8 @@
       </button>
       <button
         class="border border-black rounded p-3 ml-2 wv-b6 font-bold"
-        :class="selected.length < 3 ? `opacity-20` : ``"
-        :disabled="selected.length < 3"
+        :class="selectedSurvey?.sub_policy ? `opacity-100` : `opacity-20`"
+        :disabled="!selectedSurvey?.sub_policy"
         @click.stop="openDialog"
       >
         ส่งความคิดเห็น
@@ -50,6 +50,8 @@
 
 <script>
 import FormDialog from "~/components/FormDialog.vue";
+import { surveyData } from "~/data/survey-data";
+import { mapActions, mapState } from "vuex";
 export default {
   components: {
     FormDialog,
@@ -59,8 +61,12 @@ export default {
       type: Function,
     },
   },
+  computed: {
+    ...mapState(["selectedSurvey"]),
+  },
   data() {
     return {
+      subProblem: [],
       projects: [],
       selected: [],
       dialogOpen: false,
@@ -71,19 +77,19 @@ export default {
     };
   },
   mounted() {
-    this.projects = this.$store.state.selectedSurvey;
+    this.subProblem = this.surveyData()?.filter(
+      (item) => item.problem === this.selectedSurvey.policy
+    )[0].subProblem;
+    if (!this.subProblem)
+      this.updataSurvey({ ...this.selectedSurvey, sub_policy: "" });
   },
   methods: {
-    selectTopic(problem, strategy) {
-      const max = 3;
-      const maxLimit = this.selected.length < max;
-      const isIncluded = this.selected.filter(el => el.problem === problem);
-      if (isIncluded.length === 0) {
-        if (maxLimit) this.selected.push({ problem: problem, strategy: strategy });
-      } else {
-        const filtered = this.selected.filter(el => el.problem !== problem);
-        this.selected = filtered;
-      }
+    ...mapActions({
+      updataSurvey: "updataSurvey",
+    }),
+    surveyData,
+    selectTopic(strategy) {
+      this.updataSurvey({ ...this.selectedSurvey, sub_policy: strategy });
     },
     prevPage() {
       this.setStepSurvey("prev");

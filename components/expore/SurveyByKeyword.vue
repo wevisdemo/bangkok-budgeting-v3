@@ -26,12 +26,16 @@
           @click="handdleModalMobile"
           v-if="$mq === 'md'"
         >
-          <div class="wv-b5 border-black rounded-[5px] border py-[5px] px-[10px]">
+          <div
+            class="wv-b5 border-black rounded-[5px] border py-[5px] px-[10px]"
+          >
             ตกลง
           </div>
         </div>
 
-        <div class="md:px-16 lg:px-0 lg:py-0 md:py-16 mx-auto mt-[40px] md:mt-0">
+        <div
+          class="md:px-16 lg:px-0 lg:py-0 md:py-16 mx-auto mt-[40px] md:mt-0"
+        >
           <div>
             <div class="relative">
               <img
@@ -95,8 +99,12 @@
                 </div>
                 <p class="wv-b6 font-bold">{{ item.Word }}</p>
               </div>
-              <p class="wv-b7 opacity-50 flex-1 text-center">{{ item.total }}</p>
-              <p class="wv-b7 opacity-50 flex-1">{{ convertMillion(item.amount) }}</p>
+              <p class="wv-b7 opacity-50 flex-1 text-center">
+                {{ item.total }}
+              </p>
+              <p class="wv-b7 opacity-50 flex-1">
+                {{ convertMillion(item.amount) }}
+              </p>
             </div>
           </div>
         </div>
@@ -115,7 +123,9 @@
                   rawData?.total?.toLocaleString("en-US", {})
                 }}</span>
                 รายการ <br class="lg:hidden" />ใช้งบรวม
-                <span class="font-bold">{{ convertMillion(totalFilterAmout) }}</span>
+                <span class="font-bold">{{
+                  convertMillion(totalFilterAmout)
+                }}</span>
                 ล้านบาท <br class="md:hidden" />({{
                   ((totalFilterAmout / chartData.amount) * 100).toFixed()
                 }}% ของงบทั้งหมด)
@@ -179,7 +189,8 @@
 
                 <div
                   v-if="
-                    item.organize[selectFilter] && selectFilter !== filterOrganize[0]
+                    item.organize[selectFilter] &&
+                    selectFilter !== filterOrganize[0]
                   "
                   class="relative z-20 w-full"
                   v-for="strategy in strategyList()"
@@ -187,13 +198,18 @@
                   :class="colorFilter(strategy)"
                   :style="{
                     height: calHeight(
-                      displayOrganizeValue(item.organize[selectFilter], strategy),
-                      item.amount,
+                      displayOrganizeValue(
+                        item.organize[selectFilter],
+                        strategy
+                      ),
+                      item.amount
                     ),
                   }"
                 ></div>
                 <div
-                  v-if="selectFilter === filterOrganize[0] && item.all[strategy]"
+                  v-if="
+                    selectFilter === filterOrganize[0] && item.all[strategy]
+                  "
                   class="relative z-20 w-full"
                   v-for="strategy in strategyList()"
                   :key="strategy"
@@ -218,7 +234,9 @@
                   v-if="isMillion && selectFilter !== filterOrganize[0]"
                 >
                   {{
-                    convertMillion(displayAmoutOrganize(item.organize[selectFilter]))
+                    convertMillion(
+                      displayAmoutOrganize(item.organize[selectFilter])
+                    )
                   }}
                 </div>
                 <!-- <div
@@ -262,8 +280,8 @@
         <div class="lg:max-w-[685px] text-center lg:text-left mt-5 mx-auto">
           <p class="wv-b5 text-wv-gray-1">
             <b>ยุทธศาสตร์ 7 ด้าน</b> เป็นแผนพัฒนาที่กรุงเทพฯ
-            <br class="lg:hidden" />วางไว้ เพื่อจะก้าวไปสู่การเป็น “มหานครแห่งเอเชีย”
-            <br class="lg:hidden" />ภายใน 20 ปี (2561-2580)
+            <br class="lg:hidden" />วางไว้ เพื่อจะก้าวไปสู่การเป็น
+            “มหานครแห่งเอเชีย” <br class="lg:hidden" />ภายใน 20 ปี (2561-2580)
           </p>
           <div class="mt-5 flex flex-wrap lg:block text-start">
             <div
@@ -348,14 +366,14 @@ export default {
           ? this.maxBudgets()
           : this.maxSelectedFilter();
       const result = [...Array(5)].map(
-        (_, index) => ((parseInt(max) / 5) * (index + 1)) / 1000000,
+        (_, index) => ((parseInt(max) / 5) * (index + 1)) / 1000000
       );
       const percent = [...Array(5)].map((_, index) => (100 / 5) * (index + 1));
       return this.isMillion ? [...result] : [...percent];
     },
     maxBudgets() {
       return this.roundBudget(
-        Math.max(...this.chartData.years.map(o => o.amount)).toString(),
+        Math.max(...this.chartData.years.map((o) => o.amount)).toString()
       );
     },
     roundBudget(items) {
@@ -375,15 +393,16 @@ export default {
     },
     maxSelectedFilter() {
       const formatValue = _.chain(this.itemsChart.years)
-        .mapValues(d => d.organize[this.selectFilter])
-        .mapValues(s => ({ amount: s && _.sum(Object.values(s)) }))
+        .mapValues((d) => d.organize[this.selectFilter])
+        .mapValues((s) => ({ amount: s && _.sum(Object.values(s)) }))
         .value();
       return this.roundBudget(
-        _.maxBy(Object.values(formatValue), "amount")?.amount.toString(),
+        _.maxBy(Object.values(formatValue), "amount")?.amount.toString()
       );
     },
     displayMaxAmout(year) {
-      return this.chartData.years.filter(d => d.year === parseInt(year))[0].amount;
+      return this.chartData.years.filter((d) => d.year === parseInt(year))[0]
+        .amount;
     },
     selectKey(item) {
       this.selectedKey = item;
@@ -392,7 +411,9 @@ export default {
     calHeight(item, max) {
       const filterDefault = this.selectFilter === this.filterOrganize[0];
       const divideOrganize =
-        !filterDefault && this.isMillion ? this.maxSelectedFilter() : this.maxBudgets();
+        !filterDefault && this.isMillion
+          ? this.maxSelectedFilter()
+          : this.maxBudgets();
       return this.isMillion
         ? `${(item / divideOrganize) * 100}%`
         : `${(item / max) * 100}%`;
@@ -404,23 +425,23 @@ export default {
       this.itemsChart = {
         years: _.chain(response.items)
           .groupBy("budgetYear")
-          .mapValues(d => ({
+          .mapValues((d) => ({
             amount: _.sumBy(
-              response.items.filter(a => a.budgetYear === d[0].budgetYear),
-              "amount",
+              response.items.filter((a) => a.budgetYear === d[0].budgetYear),
+              "amount"
             ),
             organize: _.chain(d)
               .groupBy("nameOrganization")
-              .mapValues(s =>
+              .mapValues((s) =>
                 _.chain(s)
                   .groupBy("strategy")
-                  .mapValues(s => _.sumBy(s, "amount"))
-                  .value(),
+                  .mapValues((s) => _.sumBy(s, "amount"))
+                  .value()
               )
               .value(),
             all: _.chain(d)
               .groupBy("strategy")
-              .mapValues(s => _.sumBy(s, "amount"))
+              .mapValues((s) => _.sumBy(s, "amount"))
               .value(),
           }))
           .value(),
@@ -428,13 +449,18 @@ export default {
       };
       this.rawData = response;
       this.totalFilterAmout = _.sumBy(response.items, "amount");
-      const groupOrganize = Object.keys(_.groupBy(response.items, "nameOrganization"));
-      this.filterOrganize = [`${groupOrganize.length} หน่วยงาน`, ...groupOrganize];
+      const groupOrganize = Object.keys(
+        _.groupBy(response.items, "nameOrganization")
+      );
+      this.filterOrganize = [
+        `${groupOrganize.length} หน่วยงาน`,
+        ...groupOrganize,
+      ];
       this.selectFilter = this.filterOrganize[0];
       this.updateSelectKeywordStrategy({ label: "2561-2567", value: "" });
       this.updateIsModalDetails(response);
       this.updateSubTitleModal(
-        `ที่มีคำว่า “${this.selectedKey.Word}” ในชื่อ ซึ่งของบโดย “${this.filterOrganize.length} หน่วยงาน”`,
+        `ที่มีคำว่า “${this.selectedKey.Word}” ในชื่อ ซึ่งของบโดย “${this.filterOrganize.length} หน่วยงาน”`
       );
     },
   },
@@ -443,8 +469,10 @@ export default {
       immediate: true,
       deep: false,
       handler(newValue) {
-        const result = keywords().filter(d => d.Word.toString().includes(newValue));
-        const formatFilter = result.map(r => {
+        const result = keywords().filter((d) =>
+          d.Word.toString().includes(newValue)
+        );
+        const formatFilter = result.map((r) => {
           const item = this.$store.getters["data/getBudgetItems"]({
             keyword: r.Word,
           });
@@ -458,7 +486,8 @@ export default {
       },
     },
     selectFilter() {
-      if (this.selectFilter !== this.filterOrganize[0]) this.maxSelectedFilter();
+      if (this.selectFilter !== this.filterOrganize[0])
+        this.maxSelectedFilter();
     },
     selectSort(label) {
       this.filterKeyword = this.filterByKey(label, this.filterKeyword);

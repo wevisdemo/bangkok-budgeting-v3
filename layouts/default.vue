@@ -43,9 +43,9 @@ export default Vue.extend({
   data() {
     return {
       routes: [
-        { label: "เข้าใจแผนการใช้งบ", path: "/" },
-        { label: "สำรวจการใช้งบ", path: "/explore" },
-        { label: "เกี่ยวกับโครงการ", path: "/about" },
+        { label: "หน้าแรก", path: "/" },
+        { label: "สำรวจการใช้งบประมาณ", path: "/bkkbudget" },
+        { label: "พัฒนาชุมชนเมืองให้เข้มแข็ง", path: "/communityfund" },
       ],
       footerComponent: "AboutFooter",
       cookieOptions: ["Functionality"],
@@ -72,7 +72,9 @@ export default Vue.extend({
         this.$store.commit("setCookieState", true);
 
         const messageRef = this.$fire.database.ref("user");
-        const userSeq = this.$fire.database.ref("sequence").child("user_sequence");
+        const userSeq = this.$fire.database
+          .ref("sequence")
+          .child("user_sequence");
         try {
           const a = await userSeq.once("value");
           let r = a.val();

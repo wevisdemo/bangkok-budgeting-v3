@@ -1,6 +1,5 @@
 <template>
   <div class="flex sm:flex-none flex-col gap-2 p-3">
-    <p class="wv-b5 wv-bold">{{ title }}</p>
     <div class="divide-y divide-black divide-opacity-25">
       <a
         v-for="(item, index) in links"
@@ -14,13 +13,13 @@
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            strokeWidth="1.5"
+            stroke-width="1.5"
             stroke="currentColor"
             v-if="arrowDirection === 'Right'"
           >
             <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              stroke-linecap="round"
+              stroke-linejoin="round"
               d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
             />
           </svg>
@@ -58,11 +57,11 @@ type ArrowDirection = "Down" | "Right";
 export default defineComponent({
   name: "NavLinks",
   props: {
-    title: {
-      type: String,
+    links: {
+      type: Array as PropType<Link[]>,
+      default: () => [],
       required: true,
     },
-    links: { type: Array as PropType<Link[]>, default: () => [], required: true },
     arrowDirection: {
       type: String as PropType<ArrowDirection>,
       default: "Down",

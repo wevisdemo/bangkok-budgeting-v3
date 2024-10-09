@@ -1,21 +1,21 @@
 <template>
   <BoxContainer>
-    <Topic :setStepSurvey="setStepSurvey" v-if="stepSurvey === 1" />
-    <Projects :setStepSurvey="setStepSurvey" v-if="stepSurvey === 2" />
-    <Review v-if="stepSurvey === 3" />
+    <div class="min-h-screen">
+      <Topic :setStepSurvey="setStepSurvey" v-if="stepSurvey === 1" />
+      <Projects :setStepSurvey="setStepSurvey" v-if="stepSurvey === 2" />
+      <Review v-if="stepSurvey === 3" />
 
-    <Transition name="slide-fade">
-      <CookieWarning v-if="showCookieWarning" />
-    </Transition>
+      <Transition name="slide-fade">
+        <CookieWarning v-if="showCookieWarning" />
+      </Transition>
+    </div>
   </BoxContainer>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-
 import BoxContainer from "~/components/BoxContainer.vue";
 import CookieWarning from "~/components/CookieWarning.vue";
-
 import Topic from "~/components/survey/Topic.vue";
 import Projects from "~/components/survey/Projects.vue";
 import Review from "~/components/survey/Review.vue";
@@ -40,11 +40,12 @@ export default defineComponent({
   mounted() {
     const cookieVoted: string = this.$cookies.get("voted");
 
-    if (cookieVoted === "true") {
-      this.stepSurvey = 3;
-    } else {
-      this.stepSurvey = 1;
-    }
+    // if (cookieVoted === "true") {
+    //   this.stepSurvey = 3;
+    // } else {
+    //   this.stepSurvey = 1;
+    // }
+    this.stepSurvey = 1;
   },
   methods: {
     setStepSurvey(direction: string) {

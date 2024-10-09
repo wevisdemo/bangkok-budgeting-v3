@@ -5,10 +5,10 @@
         id="OrganizeBudget"
         class="max-w-[400px] flex flex-col gap-4 justify-between"
       >
-        <p class="wv-b3 flex-grow text-center sm:text-left">
-          <span class="font-bold">5 อันดับหน่วยงาน</span>ที่ได้รับงบปีล่าสุด (25{{
-            currentYear
-          }}) สูงที่สุด จาก {{ rawData.length }} หน่วยงาน
+        <p class="wv-b3 flex-grow text-center sm:text-left mb-3">
+          <span class="font-bold"
+            >3 อันดับหน่วยงานที่ได้รับงบฯ สูงที่สุดในปี </span
+          >25{{ currentYear }} จาก {{ rawData.length }} หน่วยงาน
         </p>
 
         <div class="hidden lg:block">
@@ -17,7 +17,11 @@
       </div>
       <div class="w-full flex flex-col justify-between gap-4">
         <div>
-          <div v-for="(item, key) in chartOrganize" :key="key" class="flex mb-5">
+          <div
+            v-for="(item, key) in chartOrganize"
+            :key="key"
+            class="flex mb-5"
+          >
             <div class="wv-h8 text-gray-300 mr-5">
               {{ key + 1 }}
             </div>
@@ -25,7 +29,9 @@
               <div class="flex justify-between w-full">
                 <div class="wv-b4 font-bold">{{ item.nameOrganization }}</div>
                 <div class="wv-b6">
-                  <span class="font-bold"> {{ convertMillion(item.amount) }}</span>
+                  <span class="font-bold">
+                    {{ convertMillion(item.amount) }}</span
+                  >
                   ล้านบาท
                 </div>
               </div>
@@ -46,7 +52,10 @@
         </div>
         <div class="flex justify-center sm:justify-end">
           <NuxtLink
-            :to="{ path: 'explore', query: { select: 'OrganizeBudget' } }"
+            :to="{
+              path: 'bkkbudget/explore',
+              query: { select: 'OrganizeBudget' },
+            }"
             class="flex items-center py-1 px-2 rounded border-wv-gray-1 hover:bg-gray-500 hover:text-white border text-wv-gray-1 h-min"
           >
             สำรวจหน่วยงานที่เหลือ
@@ -79,7 +88,7 @@ export default Vue.extend({
   mounted() {
     this.rawData = filterByOrganize(
       "งบมากไปน้อย",
-      this.$store.getters["data/getChartDataGroupByOrganizations"]({ year: 67 }),
+      this.$store.getters["data/getChartDataGroupByOrganizations"]({ year: 67 })
     );
     const chartData = this.$store.getters["data/getChartData"]();
     this.chartOrganize = this.rawData.slice(0, 5);
@@ -91,7 +100,9 @@ export default Vue.extend({
     colorFilter,
     strategyList,
     drawChart(item, strategy) {
-      const matchStrategy = item.strategies.filter(i => i.name === strategy)[0];
+      const matchStrategy = item.strategies.filter(
+        (i) => i.name === strategy
+      )[0];
       return (
         matchStrategy &&
         `${(matchStrategy.amount / this.chartOrganize[0].amount) * 100}%`

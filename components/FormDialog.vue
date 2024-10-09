@@ -2,8 +2,14 @@
   <div>
     <FormDialog>
       <form @submit.prevent="(e) => handleSubmit(e)">
-        <div v-click-outside="closeDialog" class="py-6 px-8 bg-black max-w-lg">
-          <button class="text-white" @click.stop="closeDialog">
+        <div
+          v-click-outside="closeDialog"
+          class="py-10 px-8 bg-black max-w-lg mx-3 relative"
+        >
+          <button
+            class="text-white absolute right-0 m-3 top-0"
+            @click.stop="closeDialog"
+          >
             <img src="~/assets/icons/close.svg" />
           </button>
           <div class="text-center">
@@ -20,7 +26,8 @@
                   ยื่นต่อผู้ว่าราชการจังหวัดกรุงเทพมหานครและหน่วยงานที่เกี่ยวข้องต่อไป
                 </p>
                 <p class="wv-b6 font-thin">
-                  คุณใช้ชีวิตอยู่ในเขตไหนของกรุงเทพฯ (เรียน/ทำงาน/พักอาศัย)
+                  คุณใช้ชีวิตอยู่ในเขตไหนของกรุงเทพฯ
+                  <span class="opacity-50"><br />(เรียน/ทำงาน/พักอาศัย)</span>
                 </p>
               </div>
             </div>
@@ -28,15 +35,34 @@
               :type="1"
               @change="(district) => setDistrict(district)"
             />
+            <div class="text-white font-thin">
+              <p class="wv-b6 mt-5">ระบุรายละเอียดเพิ่มเติม</p>
+              <p class="wv-b7 opacity-50">
+                เช่น ความต้องการ เหตุผลในการพัฒนาระบุตำแหน่ง, สถานที่
+                หรือแนบลิงก์ URL เพื่อระบุพิกัดที่อยากให้พัฒนา
+              </p>
+            </div>
+            <textarea
+              class="h-[101px] rounded-[5px] w-full mt-3 p-2 wv-b6 font-thin"
+              maxlength="1000"
+              placeholder="พิมพ์รายละเอียดเพิ่มเติม..."
+              v-model="idea"
+            ></textarea>
+            <p class="wv-b7 opacity-50 text-end text-white font-thin">
+              {{ idea.length.toLocaleString("en-US", {}) }}/1,000
+            </p>
             <div class="pt-6">
               <button
-                v-if="formData.district"
                 class="bg-white text-black px-2 py-1 rounded-sm"
-                :class="formData.district.id === null ? `opacity-30` : ``"
+                :class="
+                  selectedSurvey?.district !== 'กรุณาเลือกเขต'
+                    ? `opacity-100`
+                    : `opacity-50`
+                "
                 type="submit"
-                :disabled="formData.district.id === null"
+                :disabled="selectedSurvey.district === 'กรุณาเลือกเขต'"
               >
-                ยืนยัน
+                ส่งคำตอบ
               </button>
             </div>
           </div>
@@ -68,6 +94,7 @@ import FormDialog from "~/components/dialog/FormDialog.vue";
 import DistrictDropdown from "~/components/DistrictDropdown.vue";
 import projectAnimation from "~/assets/lottie/project-loading.json";
 import Lottie from "vue-lottie/src/lottie.vue";
+import { mapActions, mapState } from "vuex";
 export default {
   props: {
     selected: {
@@ -82,7 +109,7 @@ export default {
   },
   data() {
     return {
-      formData: { district: "" },
+      idea: "",
       isShowLoading: false,
       defaultOptions: {
         animationData: projectAnimation,
@@ -97,7 +124,16 @@ export default {
     DistrictDropdown,
     Lottie,
   },
+  computed: {
+    ...mapState(["selectedSurvey"]),
+  },
+  mounted() {
+    this.updataSurvey({ ...this.selectedSurvey, district: "กรุณาเลือกเขต" });
+  },
   methods: {
+    ...mapActions({
+      updataSurvey: "updataSurvey",
+    }),
     async postTableRow(table, data) {
       // await this.$nocoDb.dbTableRow.bulkCreate(
       //   "v1",
@@ -114,7 +150,7 @@ export default {
       await this.senduser();
     },
     setDistrict(district) {
-      this.formData.district = district;
+      this.updataSurvey({ ...this.selectedSurvey, district: district.th_name });
     },
     async senduser() {
       const cookieId = this.$cookies.get("uuid");

@@ -21,12 +21,20 @@ export interface BudgetRow {
   county: string;
   nameOrganization: string;
 }
+export interface CommunityRow {
+  budget_year: number;
+  district: string;
+  community: string;
+  project_name: string;
+  amount: string | number;
+  procurement_list: string;
+}
 
-const GOOGLE_SHEETS_CSV =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ85mQgwOqSIwu-QOdD4nPgC9K8_UgXFgOW1p45p5HIedDihVCNTDIOAU2O-ibjyKMGNpj3jI_E65g1/pub?gid=1938129512&single=true&output=csv";
+const BUDGET_SHEET =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxZIXP5NcbvMFDxvSJJYmiYBzttiw1Lq4QmRnxinmo2egj49nGytUDgWJbMytBVmH14dCDmkUVy1DZ/pub?gid=1915709666&single=true&output=csv";
 
-// "https://docs.google.com/spreadsheets/d/1L6rVuwhfpyhx2eK0reUx-hTJd4vMv8aelgJrGPoYS2s/edit?gid=830974957#gid=830974957&single=true&output=csv";
-
+const COMMUNITY_SHEET =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxZIXP5NcbvMFDxvSJJYmiYBzttiw1Lq4QmRnxinmo2egj49nGytUDgWJbMytBVmH14dCDmkUVy1DZ/pub?gid=453189989&single=true&output=csv";
 interface CSV_ROW {
   budget_year: string;
   plan_proj_name: string;
@@ -50,23 +58,47 @@ interface CSV_ROW {
 }
 
 let cached: BudgetRow[] | undefined;
+let cachedCommu: CommunityRow[] | undefined;
 
 /**
  * fetchDataSource fetches and cleans data from Google Sheets
  * @returns all cleaned rows available
  */
+
+export const fetchCommunitySheet = async (): Promise<CommunityRow[]> => {
+  if (cachedCommu) {
+    return Promise.resolve(cachedCommu);
+  }
+  const communityText = await (await fetch(COMMUNITY_SHEET)).text();
+  const community = await parse<CommunityRow>(communityText);
+
+  const mapped = community.data.map(
+    (row): CommunityRow => ({
+      budget_year: Number(row.budget_year),
+      district: row.district,
+      community: row.community,
+      project_name: row.project_name,
+      amount: formatAmount(row.amount as string),
+      procurement_list: row.procurement_list,
+    })
+  );
+  cachedCommu = mapped;
+  return mapped;
+};
+
 export const fetchDataSource = async (): Promise<BudgetRow[]> => {
   if (cached) {
     return Promise.resolve(cached);
   }
 
-  const dataText = await (await fetch(GOOGLE_SHEETS_CSV)).text();
-  const result = await parse<CSV_ROW>(dataText);
+  const budgetText = await (await fetch(BUDGET_SHEET)).text();
+  const budget = await parse<CSV_ROW>(budgetText);
 
-  if (result.errors && result.errors.length > 0) {
-    return Promise.reject(result.errors);
+  if (budget.errors && budget.errors.length > 0) {
+    return Promise.reject(budget.errors);
   }
-  const mapped = result.data.map(
+
+  const mapped = budget.data.map(
     (row): BudgetRow => ({
       budgetYear: Number(row.budget_year),
       planProjName: row.plan_proj_name,
@@ -87,7 +119,7 @@ export const fetchDataSource = async (): Promise<BudgetRow[]> => {
       fundGrpName: row.fund_grp_name,
       county: row.county,
       nameOrganization: row.name_organization,
-    }),
+    })
   );
   cached = mapped;
   return mapped;

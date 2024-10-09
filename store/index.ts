@@ -5,6 +5,13 @@ interface SelectedVoteDropdownProps {
   project_type?: string;
   project_id?: string;
 }
+export interface SueveyData {
+  userId?: string;
+  policy?: string;
+  sub_policy?: string;
+  district: string;
+  idea?: string;
+}
 
 export interface State {
   chartData: any;
@@ -19,7 +26,7 @@ export interface State {
   selectYearOrganize: object;
   selectYearStrategy: object;
   selectKeywordStrategy: object;
-  selectedSurvey: any;
+  selectedSurvey?: SueveyData;
 }
 
 export const state = (): State => ({
@@ -39,13 +46,15 @@ export const state = (): State => ({
   selectYearOrganize: { label: "2561-2567", value: "" },
   selectYearStrategy: { label: "2561-2567", value: "" },
   selectKeywordStrategy: { label: "2561-2567", value: "" },
-  selectedSurvey: [],
+  selectedSurvey: {
+    district: "กรุณาเลือกเขต",
+  },
 });
 
 export type RootState = ReturnType<typeof state>;
 
 export const getters: GetterTree<RootState, RootState> = {
-  currentImage: state => state.currentImage,
+  currentImage: (state) => state.currentImage,
 };
 
 export const mutations: MutationTree<RootState> = {
@@ -60,8 +69,10 @@ export const mutations: MutationTree<RootState> = {
     (state.chartSelected = chartSelected),
   setChartData: (state, chartData) => (state.chartData = chartData),
   setOrganizeData: (state, organizeData) => (state.organizeData = organizeData),
-  setIsModalDetails: (state, isModalDetails) => (state.isModalDetails = isModalDetails),
-  setSubTitleModal: (state, subTitleModal) => (state.subTitleModal = subTitleModal),
+  setIsModalDetails: (state, isModalDetails) =>
+    (state.isModalDetails = isModalDetails),
+  setSubTitleModal: (state, subTitleModal) =>
+    (state.subTitleModal = subTitleModal),
   setSelectYearOrganize: (state, selectYearOrganize) =>
     (state.selectYearOrganize = selectYearOrganize),
   setSelectYearStrategy: (state, selectYearStrategy) =>
@@ -71,6 +82,9 @@ export const mutations: MutationTree<RootState> = {
 };
 
 export const actions: ActionTree<RootState, RootState> = {
+  updataSurvey({ commit }, payload) {
+    commit("setSurvey", payload);
+  },
   updateStrategy({ commit, state }, payload) {
     state.strategyChoice === payload
       ? commit("setStrategyChoice", "")
