@@ -3,7 +3,7 @@
     <div class="bg-wv-cream text-center">
       <div
         id="section-bkk-header "
-        class="text-center pt-8 pb-32 bg-gradient-to-b from-wv-yello via-[70%]"
+        class="text-center pt-8 pb-32 bg-gradient-to-b from-wv-yellow via-[70%]"
       >
         <p class="wv-h4 font-bold">สำรวจงบประมาณ <br />กรุงเทพมหานคร</p>
         <p class="wv-b3 font-bold pt-3">
@@ -13,7 +13,7 @@
       </div>
       <div id="section-navigation" class="text-center mt-[-25%]">
         <p class="wv-b7 opacity-70 mb-2">กดเลือกเนื้อหาที่สนใจ</p>
-        <div class="bg-wv-yello mx-5">
+        <div class="bg-wv-yellow mx-5">
           <NavLinks :links="communityPlans" arrow-direction="Down" />
         </div>
       </div>

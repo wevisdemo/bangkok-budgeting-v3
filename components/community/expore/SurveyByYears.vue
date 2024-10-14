@@ -13,16 +13,28 @@
         กลับไปด้านบน
       </div>
     </div>
-    <ModalDetails
-      :handle-modal="() => handleModal()"
-      :is-open="isOpen"
-      page="organize"
+    <ModalProject
+      v-if="isProjectDialog"
+      :handleProject="handleProjectDialog"
+      :project="selectedProject"
     />
     <!-- ------------ -->
     <div id="filter" class="flex space-y-1 flex-col">
-      <FilterByYear :yearData="yearData" :filterData="filterData" />
-      <FilterByDistrict :districtData="districtData" :filterData="filterData" />
-      <FilterByComnunity :comnuData="comnuData" :filterData="filterData" />
+      <FilterByYear
+        :yearData="yearData"
+        :handleFilterData="handleFilterYear"
+        :filterData="filterData"
+      />
+      <FilterByDistrict
+        :filterData="filterData"
+        :districtData="districtData"
+        :handleFilterData="handleFilterData"
+      />
+      <FilterByComnunity
+        :filterData="filterData"
+        :commuData="originData"
+        :handleFilterData="handleFilterData"
+      />
       <!-- ------------- -->
     </div>
     <div class="lg:max-w-[685px] mt-3 flex-1 flex flex-col justify-between">
@@ -50,47 +62,44 @@
       </div>
 
       <div
-        v-for="(item, key) in barChartData"
+        v-for="(item, key) in originData"
         :key="key"
         :id="`card-${key + 1}`"
-        class="borderOrganize my-[5px] flex hover:border-black hover:border-[2px] border-[2px] border-transparent cursor-pointer"
-        @click="() => selectOrganize(item.nameOrganization)"
+        class="borderCard my-[5px] flex hover:border-black hover:border-[2px] border-[2px] border-transparent cursor-pointer"
+        @click="() => handleProjectDialog(item)"
       >
         <div class="wv-h8 text-gray-300">
           {{ key + 1 }}
         </div>
         <div class="ml-5 flex flex-col flex-1">
           <div class="flex justify-between">
-            <div class="wv-b4 font-bold">
-              {{ item.nameOrganization }}
+            <div class="max-w-[200px]">
+              <p class="wv-b4 font-bold">{{ item.project_name }}</p>
+              <p class="wv-b6 opacity-50">
+                <span>เขต {{ item.district }}</span
+                ><span>ชุมชน {{ item.community }}</span>
+              </p>
             </div>
-            <div class="flex items-center">
+            <div class="flex text-end">
               <div v-if="isMillion">
                 <span class="wv-b6 font-bold">
-                  {{
-                    (item.amount / 1000000).toLocaleString("en-US", {
-                      maximumFractionDigits: 2,
-                      minimumFractionDigits: 2,
-                    })
-                  }}
+                  {{ item.amount.toLocaleString("en-US", {}) }}<br />
                 </span>
-                <span class="wv-b7">ล้านบาท</span>
+                <span class="wv-b6">บาท</span>
               </div>
               <div v-else class="wv-b6 font-bold">
-                {{ ((item.amount / chartData.amount) * 100).toFixed(2) }} %
+                {{ ((item.amount / maxValue) * 100).toFixed(2) }} %
               </div>
-              <div class="ml-1">
+              <div class="ml-2 mt-[3px]">
                 <img src="~/assets/images/list-button.svg" />
               </div>
             </div>
           </div>
 
-          <div class="h-[10px] w-full bg-wv-gray-4 flex">
+          <div class="h-[10px] w-full bg-wv-gray-4 flex mt-2">
             <div
-              v-for="strategy in strategyList()"
-              :key="strategy"
-              class="h-[10px]"
-              :style="{ width: drawChart(item, strategy) }"
+              class="h-[10px] bg-wv-yellow-70"
+              :style="{ width: drawChart(item) }"
             ></div>
           </div>
         </div>
@@ -110,21 +119,18 @@
 
 <script>
 import _ from "lodash";
-import { mapState, mapActions } from "vuex";
-import { filterByOrganize } from "../../budget/charts/filterBy";
-import { orderByStrategy, strategyList } from "~/components/budget/utils";
-import ModalDetails from "~/components/budget/charts/ModalDetails.vue";
 import ToggleUnit from "~/components/budget/charts/ToggleUnit.vue";
 import DropDownYearList from "~/components/budget/charts/DropDownYearList.vue";
 import ShareLabel from "../../budget/ShareLabel.vue";
 import FilterByYear from "../filter/FilterByYear.vue";
 import FilterByDistrict from "../filter/FilterByDistrict.vue";
 import FilterByComnunity from "../filter/FilterByComnunity.vue";
-import { districtCommunityList } from "../districtCommunityList";
+import ModalProject from "./ModalProject.vue";
+import { orderByStrategy } from "~/components/budget/utils";
 
 export default {
   components: {
-    ModalDetails,
+    ModalProject,
     ToggleUnit,
     DropDownYearList,
     ShareLabel,
@@ -134,12 +140,10 @@ export default {
   },
   data() {
     return {
-      districtCommunityList,
-      barChartData: [],
-      isOpen: false,
-      maxValue: 0,
+      originData: [],
+      maxValue: 200000,
       isMillion: true,
-      isOpenYearSelected: false,
+      isProjectDialog: false,
       filterList: [
         { label: "งบมากไปน้อย" },
         { label: "งบน้อยไปมาก" },
@@ -152,78 +156,81 @@ export default {
         community: "",
       },
       yearData: [],
-      comnuData: [],
+      commuData: [],
       districtData: [],
+      selectedProject: {},
+      commuData: [],
+      yearGroup: [],
     };
   },
   methods: {
-    ...mapActions({
-      updateIsModalDetails: "updateIsModalDetails",
-      updateSubTitleModal: "updateSubTitleModal",
-      updateSelectYearOrganize: "updateSelectYearOrganize",
-    }),
     orderByStrategy,
-    strategyList,
-    filterByOrganize,
     scrollToTop() {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
     },
-    handleModal() {
-      this.isOpen = !this.isOpen;
-    },
-    fetchByOrganizeYear(year) {
-      const response = this.$store.getters[
-        "data/getChartDataGroupByOrganizations"
-      ]({
-        year,
-      });
-      this.barChartData = filterByOrganize(this.selectedFilter, response);
+    handleFilterYear(year) {
+      this.origin = this.yearGroup[year];
+      this.filterData = { year };
     },
 
-    fetchByOrganize(nameOrganization) {
-      const response = this.$store.getters["data/getBudgetItems"]({
-        nameOrganization,
-      });
-      let filterYear;
-      if (this.selectYearOrganize.value) {
-        filterYear = response.items.filter(
-          (i) => i.budgetYear === this.selectYearOrganize.value
+    handleFilterData({ district, community }) {
+      this.filterData = {
+        ...this.filterData,
+        district,
+        community,
+      };
+
+      this.originData = this.formatData();
+      this.commuData = this.formatData();
+      if (district && community) {
+        this.originData = this.originData.filter(
+          (o) => o.community === community && o.district === district
         );
-      } else {
-        filterYear = response;
+      } else if (district) {
+        this.originData = this.originData.filter(
+          (o) => o.district === district
+        );
+        this.commuData = this.originData;
+      } else if (community) {
+        this.originData = this.originData.filter(
+          (o) => o.community === community
+        );
       }
-      this.updateIsModalDetails({
-        items: this.selectYearOrganize.value ? filterYear : response.items,
-        total: this.selectYearOrganize.value
-          ? filterYear.length
-          : response.total,
-      });
     },
     selectFilter(label) {
-      this.selectedFilter = label;
-      const resultFilter = filterByOrganize(label, this.barChartData);
-      this.barChartData = resultFilter;
+      if (label === "งบมากไปน้อย") {
+        return (this.originData = orderByStrategy(
+          this.originData,
+          "amount",
+          "desc"
+        ));
+      }
+      if (label === "งบน้อยไปมาก") {
+        return (this.originData = orderByStrategy(
+          this.originData,
+          "amount",
+          "asc"
+        ));
+      }
+      if (label === "ตัวอักษร") {
+        return (this.originData = orderByStrategy(
+          this.originData,
+          "project_name",
+          "asc"
+        ));
+      }
     },
-    selectOrganize(nameOrganization) {
-      this.fetchByOrganize(nameOrganization);
-      this.updateSubTitleModal(`ที่ของบโดย "${nameOrganization}""`);
-      this.handleModal();
-    },
-    drawChart(item, strategy) {
-      const matchStrategy = item.strategies.filter(
-        (i) => i.name === strategy
-      )[0];
-      const divide = this.isMillion
-        ? this.maxValue.amount
-        : this.chartData.amount;
-      return matchStrategy && `${(matchStrategy.amount / divide) * 100}%`;
+    drawChart(item) {
+      const divide = this.maxValue;
+      return `${(item.amount / divide) * 100}%`;
     },
     toggle() {
       this.isMillion = !this.isMillion;
     },
-    handleSelectedYear() {
-      this.isOpenYearSelected = !this.isOpenYearSelected;
+    handleProjectDialog(project) {
+      this.isProjectDialog = !this.isProjectDialog;
+      this.selectedProject = project;
     },
 
     handleScroll() {
@@ -243,39 +250,32 @@ export default {
         }
       }
     },
+    formatData() {
+      return orderByStrategy(
+        Object.values(this.yearGroup)[0],
+        "amount",
+        "desc"
+      );
+    },
   },
   mounted() {
     document.querySelector("#scrollTopTop").style.opacity = "0";
     document.querySelector("#scrollTopBottom").style.opacity = "0";
-    const commuData = this.$store.getters["data/getCommunity"]();
-    const yearGroup = _.groupBy(commuData, "budget_year");
-    this.yearData = Object.keys(yearGroup);
-
-    this.comnuData = this.districtCommunityList.map((d) => d.community);
+    this.commuData = this.$store.getters["data/getCommunity"]();
+    this.yearGroup = _.groupBy(this.commuData, "budget_year");
+    this.originData = this.formatData();
+    this.yearData = Object.keys(this.yearGroup);
+    this.commuData = Object.values(this.yearGroup)[0];
     this.districtData = _.uniqBy(
-      this.districtCommunityList.map((d) => d.districts)
+      Object.values(this.yearGroup)[0]?.map((d) => d.district)
     );
-  },
-
-  computed: {
-    ...mapState([
-      "organizeData",
-      "isModalDetails",
-      "chartData",
-      "selectYearOrganize",
-    ]),
+    this.filterData = { year: this.yearData[0] };
   },
   watch: {
-    organizeData: {
-      immediate: true,
-      deep: true,
+    selectedFilter: {
       handler(newValue) {
-        this.barChartData = orderByStrategy(newValue, "amount", "desc");
-        this.maxValue = this.barChartData[0];
+        this.selectFilter(newValue);
       },
-    },
-    selectedFilter(newValue) {
-      this.selectFilter(newValue);
     },
   },
 };
@@ -285,7 +285,7 @@ export default {
 html {
   scroll-behavior: smooth;
 }
-.borderOrganize {
+.borderCard {
   background: #ffffff;
   padding: 10px;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.12);

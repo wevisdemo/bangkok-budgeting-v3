@@ -3,7 +3,7 @@
     <div v-for="(item, index) in data" :key="index">
       <div
         class="wv-b5 font-bold w-[190px] text-center p-[10px] rounded-t-md"
-        :class="type === BudgetingType.BKK ? 'bg-wv-green' : 'bg-wv-yello'"
+        :class="type === BudgetingType.BKK ? 'bg-wv-green' : 'bg-wv-yellow'"
       >
         {{ item.topic }}
       </div>

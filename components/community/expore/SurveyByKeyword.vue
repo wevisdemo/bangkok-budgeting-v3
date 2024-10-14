@@ -16,6 +16,16 @@
       />
       {{ selectedKey.Word || "พิมพ์คีย์เวิร์ด" }}
     </div>
+    <FilterByDistrict
+      :filterData="filterData"
+      :districtData="districtData"
+      :handleFilterData="handleFilterData"
+    />
+    <FilterByComnunity
+      :filterData="filterData"
+      :commuData="originData"
+      :handleFilterData="handleFilterData"
+    />
     <div class="flex flex-col lg:flex-row">
       <div
         v-if="($mq === 'md' && mobileKeyword) || $mq === 'lg'"
@@ -97,7 +107,7 @@
                     class="w-full"
                   />
                 </div>
-                <p class="wv-b6 font-bold">{{ item.Word }}</p>
+                <p class="wv-b6 font-bold text-left">{{ item.Word }}</p>
               </div>
               <p class="wv-b7 opacity-50 flex-1 text-center">
                 {{ item.total }}
@@ -120,20 +130,21 @@
               <p class="wv-b5">
                 พบใน
                 <span class="font-bold">{{
-                  rawData?.total?.toLocaleString("en-US", {})
+                  totalProject?.toLocaleString("en-US", {})
                 }}</span>
                 รายการ <br class="lg:hidden" />ใช้งบรวม
                 <span class="font-bold">{{
                   convertMillion(totalFilterAmout)
                 }}</span>
                 ล้านบาท <br class="md:hidden" />({{
-                  ((totalFilterAmout / chartData.amount) * 100).toFixed()
+                  ((totalFilterAmout / maxOrigin) * 100).toFixed()
                 }}% ของงบทั้งหมด)
               </p>
             </div>
             <ModalDetails
               :handle-modal="() => handleModal()"
               :is-open="isOpen"
+              :commuData="commuData"
               page="keyword"
             >
               <div
@@ -145,20 +156,6 @@
               </div>
             </ModalDetails>
           </div>
-          <!-- dropdown÷ -->
-          <div class="flex items-center my-3 wv-b5">
-            โดย
-            <el-select v-model="selectFilter" placeholder="Select" class="ml-2">
-              <el-option
-                v-for="item in filterOrganize"
-                :key="item"
-                :label="item"
-                :value="item"
-              >
-              </el-option>
-            </el-select>
-          </div>
-          <!--  -->
           <ToggleUnit :toggle="() => toggle()" :isMillion="isMillion" />
           <div class="h-[500px] mt-10 relative pl-[35px]">
             <div class="absolute inset-0 flex flex-col-reverse mt-[0.5px]">
@@ -170,11 +167,11 @@
                 <div
                   class="translate-y-[-50%] absolute top-0 bg-white text-wv-gray-1 wv-b7"
                 >
-                  {{ item.toLocaleString("en-US", {}) }}
+                  {{ item.toFixed(0).toLocaleString("en-US", {}) }}
                 </div>
               </div>
             </div>
-            <div class="flex space-x-[5px] h-full items-end relative">
+            <div class="flex space-x-[20px] h-full items-end relative">
               <div
                 v-for="(item, key) in itemsChart.years"
                 :key="key"
@@ -188,107 +185,25 @@
                 </div>
 
                 <div
-                  v-if="
-                    item.organize[selectFilter] &&
-                    selectFilter !== filterOrganize[0]
-                  "
-                  class="relative z-20 w-full"
-                  v-for="strategy in strategyList()"
-                  :key="strategy"
-                  :class="colorFilter(strategy)"
+                  class="relative z-20 w-full bg-wv-yellow-70"
                   :style="{
-                    height: calHeight(
-                      displayOrganizeValue(
-                        item.organize[selectFilter],
-                        strategy
-                      ),
-                      item.amount
-                    ),
+                    height: `${(item.amount / maxOrigin) * 100}%`,
                   }"
                 ></div>
-                <div
-                  v-if="
-                    selectFilter === filterOrganize[0] && item.all[strategy]
-                  "
-                  class="relative z-20 w-full"
-                  v-for="strategy in strategyList()"
-                  :key="strategy"
-                  :class="colorFilter(strategy)"
-                  :style="{
-                    height: calHeight(item.all[strategy], item.amount),
-                  }"
-                ></div>
-                <!--  number -->
-                <div
-                  class="z-[20] wv-b7 font-bold relative"
-                  v-if="isMillion && selectFilter === filterOrganize[0]"
-                >
-                  <div
-                    class="absolute left-[50%] translate-x-[-50%] translate-y-[-100%]"
-                  >
-                    {{ convertMillion(item.amount) }}
-                  </div>
-                </div>
-                <div
-                  class="z-[20] wv-b7 font-bold"
-                  v-if="isMillion && selectFilter !== filterOrganize[0]"
-                >
-                  {{
-                    convertMillion(
-                      displayAmoutOrganize(item.organize[selectFilter])
-                    )
-                  }}
-                </div>
 
-                <div
-                  class="z-[20] wv-b7 font-bold"
-                  v-if="!isMillion && selectFilter !== filterOrganize[0]"
-                >
-                  {{
-                    (
-                      (displayAmoutOrganize(item.organize[selectFilter]) /
-                        item.amount) *
-                      100
-                    ).toFixed(2)
-                  }}%
-                </div>
-
-                <div
-                  class="flex absolute bottom-0 w-full h-full items-end"
-                  v-if="!(selectFilter !== filterOrganize[0] && isMillion)"
-                >
+                <div class="flex absolute bottom-0 w-full h-full items-end">
                   <div
                     :key="key"
-                    class="bg-wv-gray-4 flex-1 ]"
+                    class="bg-wv-gray-20 flex-1"
                     :style="{
                       height: isMillion
-                        ? calHeight(displayMaxAmout(key), item.amount)
-                        : '100%',
+                        ? `${
+                            (calOriginFilter()[key].amount / maxOrigin) * 100
+                          }%`
+                        : `${100}%`,
                     }"
                   ></div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="lg:max-w-[685px] text-center lg:text-left mt-5 mx-auto">
-          <p class="wv-b5 text-wv-gray-1">
-            <b>ยุทธศาสตร์ 7 ด้าน</b> เป็นแผนพัฒนาที่กรุงเทพฯ
-            <br class="lg:hidden" />วางไว้ เพื่อจะก้าวไปสู่การเป็น
-            “มหานครแห่งเอเชีย” <br class="lg:hidden" />ภายใน 20 ปี (2561-2580)
-          </p>
-          <div class="mt-5 flex flex-wrap lg:block text-start">
-            <div
-              v-for="(item, key) in navData()"
-              :key="key"
-              class="flex items-center space-x-2 py-[5px] w-[50%] lg:w-full"
-            >
-              <div
-                class="min-w-[10px] min-h-[10px] rounded-[2px]"
-                :class="colorFilter(item.name)"
-              />
-              <div class="flex wv-b5 text-wv-gray-1">
-                {{ key + 1 }}. {{ item.name }}
               </div>
             </div>
           </div>
@@ -302,35 +217,47 @@
 <script>
 import _ from "lodash";
 import { mapState, mapActions } from "vuex";
-import { convertMillion, colorFilter, strategyList } from "../../budget/utils";
+import { convertMillion, orderByStrategy } from "../../budget/utils";
 import ToggleUnit from "../../budget/charts/ToggleUnit.vue";
-import { keywords } from "~/data/budgets/keywords";
-import ModalDetails from "~/components/budget/charts/ModalDetails.vue";
-import { navData } from "~/components/expore/navData";
 import { filterByKey } from "~/components/budget/charts/filterBy";
 import ShareLabel from "../../budget/ShareLabel.vue";
+import { keywords } from "~/data/community/keywords";
+import ModalDetails from "./ModalDetails.vue";
+import FilterByDistrict from "../filter/FilterByDistrict.vue";
+import FilterByComnunity from "../filter/FilterByComnunity.vue";
 
 export default {
   components: {
     ToggleUnit,
     ModalDetails,
     ShareLabel,
+    FilterByComnunity,
+    FilterByDistrict,
   },
   computed: {
     ...mapState(["chartData"]),
   },
   data() {
     return {
+      filterData: {
+        year: "",
+        district: "",
+        community: "",
+      },
+      districtData: [],
+      commuData: [],
       data: "",
-      filterKeyword: "",
+      originData: [],
+      originFilterWord: [],
+      filterKeyword: [],
       selectedKey: {},
       itemsChart: [],
       isMillion: true,
       selectFilter: "",
       selectSort: "งบมากไปน้อย",
-      rawData: {},
+      totalProject: {},
       totalFilterAmout: 0,
-      filterOrganize: [],
+      maxOrigin: 0,
       isOpen: false,
       sortList: ["งบมากไปน้อย", "จำนวนที่พบ", "ตัวอักษร"],
       mobileKeyword: false,
@@ -338,16 +265,12 @@ export default {
   },
   methods: {
     ...mapActions({
-      updateIsModalDetails: "updateIsModalDetails",
-      updateSubTitleModal: "updateSubTitleModal",
       updateSelectKeywordStrategy: "updateSelectKeywordStrategy",
     }),
     convertMillion,
-    colorFilter,
-    strategyList,
     keywords,
     filterByKey,
-    navData,
+    orderByStrategy,
     handdleModalMobile() {
       this.mobileKeyword = !this.mobileKeyword;
     },
@@ -355,12 +278,8 @@ export default {
       this.isOpen = !this.isOpen;
     },
     formatYAxis() {
-      const max =
-        this.selectFilter === this.filterOrganize[0]
-          ? this.maxBudgets()
-          : this.maxSelectedFilter();
       const result = [...Array(5)].map(
-        (_, index) => ((parseInt(max) / 5) * (index + 1)) / 1000000
+        (_, index) => ((parseInt(this.maxOrigin) / 5) * (index + 1)) / 1000000
       );
       const percent = [...Array(5)].map((_, index) => (100 / 5) * (index + 1));
       return this.isMillion ? [...result] : [...percent];
@@ -376,14 +295,8 @@ export default {
       const zero = "0";
       return startNumber + zero.repeat(digits);
     },
-    displayAmoutOrganize(org) {
-      return org ? _.sum(Object.values(org)) : 0;
-    },
     toggle() {
       this.isMillion = !this.isMillion;
-    },
-    displayOrganizeValue(org, str) {
-      return str in org ? org[str] : 0;
     },
     maxSelectedFilter() {
       const formatValue = _.chain(this.itemsChart.years)
@@ -394,68 +307,105 @@ export default {
         _.maxBy(Object.values(formatValue), "amount")?.amount.toString()
       );
     },
-    displayMaxAmout(year) {
-      return this.chartData.years.filter((d) => d.year === parseInt(year))[0]
-        .amount;
-    },
+
     selectKey(item) {
       this.selectedKey = item;
-      this.fetchbudgetItem(item);
+      this.initFilterByKey(item);
+      this.filterData = {
+        ...this.filterData,
+        district: "",
+        community: "",
+      };
+    },
+    calOriginFilter() {
+      return _.chain(this.handleFilterKeyword(this.filterData.key))
+        .groupBy("budget_year")
+        .mapValues((d) => ({
+          amount: _.sumBy(
+            this.handleFilterKeyword(this.filterData.key).filter(
+              (a) => a.budget_year === d[0].budget_year
+            ),
+            "amount"
+          ),
+        }))
+        .value();
+    },
+    calByFilter() {
+      return _.chain(this.originData)
+        .groupBy("budget_year")
+        .mapValues((d) => ({
+          amount: _.sumBy(
+            this.originData.filter((a) => a.budget_year === d[0].budget_year),
+            "amount"
+          ),
+        }))
+        .value();
     },
     calHeight(item, max) {
-      const filterDefault = this.selectFilter === this.filterOrganize[0];
-      const divideOrganize =
-        !filterDefault && this.isMillion
-          ? this.maxSelectedFilter()
-          : this.maxBudgets();
-      return this.isMillion
-        ? `${(item / divideOrganize) * 100}%`
-        : `${(item / max) * 100}%`;
+      return `${(item / max) * 100}%`;
     },
-    fetchbudgetItem(item) {
-      const response = this.$store.getters["data/getBudgetItems"]({
-        keyword: item.Word,
-      });
-      this.itemsChart = {
-        years: _.chain(response.items)
-          .groupBy("budgetYear")
+
+    handleFilterKeyword(keyword) {
+      return this.originData.filter((c) => c.project_name.includes(keyword));
+    },
+    formatItem(item) {
+      return {
+        years: _.chain(item)
+          .groupBy("budget_year")
           .mapValues((d) => ({
             amount: _.sumBy(
-              response.items.filter((a) => a.budgetYear === d[0].budgetYear),
+              item.filter((a) => a.budget_year === d[0].budget_year),
               "amount"
             ),
-            organize: _.chain(d)
-              .groupBy("nameOrganization")
-              .mapValues((s) =>
-                _.chain(s)
-                  .groupBy("strategy")
-                  .mapValues((s) => _.sumBy(s, "amount"))
-                  .value()
-              )
-              .value(),
-            all: _.chain(d)
-              .groupBy("strategy")
-              .mapValues((s) => _.sumBy(s, "amount"))
-              .value(),
           }))
           .value(),
-        total: response.total,
       };
-      this.rawData = response;
-      this.totalFilterAmout = _.sumBy(response.items, "amount");
-      const groupOrganize = Object.keys(
-        _.groupBy(response.items, "nameOrganization")
+    },
+
+    initFilterByKey(item) {
+      this.commuData = this.handleFilterKeyword(item.Word);
+      this.filterData = { key: item.Word };
+      this.itemsChart = this.formatItem(this.commuData);
+      this.totalProject = this.commuData.length;
+      this.totalFilterAmout = _.sumBy(this.commuData, "amount");
+      this.maxOrigin = _.sumBy(this.originData, "amount");
+      this.districtData = _.uniqBy(
+        Object.values(this.commuData)?.map((d) => d.district)
       );
-      this.filterOrganize = [
-        `${groupOrganize.length} หน่วยงาน`,
-        ...groupOrganize,
-      ];
-      this.selectFilter = this.filterOrganize[0];
-      this.updateSelectKeywordStrategy({ label: "2561-2567", value: "" });
-      this.updateIsModalDetails(response);
-      this.updateSubTitleModal(
-        `ที่มีคำว่า “${this.selectedKey.Word}” ในชื่อ ซึ่งของบโดย “${this.filterOrganize.length} หน่วยงาน”`
-      );
+    },
+    handleFilterData({ district, community }) {
+      this.filterData = {
+        ...this.filterData,
+        district,
+        community,
+      };
+      this.commuData = this.handleFilterKeyword(this.filterData.key);
+      if (district && community) {
+        this.commuData = this.originData.filter(
+          (o) => o.community === community && o.district === district
+        );
+      } else if (district) {
+        this.originData = this.handleFilterKeyword(this.filterData.key);
+        this.commuData = this.originData.filter((c) => c.district == district);
+      } else if (community) {
+        this.commuData = this.originData.filter(
+          (o) => o.community === community
+        );
+      }
+      if (district) {
+      }
+      this.totalProject = this.commuData.length;
+      this.totalFilterAmout = _.sumBy(this.commuData, "amount");
+      this.itemsChart = this.formatItem(this.commuData);
+    },
+    fetchOriginFilterKey() {
+      return keywords().map((d) => {
+        return {
+          total: d.Count,
+          Word: d.Word,
+          amount: _.sumBy(this.handleFilterKeyword(d.Word), "amount"),
+        };
+      });
     },
   },
   watch: {
@@ -463,32 +413,21 @@ export default {
       immediate: true,
       deep: false,
       handler(newValue) {
-        const result = keywords().filter((d) =>
+        this.filterKeyword = this.fetchOriginFilterKey()?.filter((d) =>
           d.Word.toString().includes(newValue)
         );
-        const formatFilter = result.map((r) => {
-          const item = this.$store.getters["data/getBudgetItems"]({
-            keyword: r.Word,
-          });
-          return {
-            total: item.total,
-            Word: r.Word,
-            amount: _.sumBy(item.items, "amount"),
-          };
-        });
-        this.filterKeyword = this.filterByKey(this.selectSort, formatFilter);
       },
-    },
-    selectFilter() {
-      if (this.selectFilter !== this.filterOrganize[0])
-        this.maxSelectedFilter();
     },
     selectSort(label) {
       this.filterKeyword = this.filterByKey(label, this.filterKeyword);
     },
   },
   mounted() {
-    this.selectKey(this.filterKeyword[0]);
+    this.originData = this.$store.getters["data/getCommunity"]();
+    this.commuData = this.originData;
+    this.selectKey(keywords()[0]);
+    this.filterKeyword = this.fetchOriginFilterKey();
+    this.yearGroup = _.groupBy(this.commuData, "budget_year");
   },
 };
 </script>

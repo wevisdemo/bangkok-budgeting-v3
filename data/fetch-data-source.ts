@@ -126,7 +126,7 @@ export const fetchDataSource = async (): Promise<BudgetRow[]> => {
 };
 
 const formatAmount = (amount: string) => {
-  return Number(amount.replace(/,/g, ""));
+  return Number(amount.replace(/,/g, "").split(".")[0]) || 0;
 };
 
 const isIntegration = (rawValue: string): boolean => {

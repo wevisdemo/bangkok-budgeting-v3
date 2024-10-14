@@ -15,7 +15,7 @@ export default <Partial<Config>>{
       textColor: {
         "wv-green": "#4CC35D",
         "wv-red": "#FF2828",
-        "wv-yello": "#EFE602",
+        "wv-yellow": "#EFE602",
         "wv-gray-1": "#737373",
         "wv-gray-3": "#DDDDDD",
         "wv-gray-5": "#858585",
@@ -34,10 +34,12 @@ export default <Partial<Config>>{
       },
       colors: {
         "wv-green": "#4CC35D",
-        "wv-yello": "#EFE602",
+        "wv-yellow": "#EFE602",
+        "wv-yellow-70": "#D0C800",
       },
       backgroundColor: {
-        "wv-yello": "#EFE602",
+        "wv-yellow": "#EFE602",
+        "wv-yellow-70": "#D0C800",
         "wv-cream": "#E8E4D8",
         "wv-cream-30": "#DDD6C0",
         "wv-green": "#4CC35D",
@@ -66,7 +68,8 @@ export default <Partial<Config>>{
       },
       borderColor: {
         "wv-cream": "#E8E4D8",
-        "wv-yello": "#EFE602",
+        "wv-yellow": "#EFE602",
+
         "wv-green": "#4CC35D",
         "wv-safe": "#3277FF",
         "wv-environment": "#BACB37",

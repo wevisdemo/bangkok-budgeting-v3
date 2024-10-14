@@ -38,7 +38,6 @@
       </div>
     </div>
     <SurveyByYears v-if="topic === 'YearlyBudget'" />
-    <SurveyByOrganize v-if="topic === 'OrganizeBudget'" />
     <SurveyByKeyword v-if="topic === 'KeyWordBudget'" />
   </div>
 </template>
@@ -56,7 +55,6 @@ export default {
     return {
       toppics: [
         { name: "รายปี", value: "YearlyBudget" },
-        { name: "รายหน่วยงาน", value: "OrganizeBudget" },
         { name: "ค้นด้วยคีย์เวิร์ด", value: "KeyWordBudget" },
       ],
       topic: {},
@@ -74,10 +72,6 @@ export default {
     fetchdata() {
       const chartResponse = this.$store.getters["data/getChartData"]();
       this.updateChartData(chartResponse);
-
-      const chartDataByOrganizations =
-        this.$store.getters["data/getChartDataGroupByOrganizations"]();
-      this.updateOrganizeData(chartDataByOrganizations);
     },
     chooseTopic(topicValue) {
       this.topic = topicValue;

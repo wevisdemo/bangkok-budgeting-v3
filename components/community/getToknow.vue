@@ -8,7 +8,7 @@
       <div id="section-1" class="mx-3">
         <div
           v-on:click="() => handleSelected(1)"
-          class="bg-wv-yello border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left rounded-t-[5px]"
+          class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left rounded-t-[5px]"
         >
           คืออะไร ?
         </div>
@@ -40,7 +40,7 @@
       <div id="section-2" class="mx-3">
         <div
           v-on:click="() => handleSelected(2)"
-          class="bg-wv-yello border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
+          class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
         >
           จุดเริ่มต้นของงบ มาจากไหน ?
         </div>
@@ -65,7 +65,7 @@
       <div id="section-3" class="mx-3">
         <div
           v-on:click="() => handleSelected(3)"
-          class="bg-wv-yello border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
+          class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
         >
           คืออะไร ?
         </div>
@@ -82,7 +82,7 @@
       <div id="section-4" class="mx-3">
         <div
           v-on:click="() => handleSelected(4)"
-          class="bg-wv-yello border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
+          class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
         >
           ชุมชนได้รับงบประมาณเท่าไหร่ ?
         </div>
@@ -116,7 +116,7 @@
       <div id="section-5" class="mx-3">
         <div
           v-on:click="() => handleSelected(5)"
-          class="bg-wv-yello border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
+          class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
         >
           เล่ากระบวนการของงบฯ ให้ฟังหน่อย ?
         </div>
@@ -138,7 +138,7 @@
       <div id="section-6" class="mx-3">
         <div
           v-on:click="() => handleSelected(6)"
-          class="bg-wv-yello border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
+          class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
         >
           อยากมีส่วนร่วมกับงบโครงการฯ ต้องทำอะไรบ้าง ?
         </div>
@@ -229,7 +229,7 @@
       <div id="section-7" class="mx-3">
         <div
           v-on:click="() => handleSelected(7)"
-          class="bg-wv-yello border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
+          class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
         >
           ทำความรู้จัก ‘คณะทำงานจัดทำ แผนพัฒนาชุมชนระดับชุมชน’ คือใคร
           ทำหน้าที่อะไรบ้าง ?

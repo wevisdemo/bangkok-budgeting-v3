@@ -1,7 +1,7 @@
 <template>
   <div
     id="SurveyMainCard"
-    :class="type === BudgetingType.BKK ? 'bg-wv-green' : 'bg-wv-yello'"
+    :class="type === BudgetingType.BKK ? 'bg-wv-green' : 'bg-wv-yellow'"
     class="px-3 py-4 rounded"
   >
     <NuxtLink :to="{ path: `/${type}` }">

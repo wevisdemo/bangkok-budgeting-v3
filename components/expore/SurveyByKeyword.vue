@@ -97,7 +97,7 @@
                     class="w-full"
                   />
                 </div>
-                <p class="wv-b6 font-bold">{{ item.Word }}</p>
+                <p class="wv-b6 font-bold text-left">{{ item.Word }}</p>
               </div>
               <p class="wv-b7 opacity-50 flex-1 text-center">
                 {{ item.total }}
