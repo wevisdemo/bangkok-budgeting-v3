@@ -1,10 +1,5 @@
 <template>
   <div class="relative">
-    <p class="wv-b7 text-wv-gray-1 text-center my-[30px]">
-      <span class="font-bold">หมายเหตุ</span> :
-      คียเวิร์ดเหล่านี้เป็นการค้นหาและตัดคำเบื้องต้นโดยคอมพิวเตอร์
-      โดยรวบรวมจากทุกข้อมูลที่มีคำนั้นปรากฎ โปรดตรวจสอบบริบทของคำก่อนการใช้งาน
-    </p>
     <div
       v-if="$mq === 'md'"
       @click="handdleModalMobile"
@@ -16,71 +11,72 @@
       />
       {{ selectedKey.Word || "พิมพ์คีย์เวิร์ด" }}
     </div>
-    <FilterByDistrict
-      :filterData="filterData"
-      :districtData="districtData"
-      :handleFilterData="handleFilterData"
-    />
-    <FilterByComnunity
-      :filterData="filterData"
-      :commuData="originData"
-      :handleFilterData="handleFilterData"
-    />
+
     <div class="flex flex-col lg:flex-row">
       <div
         v-if="($mq === 'md' && mobileKeyword) || $mq === 'lg'"
-        class="lg:w-[400px] lg:h-fit border-2 border-black rounded-[5px] p-[22px] fixed h-screen lg:relative inset-0 bg-white z-[20]"
+        class="lg:w-[400px] lg:h-fit fixed h-screen lg:relative"
       >
+        <p class="wv-b7 text-wv-gray-1 text-center my-[30px]">
+          <span class="font-bold">หมายเหตุ</span> :
+          คียเวิร์ดเหล่านี้เป็นการค้นหาและตัดคำเบื้องต้นโดยคอมพิวเตอร์
+          โดยรวบรวมจากทุกข้อมูลที่มีคำนั้นปรากฎ
+          โปรดตรวจสอบบริบทของคำก่อนการใช้งาน
+        </p>
         <div
-          class="absolute top-0 right-0 m-5"
-          @click="handdleModalMobile"
-          v-if="$mq === 'md'"
+          class="border-2 border-black rounded-[5px] p-[22px] inset-0 bg-white"
         >
           <div
-            class="wv-b5 border-black rounded-[5px] border py-[5px] px-[10px]"
+            class="absolute top-0 right-0 m-5"
+            @click="handdleModalMobile"
+            v-if="$mq === 'md'"
           >
-            ตกลง
-          </div>
-        </div>
-
-        <div
-          class="md:px-16 lg:px-0 lg:py-0 md:py-16 mx-auto mt-[40px] md:mt-0"
-        >
-          <div>
-            <div class="relative">
-              <img
-                src="~/assets/images/searchIcon.svg"
-                class="absolute top-0 left-0 ml-2"
-              />
-              <input
-                v-model="data"
-                type="text"
-                class="border-b border-b-black w-full wv-b5 mb-3 pl-8"
-                placeholder="พิมพ์คีย์เวิร์ด"
-              />
+            <div
+              class="wv-b5 border-black rounded-[5px] border py-[5px] px-[10px]"
+            >
+              ตกลง
             </div>
-            <div class="flex flex-col justify-between wv-b7 mb-[10px]">
-              <div class="flex items-center">
-                เรียงตาม
-                <el-select
-                  v-model="selectSort"
-                  placeholder="Select"
-                  class="sortInput"
-                  size="mini"
-                >
-                  <el-option
-                    v-for="item in sortList"
-                    :key="item"
-                    :label="item"
-                    :value="item"
-                  >
-                  </el-option>
-                </el-select>
+          </div>
+
+          <div
+            class="md:px-16 lg:px-0 lg:py-0 md:py-16 mx-auto mt-[40px] md:mt-0"
+          >
+            <div>
+              <div class="relative">
+                <img
+                  src="~/assets/images/searchIcon.svg"
+                  class="absolute top-0 left-0 ml-2"
+                />
+                <input
+                  v-model="data"
+                  type="text"
+                  class="border-b border-b-black w-full wv-b5 mb-3 pl-8"
+                  placeholder="พิมพ์คีย์เวิร์ด"
+                />
               </div>
-              <div class="flex mt-3">
-                <p class="w-[100px]"></p>
-                <p class="opacity-50 flex-1 text-center ml-2">จำนวนที่พบ</p>
-                <p class="opacity-50 flex-1 text-end">งบ (ล้านบาท)</p>
+              <div class="flex flex-col justify-between wv-b7 mb-[10px]">
+                <div class="flex items-center">
+                  เรียงตาม
+                  <el-select
+                    v-model="selectSort"
+                    placeholder="Select"
+                    class="sortInput"
+                    size="mini"
+                  >
+                    <el-option
+                      v-for="item in sortList"
+                      :key="item"
+                      :label="item"
+                      :value="item"
+                    >
+                    </el-option>
+                  </el-select>
+                </div>
+                <div class="flex mt-3">
+                  <p class="w-[100px]"></p>
+                  <p class="opacity-50 flex-1 text-center ml-2">จำนวนที่พบ</p>
+                  <p class="opacity-50 flex-1 text-end">งบ (ล้านบาท)</p>
+                </div>
               </div>
             </div>
           </div>
@@ -124,8 +120,20 @@
           class="px-5 pt-5 pb-10 borderKey h-fit max-w-[685px] mx-auto"
           v-if="chartData.years && selectedKey.Word"
         >
+          <div class="flex flex-col space-y-2 mb-3">
+            <FilterByDistrict
+              :filterData="filterData"
+              :districtData="districtData"
+              :handleFilterData="handleFilterData"
+            />
+            <FilterByComnunity
+              :filterData="filterData"
+              :commuData="originData"
+              :handleFilterData="handleFilterData"
+            />
+          </div>
           <div class="flex justify-between">
-            <div>
+            <div class="mb-3">
               <p class="wv-h8 font-bold wv-kondolar">{{ selectedKey.Word }}</p>
               <p class="wv-b5">
                 พบใน
@@ -136,7 +144,7 @@
                 <span class="font-bold">{{
                   convertMillion(totalFilterAmout)
                 }}</span>
-                ล้านบาท <br class="md:hidden" />({{
+                ล้านบาท <br />({{
                   ((totalFilterAmout / maxOrigin) * 100).toFixed()
                 }}% ของงบทั้งหมด)
               </p>

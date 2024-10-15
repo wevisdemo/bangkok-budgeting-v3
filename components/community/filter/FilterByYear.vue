@@ -3,16 +3,23 @@
     <el-popover
       ref="popover1"
       placeholder="Select"
-      class="w-full wv-b4 font-bold"
+      class="w-full wv-b3"
       acement="bottom"
       trigger="click"
       v-model="isOpen"
     >
-      <div v-for="(item, index) in yearData" :key="index">
-        <button @click="() => handleFilter(item)">{{ item }}</button>
+      <div v-for="(item, index) in yearData" :key="index" class="md:w-[500px]">
+        <button
+          :class="filterData?.year == item ? 'font-bold' : ''"
+          @click="() => handleFilter(item)"
+        >
+          งบในปี {{ item }}
+        </button>
       </div>
     </el-popover>
-    <el-button v-popover:popover1>งบในปี {{ filterData?.year }}</el-button>
+    <el-button v-popover:popover1 class="filterBtn"
+      >งบในปี {{ filterData?.year }}</el-button
+    >
   </div>
 </template>
 <script>
@@ -31,4 +38,8 @@ export default {
   },
 };
 </script>
-<style lang=""></style>
+<style lang="scss">
+.filterBtn {
+  @apply w-full text-left  border-black;
+}
+</style>

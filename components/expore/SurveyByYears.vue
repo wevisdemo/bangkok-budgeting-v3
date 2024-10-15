@@ -115,8 +115,11 @@
     </div>
     <div class="flex-1">
       <HorizontalBarChartVue :pointer="pointer" />
+      <ShareLabel />
     </div>
-    <div class="lg:max-w-[685px] text-center lg:text-left mt-2 mb-6 mx-auto">
+    <div
+      class="lg:max-w-[685px] text-center lg:text-left mt-2 mb-6 mx-auto md:hidden"
+    >
       <div class="mt-5 flex flex-wrap lg:block text-start">
         <div
           v-for="(item, key) in navData()"
@@ -133,7 +136,6 @@
         </div>
       </div>
     </div>
-    <ShareLabel />
   </div>
 </template>
 

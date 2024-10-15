@@ -2,12 +2,12 @@
   <div v-if="commuData">
     <el-popover
       ref="commu"
-      class="w-full"
+      class="w-full filterSelect"
       acement="bottom"
       trigger="click"
       v-model="isOpen"
     >
-      <div class="relative">
+      <div class="relative md:w-[500px]">
         <img
           src="~/assets/images/searchIcon.svg"
           class="absolute top-0 left-0 ml-2"
@@ -15,11 +15,11 @@
         <input
           v-model="inputData"
           type="text"
-          class="border-b border-b-black w-full min-w-[90vw] wv-b5 mb-3 pl-8"
+          class="border-b border-b-black w-full wv-b5 mb-3 pl-8"
           :placeholder="`ค้นหาจาก ${searchBy.length} ชุมชน`"
         />
         <button @click="handleSelectedData('clear')">ทุกชุมชน</button>
-        <div class="overflow-scroll max-h-[250px]" id="listCommu">
+        <div class="overflow-auto max-h-[250px]" id="listCommu">
           <div v-for="(item, index) in searchBy" :key="index">
             <button @click="handleSelectedData(item.community)">
               {{ item.community }}
@@ -28,7 +28,7 @@
         </div>
       </div>
     </el-popover>
-    <el-button v-popover:commu
+    <el-button v-popover:commu class="filterBtn wv-b6"
       ><span v-if="filterData.community">{{ filterData.community }}</span
       ><span v-else>ทุกเขต ({{ searchBy.length }} ชุมชน)</span>
     </el-button>

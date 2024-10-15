@@ -1,7 +1,7 @@
 <template>
   <div
     id="byYears"
-    class="mt-7 md:w-[80%] mx-auto lg:w-full flex lg:space-x-[35px] min-h-screen flex-col lg:flex-row justify-center relative"
+    class="mx-auto lg:w-full flex min-h-screen flex-col lg:flex-row justify-center relative"
   >
     <div class="fixed w-full bottom-0">
       <div
@@ -18,27 +18,53 @@
       :handleProject="handleProjectDialog"
       :project="selectedProject"
     />
-    <!-- ------------ -->
-    <div id="filter" class="flex space-y-1 flex-col">
-      <FilterByYear
-        :yearData="yearData"
-        :handleFilterData="handleFilterYear"
-        :filterData="filterData"
+    <div class="flex-1">
+      <img
+        src="~/assets/illustrations/BKKMap.svg"
+        alt="BKK map"
+        class="my-5 mx-auto"
       />
-      <FilterByDistrict
-        :filterData="filterData"
-        :districtData="districtData"
-        :handleFilterData="handleFilterData"
-      />
-      <FilterByComnunity
-        :filterData="filterData"
-        :commuData="originData"
-        :handleFilterData="handleFilterData"
-      />
-      <!-- ------------- -->
     </div>
-    <div class="lg:max-w-[685px] mt-3 flex-1 flex flex-col justify-between">
+    <div
+      class="lg:max-w-[685px] flex-1 flex flex-col justify-between card p-[15px] md:p-[30px]"
+    >
+      <!-- ------------ -->
+      <div id="filter" class="flex space-y-1 flex-col">
+        <FilterByYear
+          :yearData="yearData"
+          :handleFilterData="handleFilterYear"
+          :filterData="filterData"
+        />
+        <FilterByDistrict
+          :filterData="filterData"
+          :districtData="districtData"
+          :handleFilterData="handleFilterData"
+        />
+        <FilterByComnunity
+          :filterData="filterData"
+          :commuData="originData"
+          :handleFilterData="handleFilterData"
+        />
+        <!-- ------------- -->
+      </div>
+      <div class="my-3 flex">
+        <div class="fle-1">
+          <p class="wv-b3 font-bold">
+            พบ {{ originData.length.toLocaleString("en-US", {}) }} รายการ
+          </p>
+          <p class="wv-b5">
+            ใช้งบรวม <b>{{ convertMillion(maxFilterData()) }} ล้านบาท</b>
+          </p>
+          <p class="wv-b6 opacity-50">
+            ({{ (maxFilterData() / maxCommu()) * 100 }} % ของงบทั้งหมด)
+          </p>
+        </div>
+        <div class="flex-1 flex justify-end">
+          <button class="wv-b7 opacity-50 underline">ดาวน์โหลดข้อมูล</button>
+        </div>
+      </div>
       <div class="flex justify-between mt-5">
+        <ToggleUnit :toggle="() => toggle()" :is-million="isMillion" />
         <div
           class="text-wv-gray-1 wv-b6 flex space-x-2 justify-center cursor-pointer mb-4"
         >
@@ -58,7 +84,6 @@
             </el-option>
           </el-select>
         </div>
-        <ToggleUnit :toggle="() => toggle()" :is-million="isMillion" />
       </div>
 
       <div
@@ -126,7 +151,7 @@ import FilterByYear from "../filter/FilterByYear.vue";
 import FilterByDistrict from "../filter/FilterByDistrict.vue";
 import FilterByComnunity from "../filter/FilterByComnunity.vue";
 import ModalProject from "./ModalProject.vue";
-import { orderByStrategy } from "~/components/budget/utils";
+import { convertMillion, orderByStrategy } from "~/components/budget/utils";
 
 export default {
   components: {
@@ -165,6 +190,13 @@ export default {
   },
   methods: {
     orderByStrategy,
+    convertMillion,
+    maxFilterData() {
+      return _.sumBy(this.originData, "amount");
+    },
+    maxCommu() {
+      return _.sumBy(this.commuData, "amount");
+    },
     scrollToTop() {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
@@ -191,7 +223,6 @@ export default {
         this.originData = this.originData.filter(
           (o) => o.district === district
         );
-        this.commuData = this.originData;
       } else if (community) {
         this.originData = this.originData.filter(
           (o) => o.community === community
@@ -296,5 +327,8 @@ html {
   color: unset;
   border-color: unset;
   background-color: unset;
+}
+.card {
+  box-shadow: 0px 0px 45px 0px #0000001a;
 }
 </style>
