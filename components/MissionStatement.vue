@@ -1,7 +1,7 @@
 <template>
   <BoxContainer>
     <div class="wv-b3 mx-auto">
-      <img src="~/assets/images/landingBkk.png" />
+      <img src="~/assets/images/landingBkk.png" class="mx-auto" />
       <p class="opacity-50 mt-3 wv-b7">เลื่อนเพื่อเข้าเนื้อหา</p>
       <div class="max-w-[300px] md:max-w-[468px] mx-auto">
         <div class="mt-10">

@@ -3,21 +3,17 @@
     <div class="flex flex-col lg:flex-row">
       <div
         id="KeyWordBudget"
-        class="max-w-[400px] flex flex-col gap-4 justify-between"
+        class="max-w-[400px] flex-1 flex flex-col gap-4 justify-between"
       >
         <p class="wv-b3 flex-grow text-center sm:text-left">
-          หากไม่รู้ว่าจะเริ่มสำรวจ<br />
-          การใช้งบจากตรงไหน ลองค้นหา<br />
-          ด้วย
-          <span class="font-bold">“คีย์เวิร์ดที่พบบ่อย”</span>
-          ในชื่อ<br />และคำอธิบายรายการใช้งบ
+          สำรวจรายละเอียดโครงการ ชุมชนเข้มแข็งฯ ด้วย<b> คีย์เวิร์ดที่สนใจ</b>
         </p>
 
         <p class="wv-b7 text-wv-gray-1 text-center sm:text-left">
           ขนาดคำ = จำนวนที่พบ
         </p>
       </div>
-      <div class="w-full flex flex-col justify-between gap-4">
+      <div class="w-full flex flex-1 flex-col justify-between gap-4">
         <div id="wordCloundWrapper"></div>
         <div class="flex justify-center sm:justify-end">
           <NuxtLink

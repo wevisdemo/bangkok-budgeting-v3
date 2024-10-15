@@ -4,8 +4,11 @@
       ทำความรู้จัก<br />
       ‘โครงการชุมชนเข้มแข็งฯ’
     </p>
-    <div id="section-expand">
-      <div id="section-1" class="mx-3">
+    <div
+      id="section-expand"
+      class="md:max-w-[900px] mx-auto overflow-hidden px-3"
+    >
+      <button id="section-1" class="w-full">
         <div
           v-on:click="() => handleSelected(1)"
           class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left rounded-t-[5px]"
@@ -36,8 +39,8 @@
             >
           </p>
         </div>
-      </div>
-      <div id="section-2" class="mx-3">
+      </button>
+      <button id="section-2" class="w-full">
         <div
           v-on:click="() => handleSelected(2)"
           class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
@@ -61,8 +64,8 @@
             ได้อย่างอิสระ เพื่อกำหนดโครงการ หรือสิ่งที่ต้องการด้วยตัวเอง
           </p>
         </div>
-      </div>
-      <div id="section-3" class="mx-3">
+      </button>
+      <button id="section-3" class="w-full">
         <div
           v-on:click="() => handleSelected(3)"
           class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
@@ -78,8 +81,8 @@
             ผ่านการจัดสรรโดยสำนักงานเขตที่ชุมชนสังกัดอยู่
           </p>
         </div>
-      </div>
-      <div id="section-4" class="mx-3">
+      </button>
+      <button id="section-4" class="w-full">
         <div
           v-on:click="() => handleSelected(4)"
           class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
@@ -112,8 +115,8 @@
             อ่านเอกสารระเบียบและคู่มือเพิ่มเติม
           </button>
         </div>
-      </div>
-      <div id="section-5" class="mx-3">
+      </button>
+      <button id="section-5" class="w-full">
         <div
           v-on:click="() => handleSelected(5)"
           class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
@@ -134,8 +137,8 @@
             >
           </p>
         </div>
-      </div>
-      <div id="section-6" class="mx-3">
+      </button>
+      <button id="section-6" class="w-full">
         <div
           v-on:click="() => handleSelected(6)"
           class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
@@ -225,8 +228,8 @@
             </div>
           </div>
         </div>
-      </div>
-      <div id="section-7" class="mx-3">
+      </button>
+      <button id="section-7" class="w-full">
         <div
           v-on:click="() => handleSelected(7)"
           class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
@@ -256,7 +259,7 @@
             </ul>
           </div>
         </div>
-      </div>
+      </button>
     </div>
   </div>
 </template>
