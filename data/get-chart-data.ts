@@ -1,4 +1,5 @@
 import { getBudgetItems } from "./get-budget-items";
+import _ from "lodash";
 import { BudgetRow } from "./fetch-data-source";
 import { BudgetItem } from "~/models/budget-item";
 import {
@@ -20,7 +21,7 @@ export const getChartData = (rows: BudgetRow[]): ChartData => {
 
 export const getChartDataGroupByOrganizations = (
   rows: BudgetRow[],
-  year: number,
+  year: number
 ): OrganizationChartData[] => {
   const { items } = getBudgetItems(rows, {
     budgetYear: year ? Number(Object.values(year)) : undefined,
@@ -39,14 +40,16 @@ const getYearChartDatas = (items: BudgetItem[]): YearChartData[] => {
     chartDatas.push({
       year: Number(year),
       amount: strategyChartDatas.reduce(sumAmount, 0),
-      strategies: strategyChartDatas,
+      strategies: _.sortBy(strategyChartDatas, "amount").reverse(),
     });
   }
 
   return chartDatas;
 };
 
-const getOrganizationChartDatas = (items: BudgetItem[]): OrganizationChartData[] => {
+const getOrganizationChartDatas = (
+  items: BudgetItem[]
+): OrganizationChartData[] => {
   const chartDatas: OrganizationChartData[] = [];
 
   const organizationGroups = groupByKey("nameOrganization", items);
@@ -83,7 +86,9 @@ const getStrategyChartDatas = (items: BudgetItem[]): StrategyChartData[] => {
   return chartDatas;
 };
 
-const getSubStrategyChartDatas = (items: BudgetItem[]): SubstrategyChartData[] => {
+const getSubStrategyChartDatas = (
+  items: BudgetItem[]
+): SubstrategyChartData[] => {
   const chartDatas: SubstrategyChartData[] = [];
   const substrategyGroups = groupByKey("substrategy", items);
   for (const substrategy of Object.keys(substrategyGroups)) {
@@ -98,7 +103,7 @@ const getSubStrategyChartDatas = (items: BudgetItem[]): SubstrategyChartData[] =
 
 const groupByKey = (
   key: keyof BudgetItem,
-  items: BudgetItem[],
+  items: BudgetItem[]
 ): { [key: string]: BudgetItem[] } => {
   const groups: { [key: string]: BudgetItem[] } = {};
 

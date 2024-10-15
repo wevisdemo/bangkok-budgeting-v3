@@ -25,7 +25,6 @@
       <BudgetPlans />
       <AllocationQuestion />
       <ProjectDevelopment />
-      <!-- <IdeaVote /> -->
       <!-- <ProjectShare /> -->
       <!-- <ParticipatoryBudgeting /> -->
     </div>

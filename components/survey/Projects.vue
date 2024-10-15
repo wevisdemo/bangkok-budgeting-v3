@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="py-[20px] px-[10px] mx-3 rounded-[10px] bg-white flex flex-col font-bold"
-  >
+  <div class="flex flex-col font-bold">
     <div id="projectsDevelopment" class="mb-2 scroll-mt-8">
       <h5 class="wv-h5 wv-bold text-center wv-kondolar">
         เลือกอีก 1 ประเด็น<br />

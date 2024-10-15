@@ -1,10 +1,40 @@
 <template>
   <BoxContainer>
-    <div class="min-h-screen">
-      <Topic :setStepSurvey="setStepSurvey" v-if="stepSurvey === 1" />
-      <Projects :setStepSurvey="setStepSurvey" v-if="stepSurvey === 2" />
-      <Review v-if="stepSurvey === 3" />
-
+    <div
+      class="min-h-[80vh] bg-white flex py-[20px] px-[10px] rounded-[10px] mx-3 items-center flex-col"
+    >
+      <div class="flex w-full wv-b5 font-bold">
+        <div
+          :class="
+            voteTab === 1
+              ? 'bg-wv-gray-20 text-black'
+              : 'text-wv-gray-40 bg-white'
+          "
+          class="flex-1 border-wv-gray-20 py-2 border"
+          @click="toggleVote(1)"
+        >
+          โหวตนโยบาย
+        </div>
+        <div
+          :class="
+            voteTab === 2
+              ? ' bg-wv-gray-20 text-black'
+              : ' text-wv-gray-40 bg-white'
+          "
+          class="flex-1 border-wv-gray-20 py-2 border"
+          @click="toggleVote(2)"
+        >
+          ผลโหวตนโยบาย
+        </div>
+      </div>
+      <div v-show="voteTab === 1" class="pt-5">
+        <Topic :setStepSurvey="setStepSurvey" v-if="stepSurvey === 1" />
+        <Projects :setStepSurvey="setStepSurvey" v-if="stepSurvey === 2" />
+        <Review :resetStep="resetStep" v-if="stepSurvey === 3" />
+      </div>
+      <div v-show="voteTab === 2">
+        <IdeaVote />
+      </div>
       <Transition name="slide-fade">
         <CookieWarning v-if="showCookieWarning" />
       </Transition>
@@ -19,35 +49,50 @@ import CookieWarning from "~/components/CookieWarning.vue";
 import Topic from "~/components/survey/Topic.vue";
 import Projects from "~/components/survey/Projects.vue";
 import Review from "~/components/survey/Review.vue";
+import { mapActions } from "vuex";
+import IdeaVote from "./vote/IdeaVote.vue";
 
 interface ProjectDevelopmentData {
   isVoted: boolean;
   showCookieWarning: any;
   stepSurvey: number;
+  voteTab: number;
 }
 
 export default defineComponent({
   name: "ProjectDevelopment",
-  components: { BoxContainer, CookieWarning, Topic, Projects, Review },
+  components: {
+    BoxContainer,
+    CookieWarning,
+    Topic,
+    Projects,
+    Review,
+    IdeaVote,
+  },
   data(): ProjectDevelopmentData {
     return {
       isVoted: false,
       showCookieWarning: false,
       stepSurvey: 0,
+      voteTab: 2,
     };
   },
 
   mounted() {
-    const cookieVoted: string = this.$cookies.get("voted");
-
-    // if (cookieVoted === "true") {
-    //   this.stepSurvey = 3;
-    // } else {
-    //   this.stepSurvey = 1;
-    // }
     this.stepSurvey = 1;
   },
   methods: {
+    ...mapActions({
+      updataSurvey: "updataSurvey",
+    }),
+    toggleVote(tab: number) {
+      this.voteTab = tab;
+      this.resetStep();
+    },
+    resetStep() {
+      this.stepSurvey = 1;
+      this.updataSurvey({});
+    },
     setStepSurvey(direction: string) {
       const cookieVoted: string = this.$cookies.get("isVoted");
       if (cookieVoted === "false" || !cookieVoted) {

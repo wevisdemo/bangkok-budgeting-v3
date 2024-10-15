@@ -5,9 +5,9 @@ export interface Strategy {
 
 export interface Plan {
   strategy: string;
-  img: string;
-  strategies: Strategy[];
-  color: string;
+  img?: string;
+  strategies?: Strategy[];
+  color?: string;
 }
 
 export const planData: Plan[] = [
@@ -268,5 +268,8 @@ export const planData: Plan[] = [
         ],
       },
     ],
+  },
+  {
+    strategy: "N/A",
   },
 ];

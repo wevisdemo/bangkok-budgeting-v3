@@ -346,7 +346,11 @@ export default {
     },
 
     handleFilterKeyword(keyword) {
-      return this.originData.filter((c) => c.project_name.includes(keyword));
+      return this.originData.filter(
+        (c) =>
+          c.project_name.includes(keyword) ||
+          c.procurement_list.includes(keyword)
+      );
     },
     formatItem(item) {
       return {

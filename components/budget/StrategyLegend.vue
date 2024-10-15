@@ -32,7 +32,7 @@
           :class="bgColorSet(item.strategy)"
         />
         <div class="flex wv-b6 text-wv-gray-1">
-          {{ item.strategy }}
+          {{ item.strategy === "N/A" ? "ไม่พบข้อมูล" : item.strategy }}
         </div>
       </div>
     </div>

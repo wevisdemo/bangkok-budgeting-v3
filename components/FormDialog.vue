@@ -111,6 +111,7 @@ export default {
     return {
       idea: "",
       isShowLoading: false,
+      cookieId: "",
       defaultOptions: {
         animationData: projectAnimation,
         loop: true,
@@ -135,57 +136,63 @@ export default {
       updataSurvey: "updataSurvey",
     }),
     async postTableRow(table, data) {
-      // await this.$nocoDb.dbTableRow.bulkCreate(
-      //   "v1",
-      //   "bangkok-budgeting",
-      //   table,
-      //   data
-      // );
+      await this.$nocoDb.dbTableRow.bulkCreate(
+        "v1",
+        "bangkok-budgeting",
+        table,
+        data
+      );
     },
     async handleSubmit(e) {
       e.preventDefault();
       this.dialogOpen = false;
       this.isShowLoading = true;
+      this.cookieId = this.$cookies.get("uuid");
+
+      const data = await this.$nocoDb.dbTableRow.list(
+        "v1",
+        "bangkok-budgeting",
+        "User-Data-2024"
+      );
+      const isUserVote = data.list.filter((u) => u.userId == this.cookieId)[0];
+
+      if (!isUserVote) {
+        await this.senduser();
+      }
       await this.sendData();
-      await this.senduser();
     },
+
     setDistrict(district) {
       this.updataSurvey({ ...this.selectedSurvey, district: district.th_name });
     },
     async senduser() {
-      const cookieId = this.$cookies.get("uuid");
       try {
-        // await this.postTableRow("User-data", [
-        //   {
-        //     userId: cookieId,
-        //     district: `เขต${this.formData.district.th_name}`,
-        //   },
-        // ]);
+        await this.postTableRow("User-Data-2024", [
+          {
+            userId: this.cookieId,
+            district: `เขต${this.selectedSurvey.district}1`,
+          },
+        ]);
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error(e);
       }
     },
     async sendData() {
-      const arrayForNoco = [];
-      const cookieId = this.$cookies.get("uuid");
-      this.selected.forEach((project) => {
-        // arrayForNoco.push({
-        //   userId: cookieId,
-        //   idea: project.problem,
-        //   strategy: project.strategy,
-        //   district: `เขต${this.formData.district.th_name}`,
-        // });
-      });
-
       try {
-        await this.postTableRow("Survey", arrayForNoco).then(() => {
+        await this.postTableRow("Survey-2024", [
+          {
+            userId: this.cookieId,
+            policy: this.selectedSurvey.plan,
+            sub_policy: this.selectedSurvey.sub_policy,
+            district: `เขต${this.selectedSurvey.district}`,
+            idea: this.idea,
+          },
+        ]).then(() => {
           setTimeout(() => {
             this.isShowLoading = false;
             this.setStepSurvey("next");
-            // this.closeDialog();
           }, 2000);
-          this.$cookies.set("voted", "true");
         });
       } catch (e) {
         // eslint-disable-next-line no-console

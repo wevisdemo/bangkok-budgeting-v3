@@ -30,24 +30,26 @@
           class="sm:h-[260px] flex flex-col justify-between items-center cursor-pointer z-30"
           @click="handleStrategy(item.strategy)"
         >
-          <img
-            v-show="onHoverImg === item.img"
-            :id="planIndex.toString()"
-            class="w-20 h-28"
-            :src="`${$config.path.images}/strategies/${item.img}_hover.svg`"
-            :alt="item.strategy"
-          />
-          <img
-            v-show="onHoverImg !== item.img"
-            :id="planIndex.toString()"
-            class="w-20 h-28"
-            :src="`${$config.path.images}/strategies/${item.img}.svg`"
-            :alt="item.strategy"
-          />
-          <div
-            v-show="onHoverImg === item.img"
-            class="point-up border-wv-cream"
-          />
+          <div v-if="item.strategy !== 'N/A'">
+            <img
+              v-show="onHoverImg === item.img"
+              :id="planIndex.toString()"
+              class="w-20 h-28"
+              :src="`${$config.path.images}/strategies/${item.img}_hover.svg`"
+              :alt="item.strategy"
+            />
+            <img
+              v-show="onHoverImg !== item.img"
+              :id="planIndex.toString()"
+              class="w-20 h-28"
+              :src="`${$config.path.images}/strategies/${item.img}.svg`"
+              :alt="item.strategy"
+            />
+            <div
+              v-show="onHoverImg === item.img"
+              class="point-up border-wv-cream"
+            />
+          </div>
         </div>
       </div>
       <!-- strategy -->

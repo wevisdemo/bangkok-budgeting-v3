@@ -20,6 +20,8 @@ export default <Partial<Config>>{
         "wv-gray-3": "#DDDDDD",
         "wv-gray-5": "#858585",
         "wv-gray-7": "#828282",
+        "wv-gray-30": "#D4D4D4",
+        "wv-gray-40": "#C0C0C0",
         "wv-environment": "#BACB37",
         "strategy-1": "#FF2828",
         "strategy-2": "#FFB800",
@@ -49,6 +51,7 @@ export default <Partial<Config>>{
         "wv-gray-4": "#F3F3F3",
         "wv-gray-7": "#828282",
         "wv-gray-20": "#E8E8E8",
+        "wv-gray-30": "#D4D4D4",
         "wv-safe": "#3277FF",
         "wv-environment": "#BACB37",
         "wv-connectivity": "#FFC2F1",
@@ -69,7 +72,6 @@ export default <Partial<Config>>{
       borderColor: {
         "wv-cream": "#E8E4D8",
         "wv-yellow": "#EFE602",
-
         "wv-green": "#4CC35D",
         "wv-safe": "#3277FF",
         "wv-environment": "#BACB37",
@@ -81,6 +83,8 @@ export default <Partial<Config>>{
         "wv-gray-1": "#737373",
         "wv-gray-4": "#F3F3F3",
         "wv-gray-7": "#828282",
+        "wv-gray-20": "#E8E8E8",
+        "wv-gray-30": "#D4D4D4",
         "wv-gray-60": "#979797",
         "wv-gray-80": "#6E6E6E",
       },

@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="py-[20px] px-[10px] mx-3 rounded-[10px] bg-white flex flex-col font-bold"
-  >
+  <div class="flex flex-col font-bold">
     <div id="projectsDevelopment" class="mb-2 scroll-mt-8">
       <h5 class="wv-h5 wv-bold text-center wv-kondolar">
         เลือก 1 นโยบาย ที่คุณสนใจที่สุด
@@ -12,7 +10,7 @@
         v-for="item in surveyData()"
         :key="item.no"
         class="rounded-[5px] w-full my-1 flex items-center text-start px-[10px] py-[6px] hover:bg-black hover:text-white"
-        @click="() => selectTopic(item.problem)"
+        @click="() => selectTopic(item.problem, item.plan)"
         :class="
           selectedSurvey?.policy === item.problem
             ? `bg-black text-white`
@@ -50,8 +48,8 @@ export default {
       updataSurvey: "updataSurvey",
     }),
     surveyData,
-    selectTopic(problem) {
-      this.updataSurvey({ policy: problem });
+    selectTopic(problem, plan) {
+      this.updataSurvey({ policy: problem, plan: plan });
     },
     nextPage() {
       this.setStepSurvey("next");

@@ -16,6 +16,24 @@ export const borderFilter = (strategy: string) => {
     return "border-l-wv-management";
   return "border-l-gray-600";
 };
+
+export const formatName = (strategy: string) => {
+  if (strategy === "strategy-1" || strategy === "เดินทางดี")
+    return `strategy_1`;
+  if (strategy === "strategy-2" || strategy === "สิ่งแวดล้อมดี")
+    return `strategy_2`;
+  if (strategy === "strategy-3" || strategy === "เศรษฐกิจดี")
+    return `strategy_3`;
+  if (strategy === "strategy-4" || strategy === "ปลอดภัยดี")
+    return `strategy_4`;
+  if (strategy === "strategy-5" || strategy === "สุขภาพดี") return `strategy_5`;
+  if (strategy === "strategy-6" || strategy === "สังคมดี") return `strategy_6`;
+  if (strategy === "strategy-7" || strategy === "โปร่งใสดี")
+    return `strategy_7`;
+  if (strategy === "strategy-8" || strategy === "เรียนดี") return `strategy_8`;
+  if (strategy === "strategy-9" || strategy === "บริหารจัดการดี")
+    return `strategy_9`;
+};
 export const bgColorSet = (strategy: string) => {
   if (strategy === "strategy-1" || strategy === "เดินทางดี")
     return `bg-strategy-1`;
@@ -35,17 +53,27 @@ export const bgColorSet = (strategy: string) => {
     return `bg-strategy-8`;
   if (strategy === "strategy-9" || strategy === "บริหารจัดการดี")
     return `bg-strategy-9`;
+  else return "bg-gray-600";
 };
 export const textColorSet = (strategy: string) => {
-  if (strategy === "strategy-1") return `text-strategy-1`;
-  if (strategy === "strategy-2") return `text-strategy-2`;
-  if (strategy === "strategy-3") return `text-strategy-3`;
-  if (strategy === "strategy-4") return `text-strategy-4`;
-  if (strategy === "strategy-5") return `text-strategy-5`;
-  if (strategy === "strategy-6") return `text-strategy-6`;
-  if (strategy === "strategy-7") return `text-strategy-7`;
-  if (strategy === "strategy-8") return `text-strategy-8`;
-  if (strategy === "strategy-9") return `text-strategy-9`;
+  if (strategy === "strategy-1" || strategy === "เดินทางดี")
+    return `text-strategy-1`;
+  if (strategy === "strategy-2" || strategy === "สิ่งแวดล้อมดี")
+    return `text-strategy-2`;
+  if (strategy === "strategy-3" || strategy === "เศรษฐกิจดี")
+    return `text-strategy-3`;
+  if (strategy === "strategy-4" || strategy === "ปลอดภัยดี")
+    return `text-strategy-4`;
+  if (strategy === "strategy-5" || strategy === "สุขภาพดี")
+    return `text-strategy-5`;
+  if (strategy === "strategy-6" || strategy === "สังคมดี")
+    return `text-strategy-6`;
+  if (strategy === "strategy-7" || strategy === "โปร่งใสดี")
+    return `text-strategy-7`;
+  if (strategy === "strategy-8" || strategy === "เรียนดี")
+    return `text-strategy-8`;
+  if (strategy === "strategy-9" || strategy === "บริหารจัดการดี")
+    return `text-strategy-9`;
 };
 
 export const colorFilter = (strategy: string) => {
@@ -98,6 +126,7 @@ export const strategyList = () => [
   "โปร่งใสดี",
   "เรียนดี",
   "บริหารจัดการดี",
+  "N/A",
 ];
 
 export const orderByStrategy = (

@@ -20,64 +20,63 @@
           class="flex h-[280px] md:h-[480px] lg:h-[580px] w-full justify-between"
         >
           <div
-            v-for="(item, key) in chartResponse.years"
+            v-for="(item, key) in chartResponse"
             :key="key"
             class="w-full flex-1 relative flex items-end ml-[5px] md:ml-[15px]"
           >
             <div
-              v-if="totalBudget.filter((i) => i.year === item.year)[0]?.amount"
-              class="border-gray-300 border-[2px] border-dashed rounded-[5px] absolute w-full flex-1"
+              v-if="totalBudget?.filter((i) => i.year === item.year)[0]?.amount"
+              class="border-wv-gray-30 border-[2px] border-dashed rounded-[5px] absolute w-full flex-1"
               :style="{
                 height: `${calHeight(
-                  totalBudget.filter((i) => i.year === item.year)[0]?.amount
+                  totalBudget?.filter((i) => i.year === item.year)[0]?.amount
                 )}%`,
               }"
             >
               <div
-                class="absolute top-0 translate-y-[-100%] wv-b7 text-gray-300 font-bold left-[50%] translate-x-[-50%]"
+                class="absolute top-0 translate-y-[-100%] wv-b7 text-wv-gray-30 font-bold left-[50%] translate-x-[-50%]"
               >
                 {{
                   convertMillion(
-                    totalBudget.filter((i) => i.year === item.year)[0]?.amount,
+                    totalBudget?.filter((i) => i.year === item.year)[0]?.amount,
                     false
                   )
                 }}
               </div>
-              <div
-                class="absolute bottom-[-30px] left-[50%] wv-b5 translate-x-[-50%]"
-              >
-                ’{{ item.year }}
-              </div>
             </div>
             <div
+              v-else
+              class="border-[2px] h-full bg-wv-gray-30 border-wv-gray-30 rounded-[5px] absolute w-full flex-1"
+            ></div>
+            <div
+              v-if="totalBudget?.filter((i) => i.year === item.year)[0]?.amount"
               class="flex flex-col-reverse w-full h-full relative justify-items-end"
             >
               <div
                 class="relative z-20 w-full"
-                v-for="strategy in strategyList()"
-                :key="strategy"
-                :class="bgColorSet(strategy)"
+                v-for="strategy in item?.strategies"
+                :key="strategy.name"
+                :class="bgColorSet(strategy.name)"
                 :style="{
-                  height: `${calHeight(
-                    item.strategies.filter((str) => str.name === strategy)[0]
-                      ?.amount
-                  )}%`,
+                  height: `${calHeight(strategy?.amount)}%`,
                 }"
               >
-                <p
-                  v-if="strategy === 'การพัฒนาสิ่งแวดล้อมยั่งยืน'"
+                <!-- <p
+                  v-if="strategy === 'บริหารจัดการดี'"
                   class="absolute text-white wv-b7 md:wv-b6 font-bold top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%]"
                 >
                   {{
                     calHeight(
-                      item.strategies.filter((str) => str.name === strategy)[0]
-                        ?.amount
+                      item?.strategies?.filter(
+                        (str) => str.name === strategy
+                      )[0]?.amount
                     ).toFixed(2)
                   }}%
-                </p>
+                </p> -->
               </div>
               <div
                 class="border-[3px] border-black rounded-[3px] absolute z-20 w-full"
+                v-if="item.strategies"
                 :style="{
                   height: `${calHeight(item.amount)}%`,
                 }"
@@ -89,6 +88,17 @@
                   {{ convertMillion(item.amount, false) }}
                 </div>
               </div>
+            </div>
+            <div
+              class="absolute bottom-[-30px] left-[50%] wv-b5 translate-x-[-50%] wv-b5 font-bold"
+              :style="{
+                opacity: totalBudget?.filter((i) => i.year === item.year)[0]
+                  ?.amount
+                  ? ''
+                  : '50%',
+              }"
+            >
+              ’{{ item.year }}
             </div>
           </div>
         </div>
@@ -125,18 +135,24 @@ export default Vue.extend({
   components: { VizChart, StrategyLegend },
   data() {
     return {
-      chartResponse: { amount: 0, years: [] },
+      chartResponse: [],
       totalBudget: [
-        { year: 61, amount: 78500000000 },
-        { year: 62, amount: 80000000000 },
-        { year: 63, amount: 83000000000 },
-        { year: 64, amount: 75500000000 },
-        { year: 65, amount: 78979446500 },
+        { year: 68, amount: 89969500000 },
+        { year: 69, amount: 0 },
+        { year: 70, amount: 0 },
       ],
     };
   },
   mounted() {
-    this.chartResponse = this.$store.getters["data/getChartData"]();
+    this.chartResponse = this.$store.getters["data/getChartData"]().years;
+    if (this.chartResponse.length < 3) {
+      this.chartResponse = [
+        ...this.chartResponse,
+        { year: 69, amount: 0 },
+        { year: 70, amount: 0 },
+      ];
+    }
+    console.log(this.chartResponse, "chartResponse");
   },
   methods: {
     convertMillion,

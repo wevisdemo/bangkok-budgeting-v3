@@ -40,6 +40,7 @@ interface Option {
 
 export default Vue.extend({
   components: { WvNavbar, WvFooter, WvNavButton, WvCookieConsent, AboutFooter },
+
   data() {
     return {
       routes: [
@@ -52,6 +53,7 @@ export default Vue.extend({
       uuid: uuid.v1(),
     };
   },
+
   mounted() {
     if (this.$cookies.get("uuid")) {
       this.$store.commit("setCookieState", true);
@@ -68,9 +70,7 @@ export default Vue.extend({
       }
       if (!this.$cookies.get("uuid")) {
         this.$cookies.set("uuid", this.uuid);
-        this.$cookies.set("isVoted", "false");
         this.$store.commit("setCookieState", true);
-
         const messageRef = this.$fire.database.ref("user");
         const userSeq = this.$fire.database
           .ref("sequence")
@@ -91,7 +91,6 @@ export default Vue.extend({
           return;
         }
         // eslint-disable-next-line no-console
-        console.log("create user success");
       }
       this.$cookies.set("isVoted", "true");
     },
