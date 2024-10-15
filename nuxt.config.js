@@ -130,7 +130,7 @@ const config = {
   },
 
   generate: {
-    routes: generateOgImageRoutes(),
+    // routes: generateOgImageRoutes(),
   },
 };
 
