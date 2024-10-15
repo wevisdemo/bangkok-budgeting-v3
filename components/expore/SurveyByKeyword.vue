@@ -195,7 +195,7 @@
                   class="relative z-20 w-full"
                   v-for="strategy in strategyList()"
                   :key="strategy"
-                  :class="colorFilter(strategy)"
+                  :class="bgColorSet(strategy)"
                   :style="{
                     height: calHeight(
                       displayOrganizeValue(
@@ -213,7 +213,7 @@
                   class="relative z-20 w-full"
                   v-for="strategy in strategyList()"
                   :key="strategy"
-                  :class="colorFilter(strategy)"
+                  :class="bgColorSet(strategy)"
                   :style="{
                     height: calHeight(item.all[strategy], item.amount),
                   }"
@@ -291,7 +291,7 @@
             >
               <div
                 class="min-w-[10px] min-h-[10px] rounded-[2px]"
-                :class="colorFilter(item.name)"
+                :class="bgColorSet(item.name)"
               />
               <div class="flex wv-b5 text-wv-gray-1">
                 {{ key + 1 }}. {{ item.name }}
@@ -308,7 +308,7 @@
 <script>
 import _ from "lodash";
 import { mapState, mapActions } from "vuex";
-import { convertMillion, colorFilter, strategyList } from "../budget/utils";
+import { convertMillion, bgColorSet, strategyList } from "../budget/utils";
 import ToggleUnit from "../budget/charts/ToggleUnit.vue";
 import { keywords } from "~/data/budgets/keywords";
 import ModalDetails from "~/components/budget/charts/ModalDetails.vue";
@@ -349,7 +349,7 @@ export default {
       updateSelectKeywordStrategy: "updateSelectKeywordStrategy",
     }),
     convertMillion,
-    colorFilter,
+    bgColorSet,
     strategyList,
     keywords,
     filterByKey,

@@ -3,7 +3,7 @@
     <div class="flex flex-col lg:flex-row">
       <div
         id="KeyWordBudget"
-        class="max-w-[400px] flex flex-col gap-4 justify-between"
+        class="max-w-[400px] flex flex-1 flex-col gap-4 justify-between"
       >
         <p class="wv-b3 flex-grow text-center sm:text-left">
           หากไม่รู้ว่าจะเริ่มสำรวจ<br />
@@ -17,7 +17,7 @@
           ขนาดคำ = จำนวนที่พบ
         </p>
       </div>
-      <div class="w-full flex flex-col justify-between gap-4">
+      <div class="w-full flex-1 flex flex-col justify-between gap-4">
         <div id="wordCloundWrapper"></div>
         <div class="flex justify-center sm:justify-end">
           <NuxtLink
@@ -25,7 +25,7 @@
               path: 'bkkbudget/explore',
               query: { select: 'KeyWordBudget' },
             }"
-            class="flex items-center py-1 px-2 rounded border-wv-gray-1 hover:bg-gray-500 hover:text-white border text-wv-gray-1 h-min"
+            class="flex items-center py-2 px-2 rounded bg-wv-green border-black h-min"
           >
             ค้นหางบด้วยคีย์เวิร์ด
             <i class="el-icon-right ml-1" />

@@ -1,5 +1,5 @@
 <template>
-  <BoxContainer>
+  <div>
     <div id="vote-result" class="pt-5">
       <div class="text-center">
         <h5 class="wv-h5 wv-bold wv-kondolar">5 ประเด็น ที่ถูกโหวตมากที่สุด</h5>
@@ -27,18 +27,16 @@
     <Transition name="slide-fade">
       <CookieWarning v-if="showCookieWarning" />
     </Transition>
-  </BoxContainer>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import VoteProgress from "./VoteProgress.vue";
-import BoxContainer from "~/components/BoxContainer.vue";
 import DistrictDropdown from "~/components/DistrictDropdown.vue";
 import FormDialog from "~/components/dialog/FormDialog.vue";
 import CookieWarning from "~/components/CookieWarning.vue";
 import _ from "lodash";
-
 import type { District } from "~/components/DistrictDropdown.vue";
 import type { ProjectVote } from "~/components/ProjectDropdown.vue";
 import projectsData from "~/data/projects.json";
@@ -73,7 +71,6 @@ export default defineComponent({
   name: "IdeaVote",
   components: {
     VoteProgress,
-    BoxContainer,
     DistrictDropdown,
     FormDialog,
     CookieWarning,
@@ -104,7 +101,6 @@ export default defineComponent({
     this.projectResponseData = await this.getProjectData();
     this.voter = await this.getTotalVote();
     this.formatIdea(this.projectResponseData);
-    console.log(this.formatData, "voter");
   },
   methods: {
     formatIdea(projectResponseData: any) {

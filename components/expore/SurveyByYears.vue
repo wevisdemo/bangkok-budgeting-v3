@@ -31,7 +31,9 @@
           class="absolute top-0 right-0 m-5"
           @click="mobileStrategy = false"
         >
-          <div class="wv-b5 border-black rounded-[5px] border py-[5px] px-[10px]">
+          <div
+            class="wv-b5 border-black rounded-[5px] border py-[5px] px-[10px]"
+          >
             ยืนยัน
           </div>
         </div>
@@ -46,13 +48,17 @@
         <div v-for="(strategy, key) in navData()" :key="key">
           <button
             class="flex items-center border-b border-b-wv-gray-4 text-start py-[10px] bg-opacity-30 rounded-[2px] px-3 w-full"
-            :class="handleButton(chartSelected === strategy.name, strategy.name)"
+            :class="
+              handleButton(chartSelected === strategy.name, strategy.name)
+            "
             @click="handleStategy(strategy.name)"
           >
             <div class="flex justify-between w-full">
               <div class="flex items-center">
                 <div
-                  :class="selectHandle(strategy.name === chartSelected, strategy.name)"
+                  :class="
+                    selectHandle(strategy.name === chartSelected, strategy.name)
+                  "
                   class="w-0 h-0 mr-2 border-t-[6px] border-t-transparent border-l-[8px] border-b-[6px] border-b-transparent"
                 />
                 <p class="wv-b6">{{ key + 1 }}. {{ strategy.name }}</p>
@@ -61,14 +67,18 @@
                 class="w-[10px] h-[10px] min-w-[10px] rounded-full border-black border ml-[10px] flex items-center justify-center p-[1px]"
                 :class="chartSelected === strategy.name && 'bg-black'"
               >
-                <img src="~/assets/icons/selected.svg" alt="selected" class="w-full" />
+                <img
+                  src="~/assets/icons/selected.svg"
+                  alt="selected"
+                  class="w-full"
+                />
               </div>
             </div>
           </button>
           <div
             v-if="
               chartSelected === strategy.name ||
-              strategy.substrategies.includes(chartSelected)
+              strategy?.substrategies?.includes(chartSelected)
             "
           >
             <p
@@ -104,16 +114,33 @@
       </div>
     </div>
     <div class="flex-1">
-      <HorizontalBarChartVue class="mb-6" :pointer="pointer" />
-      <ShareLabel />
+      <HorizontalBarChartVue :pointer="pointer" />
     </div>
+    <div class="lg:max-w-[685px] text-center lg:text-left mt-2 mb-6 mx-auto">
+      <div class="mt-5 flex flex-wrap lg:block text-start">
+        <div
+          v-for="(item, key) in navData()"
+          :key="key"
+          class="flex items-center space-x-2 py-[5px] w-[50%] lg:w-full"
+        >
+          <div
+            class="min-w-[10px] min-h-[10px] rounded-[2px]"
+            :class="bgColorSet(item.name)"
+          />
+          <div class="flex wv-b5 text-wv-gray-1">
+            {{ key + 1 }}. {{ item.name }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <ShareLabel />
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
 import HorizontalBarChartVue from "../budget/charts/HorizontalBarChart.vue";
-import { borderFilter, colorFilter } from "~/components/budget/utils";
+import { borderFilter, bgColorSet } from "~/components/budget/utils";
 import { navData } from "~/components/expore/navData";
 import { handleRemoveSelected } from "~/components/budget/utils";
 import ShareLabel from "~/components/budget/ShareLabel.vue";
@@ -135,6 +162,7 @@ export default {
   },
   methods: {
     navData,
+    bgColorSet,
     handleRemoveSelected,
     ...mapActions({
       updateStrategy: "updateStrategy",
@@ -143,7 +171,7 @@ export default {
     }),
     selectHandle(isSlect, strategy) {
       if (isSlect)
-        return `rotate-90 ${borderFilter(strategy)} ${colorFilter(strategy)}}`;
+        return `rotate-90 ${borderFilter(strategy)} ${bgColorSet(strategy)}}`;
       return borderFilter(strategy);
     },
     handleStategy(strategy) {
@@ -151,12 +179,14 @@ export default {
     },
     handleButton(isSlect, strategy) {
       if (isSlect)
-        return `${this.chartSelected === strategy && colorFilter(strategy)} font-bold`;
+        return `${
+          this.chartSelected === strategy && bgColorSet(strategy)
+        } font-bold`;
       return "";
     },
     handleSubButton(strategy, name) {
       if (this.chartSelected === strategy) {
-        return `${colorFilter(name)} font-bold`;
+        return `${bgColorSet(name)} font-bold`;
       }
       return "";
     },

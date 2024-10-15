@@ -1,14 +1,14 @@
 <template>
-  <div class="flex flex-col font-bold">
+  <div class="flex flex-col">
     <div id="projectsDevelopment" class="mb-2 scroll-mt-8">
       <h5 class="wv-h5 wv-bold text-center wv-kondolar">
         เลือกอีก 1 ประเด็น<br />
         ที่คุณอยากแก้ไข
       </h5>
     </div>
-
+    <p class="wv-b7 opacity-50 mb-2">กดเลือกปัญหาที่สนใจ</p>
     <button
-      class="rounded-[5px] w-full my-1 flex items-center text-start px-[10px] py-[6px] hover:bg-black hover:text-white"
+      class="rounded-[5px] font-bold w-full my-1 flex items-center text-start px-[10px] py-[6px] hover:bg-black hover:text-white"
       v-for="(item, key) in subProblem"
       :key="key"
       @click="() => selectTopic(item.strategy)"
@@ -20,8 +20,8 @@
     >
       {{ item.no }}. {{ item.strategy }}
     </button>
-
-    <div class="flex justify-center mt-5 items-center">
+    <p class="wv-b5 mt-2 opacity-50">Step 2/2</p>
+    <div class="flex justify-center mt-3 items-center">
       <button
         @click="() => prevPage()"
         class="border-black border rounded-[5px] flex items-center justify-center h-[40px] w-[40px]"

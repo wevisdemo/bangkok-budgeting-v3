@@ -31,9 +31,11 @@
         >
           <div
             class="min-w-[10px] min-h-[10px] rounded-[2px]"
-            :class="colorFilter(item.name)"
+            :class="bgColorSet(item.name)"
           />
-          <div class="flex wv-b5 text-wv-gray-1">{{ key + 1 }}. {{ item.name }}</div>
+          <div class="flex wv-b5 text-wv-gray-1">
+            {{ key + 1 }}. {{ item.name }}
+          </div>
         </div>
       </div>
     </div>
@@ -109,7 +111,9 @@
               <div v-else class="wv-b6 font-bold">
                 {{ ((item.amount / chartData.amount) * 100).toFixed(2) }} %
               </div>
-              <div class="ml-1"><img src="~/assets/images/list-button.svg" /></div>
+              <div class="ml-1">
+                <img src="~/assets/images/list-button.svg" />
+              </div>
             </div>
           </div>
 
@@ -119,7 +123,7 @@
               :key="strategy"
               class="h-[10px]"
               :style="{ width: drawChart(item, strategy) }"
-              :class="colorFilter(strategy)"
+              :class="bgColorSet(strategy)"
             ></div>
           </div>
         </div>
@@ -141,7 +145,11 @@
 import { mapState, mapActions } from "vuex";
 import { filterByOrganize } from "../budget/charts/filterBy";
 import { navData } from "~/components/expore/navData";
-import { colorFilter, orderByStrategy, strategyList } from "~/components/budget/utils";
+import {
+  bgColorSet,
+  orderByStrategy,
+  strategyList,
+} from "~/components/budget/utils";
 import { getChartDataGroupByOrganizations } from "~/data/get-chart-data";
 import ModalDetails from "~/components/budget/charts/ModalDetails.vue";
 import ToggleUnit from "~/components/budget/charts/ToggleUnit.vue";
@@ -185,7 +193,7 @@ export default {
       updateSelectYearOrganize: "updateSelectYearOrganize",
     }),
     navData,
-    colorFilter,
+    bgColorSet,
     orderByStrategy,
     strategyList,
     filterByOrganize,
@@ -198,25 +206,31 @@ export default {
       this.isOpen = !this.isOpen;
     },
     fetchByOrganizeYear(year) {
-      const response = this.$store.getters["data/getChartDataGroupByOrganizations"]({
+      const response = this.$store.getters[
+        "data/getChartDataGroupByOrganizations"
+      ]({
         year,
       });
       this.barChartData = filterByOrganize(this.selectedFilter, response);
     },
 
     fetchByOrganize(nameOrganization) {
-      const response = this.$store.getters["data/getBudgetItems"]({ nameOrganization });
+      const response = this.$store.getters["data/getBudgetItems"]({
+        nameOrganization,
+      });
       let filterYear;
       if (this.selectYearOrganize.value) {
         filterYear = response.items.filter(
-          i => i.budgetYear === this.selectYearOrganize.value,
+          (i) => i.budgetYear === this.selectYearOrganize.value
         );
       } else {
         filterYear = response;
       }
       this.updateIsModalDetails({
         items: this.selectYearOrganize.value ? filterYear : response.items,
-        total: this.selectYearOrganize.value ? filterYear.length : response.total,
+        total: this.selectYearOrganize.value
+          ? filterYear.length
+          : response.total,
       });
     },
     handleFilter() {
@@ -234,8 +248,12 @@ export default {
       this.handleModal();
     },
     drawChart(item, strategy) {
-      const matchStrategy = item.strategies.filter(i => i.name === strategy)[0];
-      const divide = this.isMillion ? this.maxValue.amount : this.chartData.amount;
+      const matchStrategy = item.strategies.filter(
+        (i) => i.name === strategy
+      )[0];
+      const divide = this.isMillion
+        ? this.maxValue.amount
+        : this.chartData.amount;
       return matchStrategy && `${(matchStrategy.amount / divide) * 100}%`;
     },
     toggle() {
@@ -248,9 +266,12 @@ export default {
       if (year) {
         this.updateSelectYearOrganize(year);
         this.filterYears = {
-          items: this.isModalDetails?.items?.filter(str => str.budgetYear === year),
-          total: this.isModalDetails?.items?.filter(str => str.budgetYear === year)
-            .length,
+          items: this.isModalDetails?.items?.filter(
+            (str) => str.budgetYear === year
+          ),
+          total: this.isModalDetails?.items?.filter(
+            (str) => str.budgetYear === year
+          ).length,
         };
       } else {
         this.updateSelectYearOrganize({ label: "2561-2567", value: "" });
@@ -287,7 +308,12 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   computed: {
-    ...mapState(["organizeData", "isModalDetails", "chartData", "selectYearOrganize"]),
+    ...mapState([
+      "organizeData",
+      "isModalDetails",
+      "chartData",
+      "selectYearOrganize",
+    ]),
   },
   watch: {
     organizeData: {

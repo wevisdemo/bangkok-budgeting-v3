@@ -6,10 +6,10 @@
     >
       <p class="wv-h5 font-black">
         ทำความเข้าใจ
-        <br />
+        <br class="md:hidden" />
         แผนการใช้งบ
       </p>
-      <p class="wv-b3 mt-3 px-3">
+      <p class="wv-b3 mt-3 px-3 max-w-[544px] mx-auto">
         เริ่มต้นในปี 2568 กรุงเทพมหานคร ปรับแผนการทำงาน โดยมุ่ง
         วัดผลลัพธ์สำคัญตามวัตถุประสงค์ เปลี่ยนทิศทางการบริหารเมืองโดยใช้
         แผนงานพัฒนา<b>
@@ -17,20 +17,22 @@
           เมืองน่าอยู่สำหรับทุกคน’</b
         >
       </p>
-      <p class="wv-b3 font-bold mt-3">คุณกำลังสำรวจแผนนโยบาย</p>
-      <p class="wv-h5 wv-bold" :class="`text-${pointerStrategy.color}`">
+      <p class="wv-b3 font-bold mt-3 md:mt-6">คุณกำลังสำรวจแผนนโยบาย</p>
+      <p class="wv-h5 wv-bold mt-2" :class="`text-${pointerStrategy.color}`">
         “{{ pointerStrategy?.strategy }}”
       </p>
+      <p class="wv-b5">ของแผนงานพัฒนา 9 ด้าน(ดี)</p>
+      <p class="wv-b7 opacity-50">กดเลือกดด้านดีอื่นๆ</p>
       <div
-        class="flex gap-2 sm:gap-6 md:gap-12 grid-cols-7 relative justify-center w-full"
+        class="flex gap-2 sm:gap-3 mt-5 grid-cols-7 relative justify-center w-full mb-3"
       >
         <div
           v-for="(item, planIndex) in plans"
           :key="`${item.strategy}-problemsIndex`"
-          class="sm:h-[260px] flex flex-col justify-between items-center cursor-pointer z-30"
+          class="flex flex-col justify-between items-center cursor-pointer z-30"
           @click="handleStrategy(item.strategy)"
         >
-          <div v-if="item.strategy !== 'N/A'">
+          <div v-if="item.strategy !== 'N/A'" class="relative">
             <img
               v-show="onHoverImg === item.img"
               :id="planIndex.toString()"
@@ -47,7 +49,7 @@
             />
             <div
               v-show="onHoverImg === item.img"
-              class="point-up border-wv-cream"
+              class="point-up border-wv-cream left-[50%] translate-x-[-50%] translate-y-[10px]"
             />
           </div>
         </div>
@@ -77,12 +79,17 @@
               v-for="(strategy, strategyIndex) in pointerStrategy?.strategies"
               :key="strategyIndex"
               class="flex flex-col grid-rows-[repeat(2,_min-content)] gap-4 p-4 min-h-[200px] w-full bg-wv-cream"
+              :class="
+                strategyIndex !== 0
+                  ? 'border-l border-l-wv-gray-50'
+                  : 'border-l-0'
+              "
             >
               <div
                 class="flex flex-col items-center justify-center w-full gap-1"
               >
                 <div
-                  class="text-white w-5 h-5 rounded-full wv-b6 relative"
+                  class="text-white w-[30px] h-[30px] rounded-full wv-b6 relative"
                   :class="bgColorSet(pointerStrategy?.color)"
                 >
                   <span
@@ -90,7 +97,7 @@
                     >{{ strategyIndex + 1 }}</span
                   >
                 </div>
-                <p class="wv-b5 wv-bold text-center">
+                <p class="wv-b5 wv-bold text-left mt-2">
                   {{ strategy.sub_strategy }}
                 </p>
               </div>
@@ -98,7 +105,7 @@
                 <li
                   v-for="(item, itemIndex) in strategy.sub_srategy_def"
                   :key="itemIndex"
-                  class="wv-b5 text-black list-disc list-inside"
+                  class="wv-b6 text-left text-black list-disc list-inside"
                 >
                   {{ item }}
                 </li>
@@ -135,13 +142,15 @@
                   {{ strategyIndex + 1 }}
                 </p>
               </div>
-              <p class="wv-b5 ml-3 wv-bold mr-4">{{ strategy.sub_strategy }}</p>
+              <p class="wv-b5 ml-3 wv-bold mr-4 text-left">
+                {{ strategy.sub_strategy }}
+              </p>
             </div>
             <ul class="ml-3" v-if="selected === strategy.sub_strategy">
               <li
                 v-for="(item, itemIndex) in strategy.sub_srategy_def"
                 :key="itemIndex"
-                class="wv-b5 text-black list-disc list-inside"
+                class="wv-b5 text-black list-disc list-inside text-left"
               >
                 {{ item }}
               </li>
@@ -149,6 +158,11 @@
           </div>
         </div>
       </div>
+      <button
+        class="border border-black mt-5 px-[20px] py-[10px] rounded-[5px] wv-b6"
+      >
+        ตรวจสอบความคืบหน้านโยบายเพิ่มเติม
+      </button>
     </div>
   </BoxContainer>
 </template>

@@ -11,7 +11,7 @@
       <ModalDetails
         :handle-modal="() => handleModal()"
         :is-open="isOpen"
-        :is-selected-year="year => isSelectedYear(year)"
+        :is-selected-year="(year) => isSelectedYear(year)"
         page="strategy"
       >
         <div
@@ -33,7 +33,9 @@
           :key="item.id"
           class="flex-1 relative border-t-[0.5px] border-t-wv-gray-3"
         >
-          <div class="translate-y-[-50%] absolute top-0 bg-white text-wv-gray-1 wv-b7">
+          <div
+            class="translate-y-[-50%] absolute top-0 bg-white text-wv-gray-1 wv-b7"
+          >
             {{ item.toLocaleString("en-US", {}) }}
           </div>
         </div>
@@ -55,16 +57,16 @@
           :key="i"
           class="relative"
           :style="`height: ${heightChart(
-            d.strategies.filter(d => d.name === strategy.name)[0]?.amount,
-            d.amount,
+            d.strategies.filter((d) => d.name === strategy.name)[0]?.amount,
+            d.amount
           )}`"
-          @mouseenter="e => mouseEnter(e)"
+          @mouseenter="(e) => mouseEnter(e)"
           @mouseleave="mouseLeave"
         >
           <div
             :id="'strategy-' + strategy.name"
             class="borderSubStrategy cursor-pointer wrapper-strategy z-10 absolute inset-0 h-full"
-            :class="colorFilter(strategy.name)"
+            :class="bgColorSet(strategy.name)"
             @click="() => handleStrategy(strategy.name)"
           ></div>
           <div
@@ -78,11 +80,12 @@
               {{
                 isMillion
                   ? convertMillion(
-                      d.strategies.filter(d => d.name === strategy.name)[0]?.amount ||
-                        0,
+                      d.strategies.filter((d) => d.name === strategy.name)[0]
+                        ?.amount || 0
                     )
                   : `${(
-                      (d.strategies.filter(d => d.name === strategy.name)[0]?.amount /
+                      (d.strategies.filter((d) => d.name === strategy.name)[0]
+                        ?.amount /
                         d.amount) *
                         100 || 0
                     ).toFixed()}%`
@@ -99,25 +102,29 @@
               pickSubStrategy(d.strategies, strategy.name, subStrategy)?.name
             "
             :style="`height: ${
-              (pickSubStrategy(d.strategies, strategy.name, subStrategy)?.amount /
-                d.strategies.filter(d => d.name === strategy.name)[0]?.amount) *
+              (pickSubStrategy(d.strategies, strategy.name, subStrategy)
+                ?.amount /
+                d.strategies.filter((d) => d.name === strategy.name)[0]
+                  ?.amount) *
               100
             }%`"
-            :class="colorFilter(strategy.name)"
+            :class="bgColorSet(strategy.name)"
             class="borderSubStrategy cursor-pointer w-full wrapper-sub-strategy relative h-full"
             @click="
               () =>
                 handleSubStrategy(
-                  pickSubStrategy(d.strategies, strategy.name, subStrategy)?.name,
+                  pickSubStrategy(d.strategies, strategy.name, subStrategy)
+                    ?.name
                 )
             "
-            @mouseenter="e => mouseEnter(e, 'isSubStrategy')"
-            @mouseleave="e => mouseLeave(e, 'isSubStrategy')"
+            @mouseenter="(e) => mouseEnter(e, 'isSubStrategy')"
+            @mouseleave="(e) => mouseLeave(e, 'isSubStrategy')"
           >
             <div
               v-if="
                 chartSelected ===
-                  pickSubStrategy(d.strategies, strategy.name, subStrategy)?.name &&
+                  pickSubStrategy(d.strategies, strategy.name, subStrategy)
+                    ?.name &&
                 pickSubStrategy(d.strategies, strategy.name, subStrategy)
               "
               class="absolute top-0 t wv-b7 translate-y-[-100%] left-[50%] translate-x-[-50%] font-bold pointer-events-none"
@@ -125,12 +132,16 @@
               {{
                 isMillion
                   ? convertMillion(
-                      pickSubStrategy(d.strategies, strategy.name, subStrategy)?.amount,
+                      pickSubStrategy(d.strategies, strategy.name, subStrategy)
+                        ?.amount
                     )
                   : `${
                       (
-                        (pickSubStrategy(d.strategies, strategy.name, subStrategy)
-                          ?.amount /
+                        (pickSubStrategy(
+                          d.strategies,
+                          strategy.name,
+                          subStrategy
+                        )?.amount /
                           d.amount) *
                         100
                       ).toFixed(0) + "%"
@@ -144,7 +155,9 @@
           v-if="!chartSelected && isMillion"
           class="relative wv-b7 font-bold text-center"
         >
-          <div class="absolute translate-y-[-100%] left-[50%] translate-x-[-50%]">
+          <div
+            class="absolute translate-y-[-100%] left-[50%] translate-x-[-50%]"
+          >
             {{ convertMillion(d.amount) }}
           </div>
         </div>
@@ -162,7 +175,7 @@
 import _ from "lodash";
 import { mapState, mapActions } from "vuex";
 import {
-  colorFilter,
+  bgColorSet,
   convertMillion,
   handleAddSelected,
   handleRemoveSelected,
@@ -184,7 +197,7 @@ export default {
   computed: {
     ...mapState(["strategyChoice", "chartSelected", "chartData"]),
     maxBudgets() {
-      return Math.max(...this.chartData.years.map(o => o.amount)).toString();
+      return Math.max(...this.chartData.years.map((o) => o.amount)).toString();
     },
     roundBudget() {
       const startNumber = Number(this.maxBudgets.slice(0, 1)) + 1;
@@ -201,7 +214,7 @@ export default {
       updateSelectYearStrategy: "updateSelectYearStrategy",
       updateStrategy: "updateStrategy",
     }),
-    colorFilter,
+    bgColorSet,
     convertMillion,
     navData,
     handleModal() {
@@ -211,7 +224,7 @@ export default {
       this.isMillion = !this.isMillion;
     },
     sumByStrategy(subStrategy) {
-      return divideMillion(_.sumBy(subStrategy, sub => sub.amount));
+      return divideMillion(_.sumBy(subStrategy, (sub) => sub.amount));
     },
     divideMillion(num) {
       return num / 1000000;
@@ -241,7 +254,9 @@ export default {
       handleRemoveSelected(".wrapper-strategy", "hidden");
       if (strategy !== "ไม่พบข้อมูล") {
         handleAddSelected("#strategy-" + strategy, "hidden");
-        const data = this.$store.getters["data/getBudgetItems"]({ strategy }).items;
+        const data = this.$store.getters["data/getBudgetItems"]({
+          strategy,
+        }).items;
         this.summaryAnount = _.sumBy(data, "amount");
       } else {
         this.summaryAnount = this.chartData.amount;
@@ -283,7 +298,7 @@ export default {
 
     formatYAxis() {
       const result = [...Array(5)].map(
-        (_, index) => ((parseInt(this.roundBudget) / 5) * (index + 1)) / 1000000,
+        (_, index) => ((parseInt(this.roundBudget) / 5) * (index + 1)) / 1000000
       );
       const percent = [...Array(5)].map((_, index) => (100 / 5) * (index + 1));
       return this.isMillion ? [...result] : [...percent];
@@ -293,7 +308,9 @@ export default {
       this.updateIsModalDetails(response);
     },
     fetchBySubStrategy(substrategy) {
-      const response = this.$store.getters["data/getBudgetItems"]({ substrategy });
+      const response = this.$store.getters["data/getBudgetItems"]({
+        substrategy,
+      });
       this.updateIsModalDetails(response);
     },
     isSelectedYear(year) {
@@ -301,10 +318,10 @@ export default {
         this.updateSelectYearStrategy(year);
         this.filterYears = {
           items: this.isModalDetails?.items?.filter(
-            str => str.budgetYear === year.value,
+            (str) => str.budgetYear === year.value
           ),
           total: this.isModalDetails?.items?.filter(
-            str => str.budgetYear === year.value,
+            (str) => str.budgetYear === year.value
           ).length,
         };
       } else {
@@ -314,15 +331,15 @@ export default {
     },
     pickSubStrategy(data, stra, sub) {
       return data
-        .filter(d => d.name === stra)[0]
-        ?.substrategies.filter(s => s.name === sub)[0];
+        .filter((d) => d.name === stra)[0]
+        ?.substrategies.filter((s) => s.name === sub)[0];
     },
   },
   watch: {
     strategyChoice(newValue) {
-      const filterStrategy = navData().filter(d => d.name === newValue);
-      const filterSubStrategy = navData().find(d =>
-        d.substrategies.filter(s => s === newValue),
+      const filterStrategy = navData().filter((d) => d.name === newValue);
+      const filterSubStrategy = navData().find((d) =>
+        d.substrategies.filter((s) => s === newValue)
       );
       if (filterStrategy[0]) {
         this.handleStrategy(newValue);

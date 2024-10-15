@@ -13,15 +13,19 @@
           class="max-w-[600px]"
         />
         <div class="absolute max-w-lg p-16 sm:p-8">
-          <h4 class="wv-h4 wv-bold wv-kondolar">
-            เพื่อพัฒนาสู่ยุทธศาสตร์ 7 ด้าน มาดูกันว่ากรุงเทพฯ
-            ใช้งบประมาณอย่างไร?
+          <h4 class="wv-h5 wv-bold wv-kondolar">
+            สำรวจการใช้<br />
+            งบประมาณ
           </h4>
+          <p class="wv-b3">
+            เพื่อ ‘เมืองน่าอยู่ สำหรับทุกคน’<br />
+            กทม. ใช้งบประมาณส่วนนี้อย่างไร ?
+          </p>
         </div>
       </div>
     </div>
     <div
-      class="bg-wv-cream-30 px-[20px] py-[10px] flex mt-[60px] flex-col sm:flex-row items-center sm:items-start gap-4 max-w-xl m-auto text-center sm:text-left mb-10 mx-4 rounded-[5px]"
+      class="bg-wv-cream-30 mx-auto py-[10px] flex mt-[60px] flex-col max-w-[761px] items-center gap-4 text-center mb-10 px-4 rounded-[5px]"
     >
       <p class="wv-b5 font-bold">Disclaimer</p>
       <p class="wv-b6 font-bold">
@@ -39,6 +43,12 @@
       <YearlyBudgetVue />
       <BudgetUsage />
       <BudgetExplorer />
+    </div>
+    <div class="mt-8">
+      <button class="border border-black px-[20px] py-[10px] rounded-[5px]">
+        <span class="wv-b6">ดาวน์โหลดข้อมูลงบประมาณรายจ่าย</span
+        ><span class="wv-b7 opacity-50 ml-2">ตามแผนนโยบาย 9 ด้าน (ดี)</span>
+      </button>
     </div>
   </div>
 </template>

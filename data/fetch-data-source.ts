@@ -105,7 +105,7 @@ export const fetchDataSource = async (): Promise<BudgetRow[]> => {
       flag: row.flag,
       os: row.O_S,
       outputProj: row["output/proj"],
-      outputProjName: row.output_proj_name,
+      outputProjName: row.plan_proj_name,
       amount: formatAmount(row.amount),
       outputNo: row.output_no,
       outputName: row.output_name,

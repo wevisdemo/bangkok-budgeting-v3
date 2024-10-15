@@ -37,24 +37,6 @@ export default {
       reviewDate: [],
     };
   },
-  async mounted() {
-    console.log(this.selectedSurvey, "rowData");
-  },
-
-  methods: {
-    textColorSet,
-    formatName,
-    async findTableViewRow(cookieId) {
-      // const data = await this.$nocoDb.dbViewRow.list(
-      //   "v1",
-      //   "bangkok-budgeting",
-      //   "Survey-2024",
-      //   "data",
-      //   { where: `(userId,eq,${cookieId})` }
-      // );
-      return "data";
-    },
-  },
 };
 </script>
 

@@ -5,12 +5,12 @@
     class="px-3 py-4 rounded"
   >
     <NuxtLink :to="{ path: `/${type}` }">
-      <p class="wv-h5 font-bold" v-html="data.title" />
-      <p class="wv-b3 my-2" v-html="data.des" />
+      <p class="wv-h6 font-bold" v-html="data.title" />
+      <p class="wv-b4 my-2" v-html="data.des" />
       <ul
         v-for="(list, index) in data.bullet"
         :key="index"
-        class="list-disc wv-b5 opacity-60 list-inside ml-3"
+        class="list-disc wv-b6 opacity-60 list-inside ml-3"
       >
         <li>{{ list }}</li>
       </ul>

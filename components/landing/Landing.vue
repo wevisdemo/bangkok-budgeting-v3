@@ -33,41 +33,36 @@
             <Lottie :options="defaultOptions" />
           </div>
         </div>
-        <!-- <div class="flex sm:flex-col gap-2 w-full sm:max-w-[300px]">
-        <div class="bg-wv-cream-2 rounded flex-1 sm:flex-none">
-          <NavLinks
-            title="เข้าใจแผนการใช้งบ"
-            :links="budgetPlans"
-            arrow-direction="Down"
-          />
-        </div>
-        <div class="bg-wv-green rounded flex-1 sm:flex-none">
-          <NavLinks
-            title="สำรวจการใช้งบ"
-            :links="budgetExplore"
-            arrow-direction="Right"
-          />
-        </div> -->
       </div>
       <div class="max-w-[1000px] hidden sm:block opacity-95 mx-auto w-full">
         <Lottie :options="defaultOptions" />
       </div>
     </BoxContainer>
-    <div id="section-bkk" class="bg-white p-4 rounded-lg">
-      <SurveyMainCard :data="surveyBudgetBKK" :type="BudgetingType.BKK" />
-      <p class="wv-b3 font-bold text-center my-2">ข้อมูลที่น่าสนใจ</p>
-      <InterestingCard :data="topInterest" :type="BudgetingType.BKK" />
-    </div>
-    <div id="section-comunityfund" class="bg-white p-4 mt-5 rounded-lg">
-      <SurveyMainCard
-        :data="surveyBudgetCommunityFund"
-        :type="BudgetingType.CommunityFund"
-      />
-      <p class="wv-b3 font-bold text-center my-2">ข้อมูลที่น่าสนใจ</p>
-      <InterestingCard
-        :data="topInterest"
-        :type="BudgetingType.CommunityFund"
-      />
+    <div
+      class="flex flex-col overflow-hidden md:flex-row container px-3 mx-auto justify-between space-x-2"
+    >
+      <div
+        id="section-bkk"
+        class="bg-white md:max-w-[50%] p-4 rounded-lg flex-1"
+      >
+        <SurveyMainCard :data="surveyBudgetBKK" :type="BudgetingType.BKK" />
+        <p class="wv-b3 font-bold text-center my-2">ข้อมูลที่น่าสนใจ</p>
+        <InterestingCard :data="topInterest" :type="BudgetingType.BKK" />
+      </div>
+      <div
+        id="section-comunityfund"
+        class="bg-white p-4 mt-5 md:mt-0 rounded-lg flex-1 md:max-w-[50%]"
+      >
+        <SurveyMainCard
+          :data="surveyBudgetCommunityFund"
+          :type="BudgetingType.CommunityFund"
+        />
+        <p class="wv-b3 font-bold text-center my-2">ข้อมูลที่น่าสนใจ</p>
+        <InterestingCard
+          :data="topInterest"
+          :type="BudgetingType.CommunityFund"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -115,6 +110,11 @@ export default Vue.extend({
           header: "บริหารจัดการดี",
           budget: "175.5",
         },
+        {
+          topic: "แผนนโยบายที่ใช้งบมากที่สุด",
+          header: "บริหารจัดการดี",
+          budget: "175.5",
+        },
       ],
       surveyBudgetBKK: {
         title: "สำรวจงบประมาณกรุงเทพมหานคร",
@@ -126,7 +126,7 @@ export default Vue.extend({
         ],
       },
       surveyBudgetCommunityFund: {
-        title: "สำรวจงบประมาณ<br/>พัฒนาชุมชนเมือง",
+        title: "สำรวจงบประมาณพัฒนาชุมชนเมือง",
         des: "โคงการชุมชมเข้มแข็งฯ<br/> 200,000 บาทต่อชุมชน",
         bullet: [
           "ทำความรู้จักโครงการชุมชนเข้มแข็ง",

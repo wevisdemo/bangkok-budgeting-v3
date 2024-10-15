@@ -3,13 +3,15 @@
     <div class="flex flex-col lg:flex-row">
       <div
         id="YearlyBudget"
-        class="max-w-[400px] flex flex-col justify-between"
+        class="flex flex-col justify-between flex-1 mb-2 md:mb-0"
       >
-        <p class="wv-b3 flex-grow text-center sm:text-left">
+        <div class="wv-b3 text-center sm:text-left">
           <span class="font-bold">งบแผนงานพัฒนา 9 ด้าน(ดี) </span
           ><br />ส่วนใหญ่ถูกใช้ในด้าน
-        </p>
-        <p class="text-strategy-9 wv-h5 font-bold mb-2">“บริหารจัดการดี”</p>
+          <p class="mt-2 text-strategy-9 wv-h5 font-bold mb-2">
+            “บริหารจัดการดี”
+          </p>
+        </div>
 
         <div class="hidden lg:block">
           <StrategyLegend variant="yearly-budget" />
@@ -112,7 +114,7 @@
                 path: 'bkkbudget/explore',
                 query: { select: 'YearlyBudget' },
               }"
-              class="py-1 px-2 flex items-center rounded border-wv-gray-1 hover:bg-gray-500 hover:text-white border text-wv-gray-1 h-min"
+              class="py-2 px-2 flex items-center rounded bg-wv-green text-black h-min"
             >
               สำรวจงบยุทธศาสตร์รายปีเพิ่มเติม
               <i class="el-icon-right ml-1" />
@@ -152,7 +154,6 @@ export default Vue.extend({
         { year: 70, amount: 0 },
       ];
     }
-    console.log(this.chartResponse, "chartResponse");
   },
   methods: {
     convertMillion,

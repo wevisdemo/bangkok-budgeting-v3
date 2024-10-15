@@ -90,7 +90,6 @@ export default {
       deep: false,
       handler() {
         this.searchBy = _.uniqBy(this.commuData, "community");
-        console.log(this.commuData, "this.commuData");
       },
     },
   },

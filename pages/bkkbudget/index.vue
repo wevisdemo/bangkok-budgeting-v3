@@ -2,19 +2,22 @@
   <div class="overflow-x-hidden">
     <div class="bg-wv-cream text-center">
       <div
-        id="section-bkk-header "
-        class="text-center pt-8 pb-32 bg-gradient-to-b from-wv-green via-[70%]"
+        class="flex flex-col md:flex-row bg-gradient-to-b from-wv-green via-[70%] justify-center pt-10"
       >
-        <p class="wv-h4 font-bold">สำรวจงบประมาณ <br />กรุงเทพมหานคร</p>
-        <p class="wv-b3 font-bold pt-3">
-          เพื่อขับเคลื่อนสู่<br />
-          'เมืองน่าอยู่สำหรับทุกคน'
-        </p>
-      </div>
-      <div id="section-navigation" class="text-center mt-[-25%]">
-        <p class="wv-b7 opacity-70 mb-2">กดเลือกเนื้อหาที่สนใจ</p>
-        <div class="bg-wv-green mx-5">
-          <NavLinks :links="budgetPlans" arrow-direction="Down" />
+        <div id="section-bkk-header " class="text-center pb-5 flex-1">
+          <p class="wv-h4 font-bold">สำรวจงบประมาณ <br />กรุงเทพมหานคร</p>
+          <p class="wv-b3 font-bold pt-3">
+            เพื่อขับเคลื่อนสู่<br />
+            'เมืองน่าอยู่สำหรับทุกคน'
+          </p>
+        </div>
+        <div id="section-navigation" class="text-center flex-1">
+          <div class="max-w-[360px] mx-auto">
+            <p class="wv-b7 opacity-70 mb-2">กดเลือกเนื้อหาที่สนใจ</p>
+            <div class="bg-wv-green md:bg-white mx-5 rounded-[5px]">
+              <NavLinks :links="budgetPlans" arrow-direction="Down" />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -27,6 +30,41 @@
       <ProjectDevelopment />
       <!-- <ProjectShare /> -->
       <!-- <ParticipatoryBudgeting /> -->
+      <div class="max-w-7xl px-3 md:px-6 py-6 m-auto">
+        <div
+          id="budgetplans"
+          class="flex flex-col gap-16 relative -mx-14 sm:mx-4 scroll-mt-8"
+        >
+          <div
+            class="flex justify-center py-10 items-center w-full text-center"
+          >
+            <img
+              src="~/assets/illustrations/budgetplans.svg"
+              alt="Budget plan"
+              width="100%"
+              height="auto"
+              class="max-w-[600px]"
+            />
+            <div class="absolute max-w-[284px] mx-auto text-center">
+              <p class="wv-h8 font-bold">ขอบคุณที่ร่วมตอบคำถาม</p>
+              <p class="wv-b5 mt-1">
+                หากคุณต้องการเสนอโครงการให้เกิดขึ้นจริง ในชุมชนของคุณ
+                เราขอชวนคุณสำรวจต่อ !
+              </p>
+              <button
+                class="wv-b5 border-black py-2 border opacity-60 mt-3 w-full rounded-[5px]"
+              >
+                สำรวจโครงการพัฒนาชุมชนเมืองฯ
+              </button>
+              <button
+                class="wv-b5 border-black border py-2 opacity-60 mt-2 w-full rounded-[5px]"
+              >
+                ย้อนกลับหน้าแรก
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>

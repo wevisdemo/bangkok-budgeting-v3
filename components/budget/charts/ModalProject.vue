@@ -1,6 +1,11 @@
 <template>
-  <div class="fixed md:absolute inset-0 h-full bg-white z-40 py-[70px] px-[50px]">
-    <i class="el-icon-back absolute top-0 left-0 m-[20px] wv-h5 cursor-pointer" @click="()=>handleProject()"></i>
+  <div
+    class="fixed md:absolute inset-0 h-full bg-white z-40 py-[70px] px-[50px]"
+  >
+    <i
+      class="el-icon-back absolute top-0 left-0 m-[20px] wv-h5 cursor-pointer"
+      @click="() => handleProject()"
+    ></i>
     <p class="wv-b3 font-bold">{{ isProject.outputProjectName }}</p>
     <div class="flex py-5">
       <div class="flex-[1] border-r border-r-gray-300 pr-4">
@@ -17,7 +22,7 @@
       <div class="flex items-top">
         <div
           class="w-[15px] h-[15px] rounded-[2px] mr-2"
-          :class="colorFilter(isProject.strategy)"
+          :class="bgColorSet(isProject.strategy)"
         />
         <p class="wv-b5">{{ isProject.strategy }}</p>
       </div>
@@ -36,18 +41,18 @@
 </template>
 
 <script>
-import { colorFilter } from "../utils";
+import { bgColorSet } from "../utils";
 export default {
   props: {
     isProject: {
       type: Object || Boolean,
     },
-    handleProject:{
-      type:Function
-    }
+    handleProject: {
+      type: Function,
+    },
   },
   methods: {
-    colorFilter,
+    bgColorSet,
   },
 };
 </script>

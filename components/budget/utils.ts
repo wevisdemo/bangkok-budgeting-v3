@@ -1,20 +1,25 @@
 import _ from "lodash";
 
 export const borderFilter = (strategy: string) => {
-  if (strategy === "การสร้างเมืองปลอดภัย") return "border-l-wv-safe";
-  if (strategy === "การพัฒนาสิ่งแวดล้อมยั่งยืน")
-    return "border-l-wv-environment";
-  if (strategy === "การลดความเหลื่อมล้ำด้วยการบริหารเมือง")
-    return "border-l-wv-equality";
-  if (strategy === "การเชื่อมโยงเมืองที่มีความคล่องตัว")
-    return "border-l-wv-connectivity";
-  if (strategy === "การสร้างเมืองประชาธิปไตยแบบมีส่วนร่วม")
-    return "border-l-wv-democracy";
-  if (strategy === "การต่อยอดความเป็นเมืองศูนย์กลางเศรษฐกิจ")
-    return "border-l-wv-economic";
-  if (strategy === "การสร้างความเป็นมืออาชีพในการบริหาร")
-    return "border-l-wv-management";
-  return "border-l-gray-600";
+  if (strategy === "strategy-1" || strategy === "เดินทางดี")
+    return `border-strategy-1`;
+  if (strategy === "strategy-2" || strategy === "สิ่งแวดล้อมดี")
+    return `border-strategy-2`;
+  if (strategy === "strategy-3" || strategy === "เศรษฐกิจดี")
+    return `border-strategy-3`;
+  if (strategy === "strategy-4" || strategy === "ปลอดภัยดี")
+    return `border-strategy-4`;
+  if (strategy === "strategy-5" || strategy === "สุขภาพดี")
+    return `border-strategy-5`;
+  if (strategy === "strategy-6" || strategy === "สังคมดี")
+    return `border-strategy-6`;
+  if (strategy === "strategy-7" || strategy === "โปร่งใสดี")
+    return `border-strategy-7`;
+  if (strategy === "strategy-8" || strategy === "เรียนดี")
+    return `border-strategy-8`;
+  if (strategy === "strategy-9" || strategy === "บริหารจัดการดี")
+    return `border-strategy-9`;
+  else return "border-gray-600";
 };
 
 export const formatName = (strategy: string) => {

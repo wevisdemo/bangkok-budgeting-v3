@@ -4,7 +4,7 @@
       class="flex flex-col z-20 h-full w-full relative py-2 px-2 border-[2px] rounded-[5px] border-wv-gray-20"
     >
       <div class="flex gap-1 items-center">
-        <div class="flex-grow text-left max-w-[200px]">
+        <div class="flex-grow text-left max-w-[200px] md:max-w-[300px]">
           <p class="wv-b5 wv-bold">{{ strategyVote.sub_policy }}</p>
           <p class="wv-b6">({{ strategyVote.policy }})</p>
         </div>

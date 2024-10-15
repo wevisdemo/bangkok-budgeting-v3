@@ -2,7 +2,10 @@
   <div>
     <slot></slot>
     <div v-if="isOpen" class="fixed inset-0 z-[50]">
-      <div class="fixed inset-0 bg-wv-gray-4 bg-opacity-70 z-40" @click="handleModal" />
+      <div
+        class="fixed inset-0 bg-wv-gray-4 bg-opacity-70 z-40"
+        @click="handleModal"
+      />
       <div
         class="lg:w-[850px] overflow-auto inset-0 lg:h-[600px] px-3 md:px-12 py-8 bg-white absolute z-50 lg:top-[50%] lg:translate-y-[-50%] lg:translate-x-[-50%] lg:left-[50%]"
       >
@@ -38,7 +41,9 @@
               </el-select>
               <span>มี </span>
               <span class="font-bold">{{ filterYears?.total }}</span>
-              <span class="hidden md:block">รายการ ({{ sumAllBudget() }} ล้านบาท)</span>
+              <span class="hidden md:block"
+                >รายการ ({{ sumAllBudget() }} ล้านบาท)</span
+              >
             </div>
             <div class="md:hidden mx-auto text-center mt-3">
               รายการ ({{ sumAllBudget() }} ล้านบาท)
@@ -73,9 +78,11 @@
               >
                 <div
                   class="w-[15px] h-[15px] rounded-[2px] mr-3"
-                  :class="colorFilter(item.strategy)"
+                  :class="bgColorSet(item.strategy)"
                 />
-                <div class="flex-1 pr-5 font-bold">{{ item.outputProjectName }}</div>
+                <div class="flex-1 pr-5 font-bold">
+                  {{ item.outputProjectName }}
+                </div>
                 <div class="w-[128px] opacity-50">
                   {{
                     (item.amount / 1000000).toLocaleString("en-US", {
@@ -109,7 +116,7 @@ import { convertMillion } from "../utils";
 import { filterBy } from "./filterBy";
 import DropDownYearList from "./DropDownYearList.vue";
 import ModalProject from "./ModalProject.vue";
-import { colorFilter } from "../utils";
+import { bgColorSet } from "../utils";
 
 export default {
   props: {
@@ -169,7 +176,7 @@ export default {
   methods: {
     convertMillion,
     filterBy,
-    colorFilter,
+    bgColorSet,
     ...mapActions({
       updateIsModalDetails: "updateIsModalDetails",
       updateSelectYearOrganize: "updateSelectYearOrganize",
@@ -186,13 +193,15 @@ export default {
       this.isProject = false;
     },
     fetchByYear(year) {
-      const response = this.$store.getters["data/getBudgetItems"]({ budgetYear: year });
+      const response = this.$store.getters["data/getBudgetItems"]({
+        budgetYear: year,
+      });
       this.updateIsModalDetails(response);
     },
     paginate(pageNumber) {
       return this.filterYears?.items?.slice(
         (pageNumber - 1) * this.perPage,
-        pageNumber * this.perPage,
+        pageNumber * this.perPage
       );
     },
     selectSort(label) {
@@ -206,7 +215,7 @@ export default {
         if (this.page === "strategy") this.updateSelectYearStrategy(year);
         if (this.page === "keyword") this.updateSelectKeywordStrategy(year);
         const itemsList = this.isModalDetails?.items?.filter(
-          str => str.budgetYear === year,
+          (str) => str.budgetYear === year
         );
         this.filterYears = filterBy(this.selectedFilter, {
           items: itemsList,
@@ -223,7 +232,7 @@ export default {
       }
     },
     sumAllBudget() {
-      return convertMillion(_.sumBy(this.filterYears.items, a => a.amount));
+      return convertMillion(_.sumBy(this.filterYears.items, (a) => a.amount));
     },
   },
   watch: {
@@ -243,9 +252,12 @@ export default {
   mounted() {
     this.filterYears = filterBy(this.selectedFilter, this.isModalDetails);
     if (this.subTitleModal === "ตามแผนยุทธศาสตร์ 7 ด้าน") this.fetchByYear();
-    if (this.page === "organize") this.selectFilter = this.selectYearOrganize.label;
-    if (this.page === "strategy") this.selectFilter = this.selectYearStrategy.label;
-    if (this.page === "keyword") this.selectFilter = this.selectKeywordStrategy.label;
+    if (this.page === "organize")
+      this.selectFilter = this.selectYearOrganize.label;
+    if (this.page === "strategy")
+      this.selectFilter = this.selectYearStrategy.label;
+    if (this.page === "keyword")
+      this.selectFilter = this.selectKeywordStrategy.label;
     this.isSelectedYear();
   },
 };

@@ -1,10 +1,10 @@
 <template>
-  <BoxContainer>
+  <div class="max-w-7xl px-3 md:px-6 py-6 m-auto">
     <div
-      class="min-h-[80vh] bg-white flex py-[20px] px-[10px] rounded-[10px] mx-3 items-center flex-col"
+      class="min-h-[80vh] rounded-[20px] bg-white px-4 py-6 sm:p-10 relative mx-auto w-full"
     >
-      <div class="flex w-full wv-b5 font-bold">
-        <div
+      <div class="flex max-w-[700px] mx-auto wv-b5 font-bold">
+        <button
           :class="
             voteTab === 1
               ? 'bg-wv-gray-20 text-black'
@@ -14,8 +14,8 @@
           @click="toggleVote(1)"
         >
           โหวตนโยบาย
-        </div>
-        <div
+        </button>
+        <button
           :class="
             voteTab === 2
               ? ' bg-wv-gray-20 text-black'
@@ -25,26 +25,28 @@
           @click="toggleVote(2)"
         >
           ผลโหวตนโยบาย
+        </button>
+      </div>
+      <div class="max-w-[500px] mx-auto">
+        <div v-show="voteTab === 1" class="pt-5">
+          <Topic :setStepSurvey="setStepSurvey" v-if="stepSurvey === 1" />
+          <Projects :setStepSurvey="setStepSurvey" v-if="stepSurvey === 2" />
+          <Review :resetStep="resetStep" v-if="stepSurvey === 3" />
         </div>
-      </div>
-      <div v-show="voteTab === 1" class="pt-5">
-        <Topic :setStepSurvey="setStepSurvey" v-if="stepSurvey === 1" />
-        <Projects :setStepSurvey="setStepSurvey" v-if="stepSurvey === 2" />
-        <Review :resetStep="resetStep" v-if="stepSurvey === 3" />
-      </div>
-      <div v-show="voteTab === 2">
-        <IdeaVote />
+        <div v-show="voteTab === 2">
+          <IdeaVote />
+        </div>
       </div>
       <Transition name="slide-fade">
         <CookieWarning v-if="showCookieWarning" />
       </Transition>
     </div>
-  </BoxContainer>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import BoxContainer from "~/components/BoxContainer.vue";
+
 import CookieWarning from "~/components/CookieWarning.vue";
 import Topic from "~/components/survey/Topic.vue";
 import Projects from "~/components/survey/Projects.vue";
@@ -62,7 +64,6 @@ interface ProjectDevelopmentData {
 export default defineComponent({
   name: "ProjectDevelopment",
   components: {
-    BoxContainer,
     CookieWarning,
     Topic,
     Projects,
