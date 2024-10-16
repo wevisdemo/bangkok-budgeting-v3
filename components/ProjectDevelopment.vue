@@ -75,7 +75,7 @@ export default defineComponent({
       isVoted: false,
       showCookieWarning: false,
       stepSurvey: 0,
-      voteTab: 2,
+      voteTab: 1,
     };
   },
 
