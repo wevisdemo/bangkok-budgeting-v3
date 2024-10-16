@@ -37,14 +37,14 @@
               v-show="onHoverImg === item.img"
               :id="planIndex.toString()"
               class="w-20 h-28"
-              :src="`${$config.path.images}/strategies/${item.img}_hover.svg`"
+              :src="`/images/strategies/${item.img}_hover.svg`"
               :alt="item.strategy"
             />
             <img
               v-show="onHoverImg !== item.img"
               :id="planIndex.toString()"
               class="w-20 h-28"
-              :src="`${$config.path.images}/strategies/${item.img}.svg`"
+              :src="`/images/strategies/${item.img}.svg`"
               :alt="item.strategy"
             />
             <div
