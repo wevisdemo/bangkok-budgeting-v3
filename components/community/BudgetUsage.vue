@@ -11,20 +11,21 @@
             ตามเขตและชุมชนที่คุณสนใจ
           </p>
         </div>
-        <img
-          src="~/assets/illustrations/BKKMap.svg"
-          alt="BKK map"
-          class="my-5 md:hidden"
-        />
+        <BkkMap class="md:hidden w-full" />
         <div class="mb-5">
           <p class="wv-b5">
             เขตที่ใช้งบประมาณโครงการ<br />
-            ชุมชนเข้มแข็งฯ มากที่สุดในปี <b>current year</b> คือ
+            ชุมชนเข้มแข็งฯ มากที่สุดในปี <b>{{ currentYear }}</b> คือ
           </p>
-          <p class="wv-h5 font-bold">“Top of Community”</p>
+          <p class="wv-h5 font-bold">“{{ topDistrict }}”</p>
           <div class="opacity-50 wv-b6">
-            <p>งบประมาณ <b>17,200,000</b> บาท</p>
-            <p>ประกอบด้วย <b>99 ชุมชน</b> ดำเนิน <b>218 โครงการ</b></p>
+            <p>
+              งบประมาณ <b>{{ totalAmount.toLocaleString("en-US", {}) }}</b> บาท
+            </p>
+            <p>
+              ประกอบด้วย <b>{{ totalCommunity }} ชุมชน</b> ดำเนิน
+              <b>{{ totalProject }} โครงการ</b>
+            </p>
           </div>
         </div>
         <div class="w-full flex flex-col justify-between gap-4 md:hidden">
@@ -43,11 +44,7 @@
         </div>
       </div>
       <div class="hidden flex-1 md:block">
-        <img
-          src="~/assets/illustrations/BKKMap.svg"
-          alt="BKK map"
-          class="my-5 mx-auto"
-        />
+        <BkkMap class="w-full" />
         <div class="w-full flex flex-col justify-between gap-4">
           <div class="flex justify-center sm:justify-end">
             <NuxtLink
@@ -71,26 +68,58 @@
 import Vue from "vue";
 import VizChart from "~/components/budget/charts/VizChartContainer.vue";
 import StrategyLegend from "~/components/budget/StrategyLegend.vue";
+import BkkMap from "./BkkMap.vue";
+import * as d3 from "d3";
+import { mapingColorDistrict, mapingDistrict } from "./filter/MapingDistrict";
 
 export default Vue.extend({
   name: "OrganizeBudget",
-  components: { VizChart, StrategyLegend },
+  components: { VizChart, StrategyLegend, BkkMap },
   data() {
     return {
       currentCommu: undefined,
+      currentYear: "",
+      topDistrict: "",
+      totalAmount: 0,
+      totalCommunity: 0,
+      totalProject: 0,
     };
   },
 
   mounted() {
     const chartData = this.$store.getters["data/getCommunity"]();
     const groupYear = _.chain(chartData).groupBy("budget_year").value();
-    const groupDistrict = {
-      valueAmount: _.chain(Object.values(groupYear)[0])
-        .groupBy("district")
-        .mapValues((s) => _.sumBy(s, "amount"))
-        .value(),
-    };
+    const sortUpdatedYear = _.sortedUniq(Object.keys(groupYear).reverse());
+    const groupDistrict = _.chain(groupYear[sortUpdatedYear[0]])
+      .groupBy("district")
+      .mapValues((s) => _.sumBy(s, "amount"))
+      .value();
+    const districtSort = Object.keys(groupDistrict)
+      .sort(function (a, b) {
+        return groupDistrict[a] - groupDistrict[b];
+      })
+      .reverse();
+    this.currentYear = sortUpdatedYear[0];
+    this.topDistrict = districtSort[0];
+    this.totalAmount = _.sumBy(groupYear[this.currentYear], "amount");
+    this.totalCommunity = Object.keys(
+      _.groupBy(groupYear[this.currentYear], "community")
+    ).length;
+    this.totalProject = groupYear[this.currentYear].length;
+
+    d3.selectAll(".pathBKK").each(function (d) {
+      const district = mapingDistrict(d3.select(this).attr("id"));
+      d3.select(this)
+        .attr("fill", mapingColorDistrict(groupDistrict[district]))
+        .style("opacity", () => {
+          return districtSort[0] !== district ? "50%" : "100%";
+        })
+        .style("stroke", () => (districtSort[0] !== district ? "" : "black"));
+    });
   },
-  methods: {},
+  methods: {
+    mapingDistrict,
+    mapingColorDistrict,
+  },
 });
 </script>

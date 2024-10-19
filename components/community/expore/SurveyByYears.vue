@@ -19,11 +19,7 @@
       :project="selectedProject"
     />
     <div class="flex-1">
-      <img
-        src="~/assets/illustrations/BKKMap.svg"
-        alt="BKK map"
-        class="my-5 mx-auto"
-      />
+      <BkkMap class="my-5 mx-auto" />
     </div>
     <div
       class="lg:max-w-[685px] flex-1 flex flex-col justify-between card p-[15px] md:p-[30px]"
@@ -152,6 +148,7 @@ import FilterByDistrict from "../filter/FilterByDistrict.vue";
 import FilterByComnunity from "../filter/FilterByComnunity.vue";
 import ModalProject from "./ModalProject.vue";
 import { convertMillion, orderByStrategy } from "~/components/budget/utils";
+import BkkMap from "../BkkMap.vue";
 
 export default {
   components: {
@@ -162,6 +159,7 @@ export default {
     FilterByYear,
     FilterByDistrict,
     FilterByComnunity,
+    BkkMap,
   },
   data() {
     return {
