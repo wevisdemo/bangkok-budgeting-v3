@@ -19,16 +19,21 @@
       :project="selectedProject"
     />
     <div class="flex-1 pt-5 relative h-fit">
-      <BkkMap class="my-5 mx-auto w-full" />
+      <BkkMap class="my-5 mx-auto w-full md:w-fit" />
       <div
         :style="{
           opacity: filterData.district ? '100%' : '0%',
         }"
         id="tooltip"
-        class="absolute w-[75px] md:w-auto wv-b7 top-0 left-0 bg-white card py-[3px] px-[8px] rounded-[5px]"
+        class="absolute text-center w-[75px] md:w-auto wv-b7 top-0 left-0 bg-white card py-[3px] px-[8px] rounded-[5px]"
       >
-        เขต{{ filterData.district }}
-        {{ filterData.community }}
+        <p>เขต{{ filterData.district }}</p>
+
+        <p class="opacity-50" v-if="filterData.community">
+          {{ filterData.community }}
+        </p>
+        <p v-else class="opacity-50">({{ originData.length }} ชุมชน)</p>
+        <p class="font-bold">{{ convertMillion(maxFilterData()) }} บาท</p>
       </div>
     </div>
     <div
@@ -62,7 +67,8 @@
             ใช้งบรวม <b>{{ convertMillion(maxFilterData()) }} ล้านบาท</b>
           </p>
           <p class="wv-b6 opacity-50">
-            ({{ (maxFilterData() / maxCommu()) * 100 }} % ของงบทั้งหมด)
+            ({{ ((maxFilterData() / maxCommu()) * 100).toFixed(0) }} %
+            ของงบทั้งหมด)
           </p>
         </div>
         <div class="flex-1 flex justify-end">
