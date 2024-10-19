@@ -18,8 +18,18 @@
       :handleProject="handleProjectDialog"
       :project="selectedProject"
     />
-    <div class="flex-1">
-      <BkkMap class="my-5 mx-auto" />
+    <div class="flex-1 pt-5 relative h-fit">
+      <BkkMap class="my-5 mx-auto w-full" />
+      <div
+        :style="{
+          opacity: filterData.district ? '100%' : '0%',
+        }"
+        id="tooltip"
+        class="absolute w-[75px] md:w-auto wv-b7 top-0 left-0 bg-white card py-[3px] px-[8px] rounded-[5px]"
+      >
+        เขต{{ filterData.district }}
+        {{ filterData.community }}
+      </div>
     </div>
     <div
       class="lg:max-w-[685px] flex-1 flex flex-col justify-between card p-[15px] md:p-[30px]"
@@ -149,6 +159,8 @@ import FilterByComnunity from "../filter/FilterByComnunity.vue";
 import ModalProject from "./ModalProject.vue";
 import { convertMillion, orderByStrategy } from "~/components/budget/utils";
 import BkkMap from "../BkkMap.vue";
+import { mapingColorDistrict, mapingDistrict } from "../filter/MapingDistrict";
+import * as d3 from "d3";
 
 export default {
   components: {
@@ -202,6 +214,7 @@ export default {
     handleFilterYear(year) {
       this.origin = this.yearGroup[year];
       this.filterData = { year };
+      this.mapColorMapping();
     },
 
     handleFilterData({ district, community }) {
@@ -210,7 +223,6 @@ export default {
         district,
         community,
       };
-
       this.originData = this.formatData();
       this.commuData = this.formatData();
       if (district && community) {
@@ -226,6 +238,16 @@ export default {
           (o) => o.community === community
         );
       }
+
+      d3.selectAll(".pathBKK").each(function (d) {
+        const districtId = mapingDistrict(d3.select(this).attr("id"));
+        d3.select(this)
+          .style("opacity", () => {
+            if (!district) return "100%";
+            return district !== districtId ? "20%" : "100%";
+          })
+          .style("stroke", () => (district !== districtId ? "" : "black"));
+      });
     },
     selectFilter(label) {
       if (label === "งบมากไปน้อย") {
@@ -261,6 +283,47 @@ export default {
       this.isProjectDialog = !this.isProjectDialog;
       this.selectedProject = project;
     },
+    setToolTip(elem) {
+      const bkkDistrictsSquare = document.querySelector(".bkkDistrictsSquare");
+      const originWidth =
+        d3.select(".bkkDistrictsSquare").node().getBoundingClientRect().width /
+        1.5;
+
+      const x =
+        elem.getBoundingClientRect().x -
+        bkkDistrictsSquare.getBoundingClientRect().x;
+      const calX = x > originWidth ? x - 50 : x;
+      const y =
+        elem.getBoundingClientRect().y -
+        bkkDistrictsSquare.getBoundingClientRect().y;
+      d3.select("#tooltip").style(
+        "transform",
+        "translate(" + calX + "px" + "," + y + "px" + ")"
+      );
+    },
+
+    mapColorMapping() {
+      const groupDistrict = _.chain(this.originData)
+        .groupBy("district")
+        .mapValues((s) => _.sumBy(s, "amount"))
+        .value();
+
+      const selectedDistrict = (district, elem) => {
+        this.handleFilterData({ district });
+        this.setToolTip(elem);
+      };
+
+      d3.selectAll(".pathBKK").each(function (_, key) {
+        const district = mapingDistrict(key);
+        d3.select(this)
+          .attr("fill", mapingColorDistrict(groupDistrict[district]))
+          .style("cursor", groupDistrict[district] && "pointer");
+        d3.select(this).on(
+          "click",
+          () => groupDistrict[district] && selectedDistrict(district, this)
+        );
+      });
+    },
 
     handleScroll() {
       const elem = document.querySelector("#topic-pointer");
@@ -288,7 +351,9 @@ export default {
     },
   },
   mounted() {
-    document.querySelector("#scrollTopTop").style.opacity = "0";
+    mapingColorDistrict,
+      mapingDistrict,
+      (document.querySelector("#scrollTopTop").style.opacity = "0");
     document.querySelector("#scrollTopBottom").style.opacity = "0";
     this.commuData = this.$store.getters["data/getCommunity"]();
     this.yearGroup = _.groupBy(this.commuData, "budget_year");
@@ -299,6 +364,7 @@ export default {
       Object.values(this.yearGroup)[0]?.map((d) => d.district)
     );
     this.filterData = { year: this.yearData[0] };
+    this.mapColorMapping();
   },
   watch: {
     selectedFilter: {

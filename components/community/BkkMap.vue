@@ -6,7 +6,7 @@
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g id="bkkDistrictsSquare">
+    <g class="bkkDistrictsSquare">
       <path
         class="pathBKK"
         id="1"
