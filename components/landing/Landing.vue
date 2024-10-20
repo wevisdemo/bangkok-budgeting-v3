@@ -47,7 +47,7 @@
       >
         <SurveyMainCard :data="surveyBudgetBKK" :type="BudgetingType.BKK" />
         <p class="wv-b3 font-bold text-center my-2">ข้อมูลที่น่าสนใจ</p>
-        <InterestingCard :data="topInterest" :type="BudgetingType.BKK" />
+        <InterestingCard :data="topInterestGreen" :type="BudgetingType.BKK" />
       </div>
       <div
         id="section-comunityfund"
@@ -59,7 +59,7 @@
         />
         <p class="wv-b3 font-bold text-center my-2">ข้อมูลที่น่าสนใจ</p>
         <InterestingCard
-          :data="topInterest"
+          :data="topInterestYellow"
           :type="BudgetingType.CommunityFund"
         />
       </div>
@@ -94,26 +94,50 @@ export default Vue.extend({
         loop: true,
         autoplay: true,
       },
-      topInterest: [
+      topInterestGreen: [
         {
           topic: "แผนนโยบายที่ใช้งบมากที่สุด",
-          header: "บริหารจัดการดี",
-          budget: "175.5",
+          header: "สุขภาพดี",
+          budget: "1,800",
+          path: "bkkbudget/explore",
+          query: { select: "YearlyBudget" },
         },
         {
-          topic: "แผนนโยบายที่ใช้งบมากที่สุด",
-          header: "บริหารจัดการดี",
-          budget: "175.5",
+          topic: "หน่วยงานที่ได้รับงบมากที่สุด",
+          header: "สำนักการระบายน้ำ",
+          budget: "1,730",
+          path: "bkkbudget/explore",
+          query: { select: "OrganizeBudget", key: "สำนักการระบายน้ำ" },
         },
         {
-          topic: "แผนนโยบายที่ใช้งบมากที่สุด",
-          header: "บริหารจัดการดี",
-          budget: "175.5",
+          topic: "คีย์เวิร์ดที่พบบ่อยมากที่สุด",
+          header: "ก่อสร้าง",
+          budget: "82",
+          path: "bkkbudget/explore",
+          query: { select: "OrganizeBudget", key: "N/A" },
+        },
+      ],
+      topInterestYellow: [
+        {
+          topic: "เขตที่ได้รับการจัดสรรงบมากที่สุด",
+          header: "หนองจอก",
+          budget: "19.8",
+          path: "communityfund/explore",
+          query: { select: "YearlyBudget", district: "หนองจอก" },
         },
         {
-          topic: "แผนนโยบายที่ใช้งบมากที่สุด",
-          header: "บริหารจัดการดี",
-          budget: "175.5",
+          topic: "เขตที่เบิกใช้งบมากที่สุดในปีปัจจุบัน (2566)",
+          header: "หนองจอก",
+          budget: "13.7",
+          path: "communityfund/explore",
+          query: { select: "YearlyBudget", district: "หนองจอก", year: "2566" },
+        },
+        {
+          topic: "รายการชุมชนจัดซื้อมากที่สุด",
+          header: "โต๊ะ",
+          budget: "148",
+          path: "communityfund/explore",
+          query: { select: "OrganizeBudget", key: "โต๊ะ" },
         },
       ],
       surveyBudgetBKK: {

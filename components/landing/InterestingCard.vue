@@ -15,11 +15,17 @@
         <div class="w-[160px] mx-auto">
           <p class="pt-5 wv-b3 font-bold">{{ item.budget }} ล้านบาท</p>
         </div>
-        <button
-          class="my-3 bg-wv-gray-20 w-fit mx-auto rounded-full py-1 px-3 wv-b6"
-        >
-          ดูข้อมูล
-        </button>
+        <div class="my-3">
+          <NuxtLink
+            :to="{
+              path: item.path,
+              query: item.query,
+            }"
+            class="bg-wv-gray-20 w-fit mx-auto rounded-full py-1 px-3 wv-b6"
+          >
+            ดูข้อมูล
+          </NuxtLink>
+        </div>
       </div>
     </div>
   </div>
