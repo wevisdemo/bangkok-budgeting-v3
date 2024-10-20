@@ -52,10 +52,9 @@ export default Vue.extend({
   methods: {
     mainKeyWord,
     drawChart() {
-      const getWidth = d3
-        .select("#wordCloundWrapper")
-        .node()
-        .getBoundingClientRect()?.width;
+      const getWidth =
+        d3.select("#wordCloundWrapper").node().getBoundingClientRect()?.width ||
+        0;
       const width = getWidth;
       const height = 450;
       var svg = d3

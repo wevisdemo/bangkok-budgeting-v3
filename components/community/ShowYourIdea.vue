@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       idea: "",
-      isSuccess: true,
+      isSuccess: false,
     };
   },
   methods: {

@@ -13,19 +13,28 @@
           class="max-w-[600px]"
         />
         <div class="absolute max-wa-lg p-16 sm:p-8">
-          <p class="wv-h5 font-bold">
-            'ชุมชนคิด ตัดสินใจ<br />
-            และบริหาร'
-          </p>
           <p class="wv-h8 font-bold">
-            เป้าหมายของโครงการชุมชนเข้มแข็ง<br />
-            คือชุมชนต้องพึ่งพาตัวเองได้
+            เราจะส่งมอบไอเดียของคุณ<br />
+            ให้ทางชุมชนพิจารณา<br />
+            เพื่อนำไปพัฒนาต่อให้เกิดขึ้นจริง
           </p>
-          <img
-            src="~/assets/icons/arrow_down.svg"
-            alt="coin"
-            class="my-3 mx-auto"
-          />
+          <p class="wv-b5 mt-2 mb-3">
+            ชวนคุณสำรวจงบประมาณรายจ่ายของ กทม. ต่อ !<br />
+            เพื่อให้เข้าใจแผนการใช้งบและร่วมขับเคลื่อน<br />
+            ให้กรุงเทพฯ เป็นเมืองที่น่าอยู่มากขึ้น
+          </p>
+          <div class="flex flex-col space-y-3">
+            <button
+              class="wv-b5 py-[5px] px-[10px] w-fit mx-auto border border-black rounded-[5px]"
+            >
+              สำรวจงบ กทม.
+            </button>
+            <button
+              class="wv-b5 py-[5px] px-[10px] w-fit mx-auto border border-black rounded-[5px]"
+            >
+              ย้อนกลับหน้าแรก
+            </button>
+          </div>
         </div>
       </div>
     </div>

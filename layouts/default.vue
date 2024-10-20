@@ -13,7 +13,7 @@
       </NuxtLink>
     </WvNavbar>
     <Nuxt />
-    <!-- <WvFooter v-if="!isAboutFooter()" :dark="true" /> -->
+    <WvFooter v-if="!isAboutFooter()" :dark="true" />
     <AboutFooter v-if="isAboutFooter()" />
   </div>
 </template>
