@@ -46,8 +46,8 @@ import DesignCommunity from "~/components/community/DesignCommunity.vue";
 import GetToknow from "~/components/community/getToknow.vue";
 import Goal from "~/components/community/goal.vue";
 import NavLinks from "~/components/landing/NavLinks.vue";
-import ShowYourIdea from "../bkkbudget/ShowYourIdea.vue";
 import FinalNavigatePage from "~/components/community/FinalNavigatePage.vue";
+import ShowYourIdea from "~/components/community/ShowYourIdea.vue";
 
 export default {
   components: {
