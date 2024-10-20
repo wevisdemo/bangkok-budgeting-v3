@@ -55,7 +55,7 @@ export default Vue.extend({
       const getWidth = d3
         .select("#wordCloundWrapper")
         .node()
-        .getBoundingClientRect().width;
+        .getBoundingClientRect()?.width;
       const width = getWidth;
       const height = 450;
       var svg = d3
