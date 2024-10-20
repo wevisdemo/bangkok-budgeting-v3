@@ -47,6 +47,7 @@ export default Vue.extend({
         { label: "หน้าแรก", path: "/" },
         { label: "สำรวจการใช้งบประมาณ", path: "/bkkbudget" },
         { label: "พัฒนาชุมชนเมืองให้เข้มแข็ง", path: "/communityfund" },
+        { label: "เกี่ยวกับโครงการ", path: "/about" },
       ],
       footerComponent: "AboutFooter",
       cookieOptions: ["Functionality"],
