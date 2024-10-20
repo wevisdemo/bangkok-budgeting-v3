@@ -6,7 +6,7 @@
     >
       <div class="flex flex-col justify-center items-center w-full text-center">
         <img
-          src="~/assets/illustrations/budgetplans.svg"
+          src="~/assets/illustrations/communityPlan.svg"
           alt="Budget plan"
           width="100%"
           height="auto"

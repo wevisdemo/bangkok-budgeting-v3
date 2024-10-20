@@ -32,6 +32,9 @@
       <div class="max-w-7xl px-3 md:px-6 py-6 m-auto">
         <BudgetUsage class="mb-5" />
         <BudgetExplorer />
+        <DesignCommunity />
+        <ShowYourIdea />
+        <FinalNavigatePage />
       </div>
     </div>
   </div>
@@ -39,9 +42,12 @@
 <script>
 import BudgetExplorer from "~/components/community/BudgetExplorer.vue";
 import BudgetUsage from "~/components/community/BudgetUsage.vue";
+import DesignCommunity from "~/components/community/DesignCommunity.vue";
 import GetToknow from "~/components/community/getToknow.vue";
 import Goal from "~/components/community/goal.vue";
 import NavLinks from "~/components/landing/NavLinks.vue";
+import ShowYourIdea from "../bkkbudget/ShowYourIdea.vue";
+import FinalNavigatePage from "~/components/community/FinalNavigatePage.vue";
 
 export default {
   components: {
@@ -50,6 +56,9 @@ export default {
     Goal,
     BudgetExplorer,
     BudgetUsage,
+    DesignCommunity,
+    ShowYourIdea,
+    FinalNavigatePage,
   },
   data() {
     return {
