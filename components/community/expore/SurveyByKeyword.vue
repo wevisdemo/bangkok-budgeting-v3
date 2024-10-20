@@ -216,9 +216,9 @@
             </div>
           </div>
         </div>
+        <ShareLabel />
       </div>
     </div>
-    <ShareLabel />
   </div>
 </template>
 

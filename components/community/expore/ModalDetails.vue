@@ -6,15 +6,21 @@
         class="fixed inset-0 bg-wv-gray-4 bg-opacity-70 z-40"
         @click="handleModal"
       />
+
       <div
-        class="lg:w-[850px] overflow-auto inset-0 lg:h-[600px] px-3 md:px-12 py-8 bg-white absolute z-50 lg:top-[50%] lg:translate-y-[-50%] lg:translate-x-[-50%] lg:left-[50%]"
+        class="lg:w-[850px] bg-white inset-0 overflow-hidden px-3 md:px-12 py-8 absolute z-50 lg:top-[50%] lg:translate-y-[-50%] lg:translate-x-[-50%] lg:left-[50%]"
       >
         <ModalProject
           v-if="isProjectDialog"
           :handleProject="handleProjectDialog"
           :project="selectedProject"
         />
-        <div class="fixed w-[25px] md:w-[50px] z-50 top-0 right-0 m-5">
+      </div>
+      <div
+        v-if="!isProjectDialog"
+        class="lg:w-[850px] overflow-auto bg-white inset-0 lg:h-[600px] px-3 md:px-12 py-8 absolute z-50 lg:top-[50%] lg:translate-y-[-50%] lg:translate-x-[-50%] lg:left-[50%]"
+      >
+        <div class="fixed w-[25px] md:w-[50px] z-10 top-0 right-0 m-5">
           <img
             src="~/assets/images/cancel.svg"
             class="cursor-pointer"
@@ -53,6 +59,19 @@
               <b>“ทุกเขต”</b> ชุมชน
               <b>“ทุกชุมชน”</b>
             </p>
+
+            <div class="relative max-w-[500px] mx-auto">
+              <img
+                src="~/assets/images/searchIcon.svg"
+                class="absolute top-0 left-0 ml-2"
+              />
+              <input
+                v-model="filterSearchKey"
+                type="text"
+                class="border-b border-b-black w-full wv-b5 mb-3 pl-8"
+                placeholder="พิมพ์คีย์เวิร์ด"
+              />
+            </div>
             <div
               class="text-wv-gray-1 wv-b6 flex space-x-2 justify-center cursor-pointer"
             >
@@ -72,6 +91,9 @@
                 </el-option>
               </el-select>
             </div>
+            <div v-if="resultKeySearch.total == 0" class="text-center pt-20">
+              ไม่พบข้อมูล
+            </div>
             <!-- ------- header -->
             <div class="flex flex-col">
               <div
@@ -80,7 +102,7 @@
                 @click="() => handleProjectDialog(item)"
                 class="flex justify-between hover:bg-wv-gray-4 border-b border-b-wv-gray-4 cursor-pointer py-[15px] flex-1"
               >
-                <div class="max-w-[200px]">
+                <div class="max-w-[200px] md:max-w-none">
                   <p class="wv-b4 font-bold">{{ item.project_name }}</p>
                   <p class="wv-b6 opacity-50">
                     <span><b>เขต</b> {{ item.district }} </span
@@ -100,6 +122,7 @@
             </div>
           </div>
           <el-pagination
+            v-if="resultKeySearch.total > 0"
             class="mx-auto"
             :pager-count="perPage"
             layout="prev, pager, next"
@@ -143,7 +166,9 @@ export default {
   },
   data() {
     return {
-      perPage: 5,
+      filterSearchKey: "",
+      resultKeySearch: [],
+      perPage: 4,
       currentPage: 1,
       filterList: [
         { label: "งบมากไปน้อย" },
@@ -183,9 +208,7 @@ export default {
       this.isProjectDialog = !this.isProjectDialog;
       this.selectedProject = project;
     },
-    handleProject() {
-      this.isProject = false;
-    },
+
     fetchByYear(year) {
       const response = this.$store.getters["data/getBudgetItems"]({
         budgetYear: year,
@@ -193,7 +216,7 @@ export default {
       this.updateIsModalDetails(response);
     },
     paginate(pageNumber) {
-      return this.filterYears?.items?.slice(
+      return this.resultKeySearch?.items?.slice(
         (pageNumber - 1) * this.perPage,
         pageNumber * this.perPage
       );
@@ -202,6 +225,7 @@ export default {
       this.selectedFilter = label;
       const resultFilter = communityFilterBy(label, this.filterYears);
       this.filterYears = resultFilter;
+      this.resultKeySearch = this.filterYears;
     },
     isSelectedYear(year) {
       if (year === "ทุกปี") {
@@ -226,18 +250,15 @@ export default {
       immediate: true,
       deep: false,
       handler(newValue) {
-        if (newValue === false) {
-          this.isProject = false;
-        } else {
-          const yearGroup = _.groupBy(this.commuData, "budget_year");
-          const yearData = Object.keys(yearGroup);
-          this.yearList = ["ทุกปี", ...yearData];
-          this.selectFilter = this.yearList[0];
-          this.filterYears = {
-            items: this.commuData,
-            total: this.commuData.length,
-          };
-        }
+        const yearGroup = _.groupBy(this.commuData, "budget_year");
+        const yearData = Object.keys(yearGroup);
+        this.yearList = ["ทุกปี", ...yearData];
+        this.selectFilter = this.yearList[0];
+        this.filterYears = {
+          items: this.commuData,
+          total: this.commuData.length,
+        };
+
         this.isProjectDialog = false;
       },
     },
@@ -246,6 +267,20 @@ export default {
     },
     selectedFilter(newValue) {
       this.selectSort(newValue);
+    },
+    filterSearchKey: {
+      immediate: true,
+      deep: false,
+      handler(newValue) {
+        const filter = this.filterYears?.items?.filter((s) =>
+          s.project_name.toString().includes(newValue)
+        );
+
+        this.resultKeySearch = {
+          items: filter,
+          total: filter?.length,
+        };
+      },
     },
   },
 };

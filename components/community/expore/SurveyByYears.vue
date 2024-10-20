@@ -13,11 +13,7 @@
         กลับไปด้านบน
       </div>
     </div>
-    <ModalProject
-      v-if="isProjectDialog"
-      :handleProject="handleProjectDialog"
-      :project="selectedProject"
-    />
+
     <div class="flex-1 pt-5 relative h-fit">
       <BkkMap class="my-5 mx-auto w-full md:w-fit" />
       <div
@@ -37,7 +33,7 @@
       </div>
     </div>
     <div
-      class="lg:max-w-[685px] flex-1 flex flex-col justify-between card p-[15px] md:p-[30px]"
+      class="lg:max-w-[685px] flex-1 flex flex-col card p-[15px] md:p-[30px]"
     >
       <!-- ------------ -->
       <div id="filter" class="flex space-y-1 flex-col">
@@ -151,6 +147,11 @@
       </div>
       <ShareLabel />
     </div>
+    <ModalProject
+      v-if="isProjectDialog"
+      :handleProject="handleProjectDialog"
+      :project="selectedProject"
+    />
   </div>
 </template>
 
@@ -254,6 +255,7 @@ export default {
           })
           .style("stroke", () => (district !== districtId ? "" : "black"));
       });
+      this.mapColorMapping();
     },
     selectFilter(label) {
       if (label === "งบมากไปน้อย") {
@@ -370,7 +372,6 @@ export default {
       Object.values(this.yearGroup)[0]?.map((d) => d.district)
     );
     this.filterData = { year: this.yearData[0] };
-    this.mapColorMapping();
   },
   watch: {
     selectedFilter: {

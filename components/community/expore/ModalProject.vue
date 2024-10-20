@@ -1,10 +1,13 @@
 <template>
   <div class="fixed md:absolute inset-0 z-40">
-    <div class="bg-white z-30 py-[70px] h-full card md:h-fit px-[50px]">
-      <i
-        class="el-icon-back absolute top-0 left-0 m-[20px] wv-h5 cursor-pointer"
-        @click="() => handleProject()"
-      ></i>
+    <div class="bg-white z-30 relative py-[70px] h-full card px-[50px]">
+      <div class="absolute w-[25px] md:w-[50px] z-50 top-0 right-0 m-5">
+        <img
+          src="~/assets/images/cancel.svg"
+          class="cursor-pointer"
+          @click="() => handleProject()"
+        />
+      </div>
       <p class="wv-b3 font-bold">{{ project.project_name }}</p>
       <div class="flex py-5">
         <div class="flex-[3] border-r border-r-gray-300 pr-4">
