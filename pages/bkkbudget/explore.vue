@@ -1,22 +1,24 @@
 <template>
-  <div class="container mx-auto min-h-[90vh] px-2 lg:px-8">
+  <div class="container mx-auto min-h-[90vh] lg:px-8">
     <div id="nav" class="flex justify-between my-5">
       <NuxtLink :to="{ path: '/bkkbudget', hash: `#${topic}` }">
-        <div class="text-wv-green flex items-center">
+        <div class="font-bold flex items-center">
           <i class="el-icon-back mr-1" />
           สรุปภาพรวม
         </div>
       </NuxtLink>
-      <div class="wv-b7 text-wv-gray-1">
-        *เว็บไซต์นี้แสดงเฉพาะงบที่ใช้ตามยุทธศาสตร์<br class="md:hidden" />
-        ซึ่งไม่ใช่งบทั้งหมดของกรุงเทพฯ
-      </div>
     </div>
     <div
       id="header"
       class="flex wv-kondolar lg:justify-between text-center lg:text-left items-center flex-col lg:flex-row"
     >
-      <div class="wv-black wv-h5">สำรวจการใช้งบกรุงเทพฯ ตามแผนยุทธศาสตร์</div>
+      <div>
+        <div class="wv-black wv-h5">สำรวจการใช้งบกรุงเทพฯ ตามแผนยุทธศาสตร์</div>
+        <p class="wv-b7 text-red-500">
+          *เว็บไซต์นี้แสดงเฉพาะงบที่ใช้ตามยุทธศาสตร์
+          <b>ซึ่งไม่ใช่งบทั้งหมดของกรุงเทพฯ</b>
+        </p>
+      </div>
       <div class="flex wv-b5 items-center mt-3 lg:mt-0">
         <div
           v-for="item in toppics"

@@ -120,18 +120,18 @@
     <div
       class="lg:max-w-[685px] text-center lg:text-left mt-2 mb-6 mx-auto md:hidden"
     >
-      <div class="mt-5 flex flex-wrap lg:block text-start">
+      <div class="mt-5 flex-wrap grid grid-cols-3 px-3 text-start">
         <div
           v-for="(item, key) in navData()"
           :key="key"
-          class="flex items-center space-x-2 py-[5px] w-[50%] lg:w-full"
+          class="flex items-center space-x-2 py-[5px] w-full"
         >
           <div
             class="min-w-[10px] min-h-[10px] rounded-[2px]"
             :class="bgColorSet(item.name)"
           />
           <div class="flex wv-b5 text-wv-gray-1">
-            {{ key + 1 }}. {{ item.name }}
+            {{ item.name }}
           </div>
         </div>
       </div>

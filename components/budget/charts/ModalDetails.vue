@@ -49,6 +49,19 @@
               รายการ ({{ sumAllBudget() }} ล้านบาท)
             </div>
             <p class="wv-b6 text-center my-2">{{ subTitleModal }}</p>
+
+            <div class="relative max-w-[500px] mx-auto">
+              <img
+                src="~/assets/images/searchIcon.svg"
+                class="absolute top-0 left-0 ml-2"
+              />
+              <input
+                v-model="filterProjectName"
+                type="text"
+                class="border-b border-b-black w-full wv-b5 mb-3 pl-8"
+                :placeholder="`ค้นหาโครงการจาก ${filterYears?.total} รายการ...`"
+              />
+            </div>
             <div
               class="text-wv-gray-1 wv-b6 flex space-x-2 justify-center cursor-pointer"
             >
@@ -67,6 +80,9 @@
                 >
                 </el-option>
               </el-select>
+            </div>
+            <div v-if="resultKeySearch.total == 0" class="text-center pt-20">
+              ไม่พบข้อมูล
             </div>
             <!-- ------- header -->
             <div class="flex flex-col">
@@ -96,10 +112,11 @@
             </div>
           </div>
           <el-pagination
+            v-if="resultKeySearch.total > 0"
             class="mx-auto"
             :pager-count="perPage"
             layout="prev, pager, next"
-            :total="filterYears?.total"
+            :total="resultKeySearch?.total"
             @current-change="handleCurrentChange"
           >
           </el-pagination>
@@ -137,6 +154,8 @@ export default {
   },
   data() {
     return {
+      filterProjectName: "",
+      resultKeySearch: [],
       perPage: 5,
       currentPage: 1,
       filterList: [
@@ -150,16 +169,10 @@ export default {
       filterYears: [],
       defaultByFilter: [],
       isProject: false,
-      selectFilter: "2561-2567",
+      selectFilter: "ทุกปี",
       yearList: [
-        { label: "2561-2567", value: "" },
-        { label: "2561", value: 61 },
-        { label: "2562", value: 62 },
-        { label: "2563", value: 63 },
-        { label: "2564", value: 64 },
-        { label: "2565", value: 65 },
-        { label: "2566", value: 66 },
-        { label: "2567", value: 67 },
+        { label: "ทุกปี", value: "" },
+        { label: "2568", value: 68 },
       ],
     };
   },
@@ -199,15 +212,14 @@ export default {
       this.updateIsModalDetails(response);
     },
     paginate(pageNumber) {
-      return this.filterYears?.items?.slice(
+      return this.resultKeySearch?.items?.slice(
         (pageNumber - 1) * this.perPage,
         pageNumber * this.perPage
       );
     },
     selectSort(label) {
       this.selectedFilter = label;
-      const resultFilter = filterBy(label, this.filterYears);
-      this.filterYears = resultFilter;
+      this.resultKeySearch = filterBy(label, this.resultKeySearch);
     },
     isSelectedYear(year) {
       if (year) {
@@ -223,12 +235,14 @@ export default {
         });
       } else {
         if (this.page === "organize")
-          this.updateSelectYearOrganize({ label: "2561-2567", value: "" });
+          this.updateSelectYearOrganize({ label: "ทุกปี", value: "" });
         if (this.page === "strategy")
-          this.updateSelectYearStrategy({ label: "2561-2567", value: "" });
+          this.updateSelectYearStrategy({ label: "ทุกปี", value: "" });
         if (this.page === "keyword")
-          this.updateSelectKeywordStrategy({ label: "2561-2567", value: "" });
-        this.filterYears = this.isModalDetails;
+          this.updateSelectKeywordStrategy({ label: "ทุกปี", value: "" });
+        this.filterYears = filterBy(this.selectedFilter, {
+          ...this.isModalDetails,
+        });
       }
     },
     sumAllBudget() {
@@ -238,6 +252,7 @@ export default {
   watch: {
     isModalDetails(newValue) {
       this.filterYears = filterBy(this.selectedFilter, newValue);
+      this.resultKeySearch = this.filterYears;
     },
     isOpen(newValue) {
       if (newValue === false) this.isProject = false;
@@ -248,9 +263,23 @@ export default {
     selectedFilter(newValue) {
       this.selectSort(newValue);
     },
+    filterProjectName: {
+      immediate: true,
+      deep: true,
+      handler(newValue) {
+        const filter = this.filterYears?.items?.filter((s) =>
+          s.outputProjectName.toString().includes(newValue)
+        );
+        this.resultKeySearch = {
+          items: filter,
+          total: filter?.length,
+        };
+      },
+    },
   },
   mounted() {
     this.filterYears = filterBy(this.selectedFilter, this.isModalDetails);
+    this.resultKeySearch = this.filterYears;
     if (this.subTitleModal === "ตามแผนยุทธศาสตร์ 7 ด้าน") this.fetchByYear();
     if (this.page === "organize")
       this.selectFilter = this.selectYearOrganize.label;

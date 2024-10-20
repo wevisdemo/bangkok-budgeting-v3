@@ -14,20 +14,22 @@
       </div>
       <div class="flex-[3] pl-12">
         <p class="wv-b7 font-bold">ปีงบประมาณ</p>
-        <p>25{{ isProject.budgetYear }}</p>
+        <p>พ.ศ. 25{{ isProject.budgetYear }}</p>
       </div>
     </div>
     <div class="py-5 border-t border-t-gray-300">
-      <p class="wv-b7 font-bold">ด้านยุทธศาสตร์และมิติย่อย</p>
-      <div class="flex items-top">
+      <p class="wv-b7 font-bold">แผนงานพัฒนา</p>
+      <div class="flex items-top items-center">
         <div
           class="w-[15px] h-[15px] rounded-[2px] mr-2"
           :class="bgColorSet(isProject.strategy)"
         />
-        <p class="wv-b5">{{ isProject.strategy }}</p>
+        <p class="wv-b5">
+          {{
+            isProject.strategy === "N/A" ? "ไม่พบข้อมูล" : isProject.strategy
+          }}
+        </p>
       </div>
-
-      <p class="wv-b7">{{ isProject.substrategy }}</p>
     </div>
     <div class="py-5 border-t border-t-gray-300 border-b border-b-gray-300">
       <p class="wv-b7 font-bold">หน่วยงาน</p>

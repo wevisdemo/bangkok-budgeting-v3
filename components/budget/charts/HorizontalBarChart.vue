@@ -325,7 +325,7 @@ export default {
           ).length,
         };
       } else {
-        this.updateSelectYearStrategy({ label: "2561-2567", value: "" });
+        this.updateSelectYearStrategy({ label: "ทุกปี", value: "" });
         this.filterYears = this.isModalDetails;
       }
     },

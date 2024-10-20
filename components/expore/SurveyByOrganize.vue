@@ -3,7 +3,7 @@
     id="byYears"
     class="mt-7 md:w-[80%] mx-auto lg:w-full flex lg:space-x-[35px] min-h-screen flex-col lg:flex-row justify-center relative"
   >
-    <div class="fixed w-full bottom-0">
+    <div class="fixed w-full bottom-0" v-if="resultKeySearch.length > 8">
       <div
         id="scrollTopTop"
         @click="scrollToTop"
@@ -13,35 +13,45 @@
         กลับไปด้านบน
       </div>
     </div>
-    <ModalDetails
-      :handle-modal="() => handleModal()"
-      :is-open="isOpen"
-      page="organize"
-    />
+
     <div class="lg:max-w-[400px] text-center lg:text-left">
       <p class="wv-b5 text-wv-gray-1">
         <b>ยุทธศาสตร์ 7 ด้าน</b> เป็นแผนพัฒนาที่กรุงเทพฯ <br />วางไว้
         เพื่อจะก้าวไปสู่การเป็น “มหานครแห่งเอเชีย” <br />ภายใน 20 ปี (2561-2580)
       </p>
-      <div class="mt-5 flex flex-wrap lg:block text-start">
+      <div class="mt-5 flex-wrap grid-cols-1 px-3 text-start hidden md:grid">
         <div
           v-for="(item, key) in navData()"
           :key="key"
-          class="flex items-center space-x-2 py-[5px] w-[50%] lg:w-full"
+          class="flex items-center space-x-2 py-[5px]"
         >
           <div
             class="min-w-[10px] min-h-[10px] rounded-[2px]"
             :class="bgColorSet(item.name)"
           />
-          <div class="flex wv-b5 text-wv-gray-1">
-            {{ key + 1 }}. {{ item.name }}
+          <div class="flex wv-b6 text-wv-gray-1">
+            {{ item.name }}
           </div>
         </div>
       </div>
     </div>
-    <div class="lg:max-w-[685px] mt-3 flex-1 flex flex-col justify-between">
+    <div
+      class="lg:max-w-[685px] mt-3 flex-1 shadow-2xl p-[20px] md:p-[30px] flex flex-col"
+    >
+      <div class="relative">
+        <img
+          src="~/assets/images/searchIcon.svg"
+          class="absolute top-[50%] translate-y-[-100%] left-0 ml-2"
+        />
+        <input
+          v-model="filterOrganize"
+          type="text"
+          class="border rounded-[5px] p-3 border-black w-full wv-b5 mb-3 pl-8"
+          placeholder="ค้นหาหน่วยงานที่สนใจ..."
+        />
+      </div>
       <div class="flex items-center">
-        <p class="wv-h8 font-bold mr-2 wv-kondolar" id="topic-pointer">
+        <p class="wv-b4 font-bold mr-2 wv-kondolar" id="topic-pointer">
           หน่วยงานที่ได้รับงบในปี
         </p>
         <el-select
@@ -57,6 +67,21 @@
           >
           </el-option>
         </el-select>
+      </div>
+      <div class="mt-5 flex-wrap grid grid-cols-3 px-3 text-start md:hidden">
+        <div
+          v-for="(item, key) in navData()"
+          :key="key"
+          class="flex items-center space-x-2 py-[5px]"
+        >
+          <div
+            class="min-w-[10px] min-h-[10px] rounded-[2px]"
+            :class="bgColorSet(item.name)"
+          />
+          <div class="flex wv-b6 text-wv-gray-1">
+            {{ item.name }}
+          </div>
+        </div>
       </div>
       <div class="flex justify-between mt-5">
         <div
@@ -80,9 +105,11 @@
         </div>
         <ToggleUnit :toggle="() => toggle()" :is-million="isMillion" />
       </div>
-
+      <div v-if="resultKeySearch.length === 0" class="text-center my-5">
+        ไม่พบข้อมูล
+      </div>
       <div
-        v-for="(item, key) in barChartData"
+        v-for="(item, key) in resultKeySearch"
         :key="key"
         :id="`card-${key + 1}`"
         class="borderOrganize my-[5px] flex hover:border-black hover:border-[2px] border-[2px] border-transparent cursor-pointer"
@@ -93,7 +120,7 @@
         </div>
         <div class="ml-5 flex flex-col flex-1">
           <div class="flex justify-between">
-            <div class="wv-b4 font-bold">
+            <div class="wv-b4 font-bold max-w-[250px]">
               {{ item.nameOrganization }}
             </div>
             <div class="flex items-center">
@@ -129,6 +156,7 @@
         </div>
       </div>
       <div
+        v-if="resultKeySearch.length > 8"
         @click="scrollToTop"
         class="flex items-center my-5 cursor-pointer bottom-0 bg-white text-wv-gray-1 py-[8px] px-[12px] rounded-[5px]"
         id="scrollTopBottom"
@@ -138,6 +166,12 @@
       </div>
       <ShareLabel />
     </div>
+    <ModalDetails
+      :handle-modal="() => handleModal()"
+      :is-open="isOpen"
+      page="organize"
+      v-if="isOpen"
+    />
   </div>
 </template>
 
@@ -160,6 +194,8 @@ export default {
   components: { ModalDetails, ToggleUnit, DropDownYearList, ShareLabel },
   data() {
     return {
+      filterOrganize: "",
+      resultKeySearch: [],
       barChartData: [],
       isOpen: false,
       maxValue: 0,
@@ -173,16 +209,10 @@ export default {
       ],
       selectedFilter: "งบมากไปน้อย",
       isFilterModal: false,
-      selectFilterYear: "2561-2567",
+      selectFilterYear: "ทุกปี",
       yearList: [
-        { label: "2561-2567", value: "" },
-        { label: "2561", value: 61 },
-        { label: "2562", value: 62 },
-        { label: "2563", value: 63 },
-        { label: "2564", value: 64 },
-        { label: "2565", value: 65 },
-        { label: "2566", value: 66 },
-        { label: "2567", value: 67 },
+        { label: "ทุกปี", value: "" },
+        { label: "2568", value: 68 },
       ],
     };
   },
@@ -212,6 +242,7 @@ export default {
         year,
       });
       this.barChartData = filterByOrganize(this.selectedFilter, response);
+      this.resultKeySearch = this.barChartData;
     },
 
     fetchByOrganize(nameOrganization) {
@@ -274,7 +305,7 @@ export default {
           ).length,
         };
       } else {
-        this.updateSelectYearOrganize({ label: "2561-2567", value: "" });
+        this.updateSelectYearOrganize({ label: "ทุกปี", value: "" });
         this.filterYears = this.isModalDetails;
       }
       this.fetchByOrganizeYear(year);
@@ -329,6 +360,15 @@ export default {
     },
     selectedFilter(newValue) {
       this.selectFilter(newValue);
+    },
+    filterOrganize: {
+      immediate: true,
+      deep: true,
+      handler(newValue) {
+        this.resultKeySearch = this.barChartData.filter((s) =>
+          s.nameOrganization.toString().includes(newValue)
+        );
+      },
     },
   },
 };

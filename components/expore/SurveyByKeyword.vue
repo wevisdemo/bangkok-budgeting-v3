@@ -122,11 +122,11 @@
                 <span class="font-bold">{{
                   rawData?.total?.toLocaleString("en-US", {})
                 }}</span>
-                รายการ <br class="lg:hidden" />ใช้งบรวม
+                รายการ <br />ใช้งบรวม
                 <span class="font-bold">{{
                   convertMillion(totalFilterAmout)
                 }}</span>
-                ล้านบาท <br class="md:hidden" />({{
+                ล้านบาท <br />({{
                   ((totalFilterAmout / chartData.amount) * 100).toFixed()
                 }}% ของงบทั้งหมด)
               </p>
@@ -278,30 +278,26 @@
           </div>
         </div>
         <div class="lg:max-w-[685px] text-center lg:text-left mt-5 mx-auto">
-          <p class="wv-b5 text-wv-gray-1">
-            <b>ยุทธศาสตร์ 7 ด้าน</b> เป็นแผนพัฒนาที่กรุงเทพฯ
-            <br class="lg:hidden" />วางไว้ เพื่อจะก้าวไปสู่การเป็น
-            “มหานครแห่งเอเชีย” <br class="lg:hidden" />ภายใน 20 ปี (2561-2580)
-          </p>
-          <div class="mt-5 flex flex-wrap lg:block text-start">
+          <p class="wv-b6 font-bold">งบแผนงานพัฒนา 9 ด้าน(ดี)</p>
+          <div class="mt-5 flex-wrap grid grid-cols-3 px-3 text-start">
             <div
               v-for="(item, key) in navData()"
               :key="key"
-              class="flex items-center space-x-2 py-[5px] w-[50%] lg:w-full"
+              class="flex items-center space-x-2 py-[5px] w-full"
             >
               <div
                 class="min-w-[10px] min-h-[10px] rounded-[2px]"
                 :class="bgColorSet(item.name)"
               />
               <div class="flex wv-b5 text-wv-gray-1">
-                {{ key + 1 }}. {{ item.name }}
+                {{ item.name }}
               </div>
             </div>
           </div>
+          <ShareLabel />
         </div>
       </div>
     </div>
-    <ShareLabel />
   </div>
 </template>
 
@@ -457,7 +453,7 @@ export default {
         ...groupOrganize,
       ];
       this.selectFilter = this.filterOrganize[0];
-      this.updateSelectKeywordStrategy({ label: "2561-2567", value: "" });
+      this.updateSelectKeywordStrategy({ label: "ทุกปี", value: "" });
       this.updateIsModalDetails(response);
       this.updateSubTitleModal(
         `ที่มีคำว่า “${this.selectedKey.Word}” ในชื่อ ซึ่งของบโดย “${this.filterOrganize.length} หน่วยงาน”`

@@ -43,9 +43,9 @@ export const state = (): State => ({
     project_type: "",
     project_id: "",
   },
-  selectYearOrganize: { label: "2561-2567", value: "" },
-  selectYearStrategy: { label: "2561-2567", value: "" },
-  selectKeywordStrategy: { label: "2561-2567", value: "" },
+  selectYearOrganize: { label: "ทุกปี", value: "" },
+  selectYearStrategy: { label: "ทุกปี", value: "" },
+  selectKeywordStrategy: { label: "ทุกปี", value: "" },
   selectedSurvey: {
     district: "กรุณาเลือกเขต",
   },
