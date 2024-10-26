@@ -11,9 +11,18 @@
       <button id="section-1" class="w-full">
         <div
           v-on:click="() => handleSelected(1)"
-          class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left rounded-t-[5px]"
+          class="bg-wv-yellow border border-wv-gray-60 flex justify-between wv-b3 font-bold py-[10px] px-[24px] text-left rounded-t-[5px]"
         >
-          คืออะไร ?
+          คืออะไร ?<img
+            v-if="selected != 1"
+            class="w-[20px]"
+            src="~/assets/icons/selectedExpend.svg"
+          />
+          <img
+            v-if="selected === 1"
+            class="w-[20px]"
+            src="~/assets/icons/unexpand.svg"
+          />
         </div>
         <div
           v-show="selected === 1"
@@ -30,6 +39,10 @@
             ได้ตรงตามความต้องการของชุมชน เพื่อส่งเสริม
             คุณภาพชีวิตและพัฒนาให้ชุมชนพึ่งพาตัวเองได้ 
           </p>
+          <img
+            src="~/assets/illustrations/toKnow01.svg"
+            class="mx-auto md:w-[350px] my-4"
+          />
           <p class="mt-2">
             โครงการชุมชนเข้มแข็งฯ เริ่มต้นขึ้น ในปีงบประมาณ 2566
             และจัดเป็นโครงการต่อเนื่อง ที่<b
@@ -43,14 +56,27 @@
       <button id="section-2" class="w-full">
         <div
           v-on:click="() => handleSelected(2)"
-          class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
+          class="bg-wv-yellow border border-wv-gray-60 flex justify-between wv-b3 font-bold py-[10px] px-[24px] text-left"
         >
-          จุดเริ่มต้นของงบ มาจากไหน ?
+          จุดเริ่มต้นของงบ มาจากไหน ?<img
+            v-if="selected != 2"
+            class="w-[20px]"
+            src="~/assets/icons/selectedExpend.svg"
+          />
+          <img
+            v-if="selected === 2"
+            class="w-[20px]"
+            src="~/assets/icons/unexpand.svg"
+          />
         </div>
         <div
           class="bg-white text-center py-[20px] px-3 border border-wv-gray-60 border-y-0"
           v-show="selected === 2"
         >
+          <img
+            src="~/assets/illustrations/toKnow02.svg"
+            class="mx-auto md:w-[350px] mb-4"
+          />
           <p>
             <b>
               โครงการชุมชนเข้มแข็งฯ เกิดขึ้นจากการผลักดัน นโยบาย
@@ -68,14 +94,27 @@
       <button id="section-3" class="w-full">
         <div
           v-on:click="() => handleSelected(3)"
-          class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
+          class="bg-wv-yellow border flex justify-between border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
         >
-          คืออะไร ?
+          ชุมชนได้รับงบประมาณเท่าไหร่ ?<img
+            v-if="selected != 3"
+            class="w-[20px]"
+            src="~/assets/icons/selectedExpend.svg"
+          />
+          <img
+            v-if="selected === 3"
+            class="w-[20px]"
+            src="~/assets/icons/unexpand.svg"
+          />
         </div>
         <div
           v-show="selected === 3"
           class="bg-white text-center py-[20px] wv-b5 px-3 border border-wv-gray-60 border-y-0"
         >
+          <img
+            src="~/assets/illustrations/toKnow03.svg"
+            class="mx-auto md:w-[350px] mb-4"
+          />
           <p>
             ชุมชนได้รับงบประมาณ 200,000 บาท
             ผ่านการจัดสรรโดยสำนักงานเขตที่ชุมชนสังกัดอยู่
@@ -85,9 +124,18 @@
       <button id="section-4" class="w-full">
         <div
           v-on:click="() => handleSelected(4)"
-          class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
+          class="bg-wv-yellow border flex justify-between border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
         >
-          ชุมชนได้รับงบประมาณเท่าไหร่ ?
+          งบประมาณ 200,000 บาท ชุมชนใช้ทำอะไรได้บ้าง ?<img
+            v-if="selected != 4"
+            class="w-[20px]"
+            src="~/assets/icons/selectedExpend.svg"
+          />
+          <img
+            v-if="selected === 4"
+            class="w-[20px]"
+            src="~/assets/icons/unexpand.svg"
+          />
         </div>
         <div
           v-show="selected === 4"
@@ -109,19 +157,44 @@
             >จากที่กล่าวมา
           </p>
 
-          <button
-            class="text-wv-gray-80 border border-wv-gray-80 py-[5px] px-[10px] rounded-[5px] mt-4 wv-b5"
+          <a
+            class="text-wv-gray-80 border border-wv-gray-80 py-[5px] px-[10px] rounded-[5px] mt-4 wv-b5 flex w-fit mx-auto items-center"
+            href="https://drive.google.com/drive/folders/15AlfhaCDOiRQJs27O7QE58TXZqxDdgYf"
+            target="_blank"
           >
             อ่านเอกสารระเบียบและคู่มือเพิ่มเติม
-          </button>
+            <svg
+              class="ml-1"
+              width="16"
+              height="15"
+              viewBox="0 0 16 15"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="7.7832" cy="7.5" r="7.5" fill="#6E6E6E" />
+              <path
+                d="M5.15332 12.6182V10.9935H6.80752V7.28633H5.22717V5.66167H8.90481V10.9935H10.4113V12.6182H5.15332ZM7.75278 4.71641C7.40815 4.71641 7.11276 4.60318 6.8666 4.37671C6.63028 4.1404 6.51213 3.8647 6.51213 3.54961C6.51213 3.20499 6.62536 2.92437 6.85183 2.70774C7.08814 2.49112 7.38846 2.38281 7.75278 2.38281C8.07771 2.38281 8.36326 2.50097 8.60942 2.73728C8.86542 2.96375 8.99343 3.23453 8.99343 3.54961C8.99343 3.8647 8.86542 4.1404 8.60942 4.37671C8.36326 4.60318 8.07771 4.71641 7.75278 4.71641Z"
+                fill="white"
+              />
+            </svg>
+          </a>
         </div>
       </button>
       <button id="section-5" class="w-full">
         <div
           v-on:click="() => handleSelected(5)"
-          class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
+          class="bg-wv-yellow border flex justify-between border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
         >
-          เล่ากระบวนการของงบฯ ให้ฟังหน่อย ?
+          เล่ากระบวนการของงบฯ ให้ฟังหน่อย ?<img
+            v-if="selected != 5"
+            class="w-[20px]"
+            src="~/assets/icons/selectedExpend.svg"
+          />
+          <img
+            v-if="selected === 5"
+            class="w-[20px]"
+            src="~/assets/icons/unexpand.svg"
+          />
         </div>
         <div
           v-show="selected === 5"
@@ -136,14 +209,27 @@
               นั้นจะเป็นชื่อของงบประมาณนั้น ๆ </b
             >
           </p>
+          <img
+            src="~/assets/illustrations/toKnow05.svg"
+            class="mx-auto md:w-[350px] my-4"
+          />
         </div>
       </button>
       <button id="section-6" class="w-full">
         <div
           v-on:click="() => handleSelected(6)"
-          class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
+          class="bg-wv-yellow border flex justify-between border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
         >
-          อยากมีส่วนร่วมกับงบโครงการฯ ต้องทำอะไรบ้าง ?
+          อยากมีส่วนร่วมกับงบโครงการฯ ต้องทำอะไรบ้าง ?<img
+            v-if="selected != 6"
+            class="w-[20px]"
+            src="~/assets/icons/selectedExpend.svg"
+          />
+          <img
+            v-if="selected === 6"
+            class="w-[20px]"
+            src="~/assets/icons/unexpand.svg"
+          />
         </div>
         <div
           v-show="selected === 6"
@@ -232,10 +318,20 @@
       <button id="section-7" class="w-full">
         <div
           v-on:click="() => handleSelected(7)"
-          class="bg-wv-yellow border border-wv-gray-60 wv-b3 font-bold py-[10px] px-[24px] text-left"
+          class="bg-wv-yellow border border-wv-gray-60 flex justify-between wv-b3 font-bold py-[10px] px-[24px] text-left"
         >
           ทำความรู้จัก ‘คณะทำงานจัดทำ แผนพัฒนาชุมชนระดับชุมชน’ คือใคร
           ทำหน้าที่อะไรบ้าง ?
+          <img
+            v-if="selected != 7"
+            class="w-[20px]"
+            src="~/assets/icons/selectedExpend.svg"
+          />
+          <img
+            v-if="selected === 7"
+            class="w-[20px]"
+            src="~/assets/icons/unexpand.svg"
+          />
         </div>
         <div
           v-show="selected === 7"

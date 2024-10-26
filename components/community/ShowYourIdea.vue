@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white pt-28 -mt-20 pb-9">
+  <div class="bg-white pt-28 -mt-20 pb-9 px-3">
     <div v-if="!isSuccess">
       <div class="max-w-[600px] mx-auto">
         <p class="wv-h5 font-bold">
@@ -19,6 +19,8 @@
       <button
         class="wv-b5 py-[5px] px-[10px] border border-black rounded-[5px]"
         @click="() => sendData()"
+        :class="idea.length > 0 ? `opacity-100` : `opacity-20`"
+        :disabled="idea.length === 0"
       >
         ส่งความคิดเห็น
       </button>

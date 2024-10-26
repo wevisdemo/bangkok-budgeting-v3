@@ -54,7 +54,7 @@
       </a>
     </div>
     <div
-      class="bg-black text-white justify-center items-start space-x-10 wv-b7 py-5 flex md:hidden"
+      class="bg-black text-white justify-center items-start space-x-10 wv-b7 py-5 flex md:hidden px-2"
     >
       <div class="text-start flex flex-col space-y-2">
         <NuxtLink to="/"> หน้าแรก </NuxtLink>

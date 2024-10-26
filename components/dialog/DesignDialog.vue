@@ -22,8 +22,9 @@
         <a
           href="https://docs.google.com/document/d/1iOycCc-TOa6DO4g337sNnq4iycEpWHY8/edit?tab=t.0"
           target="_blank"
-          class="wv-b7 text-wv-gray-80 underline bg-wv-gray-20 rounded-[3px] py-[5px] px-[10px]"
+          class="wv-b7 text-wv-gray-80 underline flex items-center w-fit mx-auto bg-wv-gray-20 rounded-[3px] py-[5px] px-[10px]"
         >
+          <img src="~/assets/images/download.svg" class="w-3 h-3 mr-2" />
           ดาวน์โหลดแบบฟอร์ม
         </a>
       </div>
@@ -34,8 +35,9 @@
         <a
           href="https://docs.google.com/document/d/1OOTGq3tvQt0GzfZ-AOFJl8odS_lRNabY/edit"
           target="_blank"
-          class="wv-b7 text-wv-gray-80 underline bg-wv-gray-20 rounded-[3px] py-[5px] px-[10px]"
+          class="wv-b7 text-wv-gray-80 flex items-center w-fit mx-auto underline bg-wv-gray-20 rounded-[3px] py-[5px] px-[10px]"
         >
+          <img src="~/assets/images/download.svg" class="w-3 h-3 mr-2" />
           ตัวอย่างการเขียนแบบฟอร์มโครงการ
         </a>
       </div>
@@ -43,8 +45,9 @@
         <a
           href="https://docs.google.com/document/d/1BHoi7-Eso3tR_v1HCyNbf-ULshQ00uAK/edit"
           target="_blank"
-          class="wv-b7 text-wv-gray-80 underline bg-wv-gray-20 rounded-[3px] py-[5px] px-[10px]"
+          class="wv-b7 text-wv-gray-80 flex items-center w-fit mx-auto underline bg-wv-gray-20 rounded-[3px] py-[5px] px-[10px]"
         >
+          <img src="~/assets/images/download.svg" class="w-3 h-3 mr-2" />
           ตัวอย่างการเขียนเนื้อหาโครงการ
         </a>
       </div>
@@ -153,7 +156,7 @@
               โดยอ้างอิงจากตารางข้อมูลข้างล่างนี้
             </li>
           </ul>
-          img
+          <img src="~/assets/illustrations/design03.svg" class="mx-auto my-5" />
         </div>
         <div class="mb-5">
           <p class="wv-b6 font-bold">
@@ -187,38 +190,57 @@
             </li>
           </ul>
         </div>
-        <div class="text-center opacity-70 wv-b7 mt-7 mb-3">
+        <div
+          class="text-center opacity-70 wv-b7 mt-7 mb-3 flex w-fit mx-auto items-center"
+        >
+          <svg
+            class="mr-2"
+            width="9"
+            height="9"
+            viewBox="0 0 9 9"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5 0.713867C5 0.437725 4.77614 0.213867 4.5 0.213867C4.22386 0.213867 4 0.437725 4 0.713867H5ZM4.14645 8.06547C4.34171 8.26073 4.65829 8.26073 4.85355 8.06547L8.03553 4.88349C8.2308 4.68822 8.2308 4.37164 8.03553 4.17638C7.84027 3.98112 7.52369 3.98112 7.32843 4.17638L4.5 7.00481L1.67157 4.17638C1.47631 3.98112 1.15973 3.98112 0.964466 4.17638C0.769204 4.37164 0.769204 4.68822 0.964466 4.88349L4.14645 8.06547ZM4 0.713867V7.71191H5V0.713867H4Z"
+              fill="black"
+            />
+          </svg>
+
           แนวทางการเขียนตัวชี้วัดความสำเร็จ
         </div>
-        img
+        <img src="~/assets/illustrations/design02.svg" class="mx-auto my-5" />
         <p class="wv-b5 text-center font-bold mt-5">
           ขั้นตอนที่ 3 : พิมพ์โครงการ และส่งต่อให้<br />
           คณะกรรมการอำนวยการจัดทำแผนพัฒนาชุมชน ระดับเขต<br />
           ที่สำนักงานเขตตามสังกัดของชุมชน
         </p>
-        img
+        <img src="~/assets/illustrations/disign01.svg" class="mx-auto my-5" />
       </div>
       <div id="footer" class="flex flex-col items-center bg-wv-gray-20 py-4">
         <a
           href="https://docs.google.com/document/d/1iOycCc-TOa6DO4g337sNnq4iycEpWHY8/edit"
           target="_blank"
-          class="wv-b7 underline rounded-[3px] py-[5px] px-[10px] opacity-70 hover:bg-white"
+          class="wv-b7 underline rounded-[3px] flex items-center py-[5px] px-[10px] opacity-70 hover:bg-white"
         >
+          <img src="~/assets/images/download.svg" class="w-3 h-3 mr-2" />
           ดาวน์โหลดแบบฟอร์ม
         </a>
         <a
           href="https://docs.google.com/document/d/1OOTGq3tvQt0GzfZ-AOFJl8odS_lRNabY/edit"
           target="_blank"
-          class="wv-b7 underline rounded-[3px] py-[5px] px-[10px] opacity-70 hover:bg-white"
+          class="wv-b7 underline flex items-center rounded-[3px] py-[5px] px-[10px] opacity-70 hover:bg-white"
         >
+          <img src="~/assets/images/download.svg" class="w-3 h-3 mr-2" />
           ตัวอย่างการเขียนแบบฟอร์มโครงการ
         </a>
 
         <a
           href="https://docs.google.com/document/d/1BHoi7-Eso3tR_v1HCyNbf-ULshQ00uAK/edit"
           target="_blank"
-          class="wv-b7 underline rounded-[3px] py-[5px] px-[10px] opacity-70 hover:bg-white"
+          class="wv-b7 flex items-center underline rounded-[3px] py-[5px] px-[10px] opacity-70 hover:bg-white"
         >
+          <img src="~/assets/images/download.svg" class="w-3 h-3 mr-2" />
           ตัวอย่างการเขียนเนื้อหาโครงการ
         </a>
       </div>
