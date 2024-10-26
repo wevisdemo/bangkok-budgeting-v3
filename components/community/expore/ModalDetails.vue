@@ -55,9 +55,9 @@
               รายการ ({{ sumAllBudget() }} ล้านบาท)
             </div>
             <p class="wv-b6 text-center my-2">
-              ตามโครงการที่มีคีย์เวิร์ด <b>“ท่องเที่ยว”</b> <br />ในเขต
-              <b>“ทุกเขต”</b> ชุมชน
-              <b>“ทุกชุมชน”</b>
+              ตามโครงการที่มีคีย์เวิร์ด <b>“{{ filterData?.key }}”</b>
+              <br />ในเขต <b>“{{ filterData?.district || "ทุกเขต" }}”</b> ชุมชน
+              <b>“{{ filterData?.community || "ทุกชุมชน" }}”</b>
             </p>
 
             <div class="relative max-w-[500px] mx-auto">
@@ -145,21 +145,7 @@ import DropDownYearList from "../../budget/charts/DropDownYearList.vue";
 import ModalProject from "./ModalProject.vue";
 
 export default {
-  props: {
-    handleModal: {
-      type: Function,
-    },
-    isOpen: {
-      type: Boolean,
-      default: false,
-    },
-    page: {
-      type: String,
-    },
-    commuData: {
-      type: Array,
-    },
-  },
+  props: ["handleModal", "isOpen", "page", "commuData", "filterData"],
   components: {
     DropDownYearList,
     ModalProject,

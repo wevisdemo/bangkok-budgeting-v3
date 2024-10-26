@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-2">
+  <div class="flex flex-col wv-b6">
     <div class="grid gap-1">
       <div v-if="variant === typeYearlyBudget">
         <div class="flex gap-1 items-center">
@@ -13,7 +13,9 @@
           <p class="wv-b6 text-wv-gray-1">งบทั้งหมดในแต่ละปี</p>
         </div>
         <div class="flex gap-1 items-center">
-          <div class="w-3 h-3 border-2 border-black rounded-sm aspect-square" />
+          <div
+            class="w-3 h-3 border-[2px] border-black rounded-[2px] aspect-square"
+          />
           <p class="wv-b6 wv-bold">งบแผนงานพัฒนา 9 ด้าน(ดี)</p>
         </div>
       </div>
@@ -25,10 +27,10 @@
       <div
         v-for="(item, key) in planData"
         :key="key"
-        class="flex items-center space-x-2 pb-[5px] w-[50%] lg:w-full"
+        class="flex items-center space-x-2 pb-[2px] w-[50%] lg:w-full"
       >
         <div
-          class="min-w-[10px] min-h-[10px] rounded-[2px]"
+          class="min-w-[12px] min-h-[12px] rounded-[2px]"
           :class="bgColorSet(item.strategy)"
         />
         <div class="flex wv-b6 text-wv-gray-1">

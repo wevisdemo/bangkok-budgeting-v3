@@ -58,6 +58,29 @@
             }"
             class="flex items-center py-2 px-2 rounded bg-wv-green text-black h-min"
           >
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 17 17"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="7.05289"
+                cy="6.56449"
+                r="3.92676"
+                transform="rotate(-30 7.05289 6.56449)"
+                stroke="black"
+                stroke-width="1.5"
+              />
+              <path
+                d="M9.08948 10.3943L11.2794 14.1874"
+                stroke="black"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+            </svg>
+
             สำรวจหน่วยงานที่เหลือ
             <i class="el-icon-right ml-1" />
           </NuxtLink>

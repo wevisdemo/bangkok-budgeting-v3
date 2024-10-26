@@ -1,6 +1,14 @@
 <template>
   <div class="max-w-7xl px-3 md:px-6 py-6 m-auto">
     <div
+      class="bg-wv-cream-30 mx-auto py-[10px] flex flex-col w-fit items-center gap-2 text-center mb-10 px-4 rounded-[5px]"
+    >
+      <p class="wv-b7">
+        ผลการสำรวจในปี 2567 จะถูกส่งต่อให้สำนักงบประมาณ กรุงเทพมหานคร<br />
+        ประเมินและพัฒนาร่างงบประมาณ รายจ่ายกรุงเทพมหานคร ปี 2569
+      </p>
+    </div>
+    <div
       class="min-h-[80vh] rounded-[20px] bg-white px-4 py-6 sm:p-10 relative mx-auto w-full"
     >
       <div class="flex max-w-[700px] mx-auto wv-b5 font-bold">

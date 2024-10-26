@@ -1,6 +1,8 @@
 <template>
   <div class="fixed md:absolute inset-0 z-40">
-    <div class="bg-white z-30 relative py-[70px] h-fit card px-[50px]">
+    <div
+      class="bg-white z-30 relative py-[70px] h-screen lg:h-fit card px-[50px]"
+    >
       <div class="absolute w-[25px] md:w-[50px] z-50 top-0 right-0 m-5">
         <img
           src="~/assets/images/cancel.svg"

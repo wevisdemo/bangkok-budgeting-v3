@@ -12,12 +12,10 @@
             <div>Budgeting</div>
           </h1>
           <div class="wv-b3 wv-bold hidden sm:block">
-            <p>เปิดเผยอย่างโปร่งใส เพื่อใครๆ</p>
-            <p>ก็มีส่วนร่วมกับงบกรุงเทพฯได้</p>
+            <p>เปิดเผย โปร่งใส<br />เข้าใจแผนการใช้งบกรุงเทพมหานคร</p>
           </div>
           <div class="wv-b4 wv-bold block sm:hidden">
-            <p>เปิดเผยอย่างโปร่งใสเพื่อใครๆ</p>
-            <p>ก็มีส่วนร่วมกับงบกรุงเทพฯได้</p>
+            <p>เปิดเผย โปร่งใส<br />เข้าใจแผนการใช้งบกรุงเทพมหานคร</p>
           </div>
           <div class="flex items-cente justify-center md:justify-start">
             <p class="wv-b7">ร่วมพัฒนาโดย</p>
@@ -119,14 +117,14 @@ export default Vue.extend({
       ],
       topInterestYellow: [
         {
-          topic: "เขตที่ได้รับการจัดสรรงบมากที่สุด",
+          topic: "เขตที่ได้รับ<br/>การจัดสรรงบมากที่สุด",
           header: "หนองจอก",
           budget: "19.8",
           path: "communityfund/explore",
           query: { select: "YearlyBudget", district: "หนองจอก" },
         },
         {
-          topic: "เขตที่เบิกใช้งบมากที่สุดในปีปัจจุบัน (2566)",
+          topic: "เขตที่เบิกใช้งบ<br/>มากที่สุดในปีปัจจุบัน (2566)",
           header: "หนองจอก",
           budget: "13.7",
           path: "communityfund/explore",
@@ -142,7 +140,8 @@ export default Vue.extend({
       ],
       surveyBudgetBKK: {
         title: "สำรวจงบประมาณกรุงเทพมหานคร",
-        des: "เพื่อขับเคลื่อนสู่ <br/>'เมืองน่าอยู่งสำหรับทุกคน'",
+        title_mb: "สำรวจงบประมาณ<br/>กรุงเทพมหานคร",
+        des: "เพื่อขับเคลื่อนสู่ <br/>'เมืองน่าอยู่สำหรับทุกคน'",
         bullet: [
           "ทำความเข้าใจแผนการใช้งบ",
           "สำรวจการใช้งบประมาณ",
@@ -151,6 +150,7 @@ export default Vue.extend({
       },
       surveyBudgetCommunityFund: {
         title: "สำรวจงบประมาณพัฒนาชุมชนเมือง",
+        title_mb: "สำรวจงบประมาณ<br/>พัฒนาชุมชนเมือง",
         des: "โคงการชุมชมเข้มแข็งฯ<br/> 200,000 บาทต่อชุมชน",
         bullet: [
           "ทำความรู้จักโครงการชุมชนเข้มแข็ง",

@@ -6,7 +6,6 @@ const { title, meta } = createMetadata();
 
 const config = {
   target: "static",
-
   head: {
     title,
     meta,

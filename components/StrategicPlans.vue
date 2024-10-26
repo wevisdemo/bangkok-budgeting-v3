@@ -2,9 +2,9 @@
   <BoxContainer>
     <div
       id="sections-strategy-plan"
-      class="bg-white rounded-[10px] shadow-md py-[30px] px-[10px] text-center"
+      class="bg-white rounded-[10px] wrapper-plan py-[30px] px-[10px] text-center"
     >
-      <p class="wv-h5 font-black">
+      <p class="wv-h5 font-black wv-kondolar mt-3">
         ทำความเข้าใจ
         <br class="md:hidden" />
         แผนการใช้งบ
@@ -17,12 +17,15 @@
           เมืองน่าอยู่สำหรับทุกคน’</b
         >
       </p>
+      <div
+        class="w-full border-t-[1.5px] border-t-wv-gray-50 my-5 border-dashed max-w-[260px] md:max-w-[500px] mx-auto"
+      />
       <p class="wv-b3 font-bold mt-3 md:mt-6">คุณกำลังสำรวจแผนนโยบาย</p>
       <p class="wv-h5 wv-bold mt-2" :class="`text-${pointerStrategy.color}`">
         “{{ pointerStrategy?.strategy }}”
       </p>
       <p class="wv-b5">ของแผนงานพัฒนา 9 ด้าน(ดี)</p>
-      <p class="wv-b7 opacity-50">กดเลือกดด้านดีอื่นๆ</p>
+
       <div
         class="flex gap-2 sm:gap-3 mt-5 grid-cols-7 relative justify-center w-full mb-3"
       >
@@ -36,40 +39,56 @@
             <img
               v-show="onHoverImg === item.img"
               :id="planIndex.toString()"
-              class="w-20 h-28"
+              class="w-20 md:h-28"
               :src="`/bangkok-budgeting-v3/images/strategies/${item.img}_hover.svg`"
               :alt="item.strategy"
             />
             <img
               v-show="onHoverImg !== item.img"
               :id="planIndex.toString()"
-              class="w-20 h-28"
+              class="w-20 md:h-28"
               :src="`/bangkok-budgeting-v3/images/strategies/${item.img}.svg`"
               :alt="item.strategy"
             />
             <div
               v-show="onHoverImg === item.img"
-              class="point-up border-wv-cream left-[50%] translate-x-[-50%] translate-y-[10px]"
+              class="point-up border-wv-cream left-[50%] translate-x-[-50%] translate-y-[40px]"
             />
           </div>
         </div>
+      </div>
+      <div class="wv-b7 opacity-50 mb-4 flex items-center w-fit mx-auto">
+        <svg
+          class="mr-2"
+          width="8"
+          height="9"
+          viewBox="0 0 8 9"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            opacity="0.5"
+            d="M4.60355 0.534386C4.40829 0.339124 4.09171 0.339124 3.89645 0.534386L0.714466 3.71637C0.519204 3.91163 0.519204 4.22821 0.714466 4.42347C0.909728 4.61874 1.22631 4.61874 1.42157 4.42347L4.25 1.59505L7.07843 4.42347C7.27369 4.61874 7.59027 4.61874 7.78553 4.42347C7.9808 4.22821 7.9808 3.91163 7.78553 3.71637L4.60355 0.534386ZM4.75 8.88794L4.75 0.887939L3.75 0.887939L3.75 8.88794L4.75 8.88794Z"
+            fill="black"
+          />
+        </svg>
+        กดเลือกดด้านดีอื่นๆ
       </div>
       <!-- strategy -->
       <div
         class="bg-wv-cream flex flex-col items-center justify-center p-4 w-full"
       >
         <div class="text-center pb-4">
-          <p class="wv-b6">ยุทธศาสตร์ด้าน</p>
-
-          <div class="wv-b6 flex md:block space-x-2 md:space-x-0">
+          <div class="wv-b6 flex flex-col md:block space-x-2 md:space-x-0">
             <p v-if="pointerStrategy">
-              ประกอบด้วย
+              ประเด็นพัฒนาที่เกี่ยวข้อง
               {{ pointerStrategy?.strategies?.length }}
-              มิติย่อย
+              ประเด็น
             </p>
-            <span class="text-wv-gray-1 block sm:hidden"
-              >(กด + เพื่ออ่านคำอธิบาย)</span
-            >
+
+            <p class="text-wv-gray-1 block sm:hidden">
+              (กด + เพื่ออ่านคำอธิบาย)
+            </p>
           </div>
         </div>
         <!-- desktop -->
@@ -158,11 +177,45 @@
           </div>
         </div>
       </div>
-      <button
-        class="border border-black mt-5 px-[20px] py-[10px] rounded-[5px] wv-b6"
+      <a
+        href="https://openpolicy.bangkok.go.th/"
+        target="_blank"
+        class="border flex items-center w-fit mx-auto border-black mt-5 px-[20px] py-[10px] rounded-[5px] wv-b6"
       >
+        <svg
+          class="mr-2"
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect x="1" y="0.916748" width="14" height="14" stroke="black" />
+          <line
+            x1="3.83398"
+            y1="4.91675"
+            x2="12.1673"
+            y2="4.91675"
+            stroke="black"
+          />
+          <line
+            x1="3.83398"
+            y1="8.25012"
+            x2="12.1673"
+            y2="8.25012"
+            stroke="black"
+          />
+          <line
+            x1="3.83398"
+            y1="11.5834"
+            x2="8.83398"
+            y2="11.5834"
+            stroke="black"
+          />
+        </svg>
+
         ตรวจสอบความคืบหน้านโยบายเพิ่มเติม
-      </button>
+      </a>
     </div>
   </BoxContainer>
 </template>
@@ -219,6 +272,9 @@ export default Vue.extend({
   @apply relative flex justify-center;
 }
 
+.wrapper-plan {
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
+}
 .point-up {
   width: 0;
   height: 0;

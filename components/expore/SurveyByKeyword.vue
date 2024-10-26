@@ -21,18 +21,11 @@
         v-if="($mq === 'md' && mobileKeyword) || $mq === 'lg'"
         class="lg:w-[400px] lg:h-fit border-2 border-black rounded-[5px] p-[22px] fixed h-screen lg:relative inset-0 bg-white z-[20]"
       >
-        <div
-          class="absolute top-0 right-0 m-5"
+        <i
+          class="el-icon-close mr-4 cursor-pointer w-[15px] absolute top-0 right-0 m-5"
           @click="handdleModalMobile"
           v-if="$mq === 'md'"
-        >
-          <div
-            class="wv-b5 border-black rounded-[5px] border py-[5px] px-[10px]"
-          >
-            ตกลง
-          </div>
-        </div>
-
+        />
         <div
           class="md:px-16 lg:px-0 lg:py-0 md:py-16 mx-auto mt-[40px] md:mt-0"
         >
@@ -67,10 +60,10 @@
                   </el-option>
                 </el-select>
               </div>
-              <div class="flex mt-3">
-                <p class="w-[100px]"></p>
-                <p class="opacity-50 flex-1 text-center ml-2">จำนวนที่พบ</p>
-                <p class="opacity-50 flex-1 text-end">งบ (ล้านบาท)</p>
+              <div class="flex mt-3 opacity-50">
+                <p class="w-[100px]">คีย์เวิร์ด</p>
+                <p class="flex-1 text-center ml-2">จำนวนที่พบ</p>
+                <p class="flex-1 text-end">งบ (ล้านบาท)</p>
               </div>
             </div>
           </div>

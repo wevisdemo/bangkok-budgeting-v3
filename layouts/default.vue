@@ -5,20 +5,101 @@
       :cookie-options="cookieOptions"
       :on-accept="onCookieAccept"
     />
-    <WvNavbar class="z-20" :dark="true">
+    <WvNavbar class="z-20" :dark="true" homeHref="/bangkok-budgeting-v3">
       <NuxtLink v-for="{ label, path } in routes" :key="path" :to="path">
         <WvNavButton :active="path === $route.path" :dark="true">{{
           label
         }}</WvNavButton>
       </NuxtLink>
+      <a
+        href="http://bangkokbudgeting61-67.wevis.info/"
+        target="_blank"
+        class="wv-b7"
+      >
+        <WvNavButton :dark="true"> สำรวจงบประมาณ กทม. 2561-2567</WvNavButton>
+      </a>
     </WvNavbar>
     <Nuxt />
+    <div
+      class="bg-black text-white justify-center items-start text-center space-x-10 py-5 hidden md:flex"
+    >
+      <div
+        v-for="(item, index) in footerNav"
+        :key="index"
+        class="flex flex-col text-start"
+      >
+        <div class="wv-b7">
+          <NuxtLink :to="item.path">
+            <WvNavButton :dark="true">
+              {{ item.title }}
+            </WvNavButton>
+          </NuxtLink>
+          <div v-for="(item, i) in item.des" :key="i" class="opacity-50">
+            <NuxtLink :to="item.path">
+              <WvNavButton :dark="true">
+                {{ item.title }}
+              </WvNavButton>
+            </NuxtLink>
+          </div>
+        </div>
+      </div>
+      <a
+        href="http://bangkokbudgeting61-67.wevis.info/"
+        target="_blank"
+        class="wv-b7"
+      >
+        <WvNavButton :dark="true">
+          สำรวจงบประมาณ<br />กทม. 2561-2567</WvNavButton
+        >
+      </a>
+    </div>
+    <div
+      class="bg-black text-white justify-center items-start space-x-10 wv-b7 py-5 flex md:hidden"
+    >
+      <div class="text-start flex flex-col space-y-2">
+        <NuxtLink to="/"> หน้าแรก </NuxtLink>
+        <NuxtLink to="/about"> About us </NuxtLink>
+        <a
+          href="http://bangkokbudgeting61-67.wevis.info/"
+          target="_blank"
+          class="wv-b7"
+        >
+          สำรวจงบประมาณ<br />กทม. 2561-2567
+        </a>
+      </div>
+      <div class="text-start flex flex-col">
+        <NuxtLink :to="bkkbudget.path" class="mb-2">
+          {{ bkkbudget.title }}
+        </NuxtLink>
+        <NuxtLink
+          :to="bkkbudget.path"
+          v-for="(item, index) in bkkbudget.des"
+          :key="index"
+          class="opacity-50 space-y-1"
+        >
+          {{ item.title }}
+        </NuxtLink>
+      </div>
+      <div class="text-start flex flex-col">
+        <NuxtLink :to="community.path" class="mb-2">
+          {{ community.title }}
+        </NuxtLink>
+        <NuxtLink
+          :to="community.path"
+          v-for="(item, index) in community.des"
+          :key="index"
+          class="opacity-50 space-y-1"
+        >
+          {{ item.title }}
+        </NuxtLink>
+      </div>
+    </div>
     <WvFooter v-if="!isAboutFooter()" :dark="true" />
     <AboutFooter v-if="isAboutFooter()" />
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from "vue";
 import { uuid } from "vue-uuid";
 
@@ -32,19 +113,12 @@ import WvNavButton from "@wevisdemo/ui/vue2/nav-button";
 import WvCookieConsent from "@wevisdemo/ui/vue2/cookie-consent";
 import AboutFooter from "~/components/AboutFooter.vue";
 
-interface Option {
-  Functionality: boolean;
-  Performance: boolean;
-  Advertising: boolean;
-}
-
 export default Vue.extend({
   components: { WvNavbar, WvFooter, WvNavButton, WvCookieConsent, AboutFooter },
 
   data() {
     return {
       routes: [
-        { label: "หน้าแรก", path: "/" },
         { label: "สำรวจการใช้งบประมาณ", path: "/bkkbudget" },
         { label: "พัฒนาชุมชนเมืองให้เข้มแข็ง", path: "/communityfund" },
         { label: "เกี่ยวกับโครงการ", path: "/about" },
@@ -52,6 +126,67 @@ export default Vue.extend({
       footerComponent: "AboutFooter",
       cookieOptions: ["Functionality"],
       uuid: uuid.v1(),
+      bkkbudget: {
+        title: "สำรวจการใช้งบประมาณ",
+        path: "/bkkbudget",
+        des: [
+          { title: "ทำความเข้าใจแผนการใช้งบ", path: "/bkkbudget" },
+          { title: "สำรวจการใช้งบประมาณ", path: "/bkkbudget" },
+          { title: "อยากให้ใช้งบทำอะไร", path: "/bkkbudget" },
+        ],
+      },
+      community: {
+        title: "พัฒนาชุมชนเมืองให้เข้มแข็ง",
+        path: "/communityfund",
+        des: [
+          { title: "ทำความรู้จักโครงการชุมชนเข้มแข็ง", path: "/communityfund" },
+          {
+            title: "สำรวจโครงการของชุมชนตามเขตที่คุณสนใจ",
+            path: "/communityfund",
+          },
+          {
+            title: "อยากให้ชุมชนของคุณพัฒนาโครงการอะไร",
+            path: "/communityfund",
+          },
+        ],
+      },
+      footerNav: [
+        {
+          title: "หน้าแรก",
+          path: "/",
+        },
+        {
+          title: "About us",
+          path: "/about",
+        },
+        {
+          title: "สำรวจการใช้งบประมาณ",
+          path: "/bkkbudget",
+          des: [
+            { title: "ทำความเข้าใจแผนการใช้งบ", path: "/bkkbudget" },
+            { title: "สำรวจการใช้งบประมาณ", path: "/bkkbudget" },
+            { title: "อยากให้ใช้งบทำอะไร", path: "/bkkbudget" },
+          ],
+        },
+        {
+          title: "พัฒนาชุมชนเมืองให้เข้มแข็ง",
+          path: "/communityfund",
+          des: [
+            {
+              title: "ทำความรู้จักโครงการชุมชนเข้มแข็ง",
+              path: "/communityfund",
+            },
+            {
+              title: "สำรวจโครงการของชุมชนตามเขตที่คุณสนใจ",
+              path: "/communityfund",
+            },
+            {
+              title: "อยากให้ชุมชนของคุณพัฒนาโครงการอะไร",
+              path: "/communityfund",
+            },
+          ],
+        },
+      ],
     };
   },
 
@@ -65,7 +200,7 @@ export default Vue.extend({
       const routeName = this.$route.name;
       return routeName === "about";
     },
-    async onCookieAccept(option: Option) {
+    async onCookieAccept(option) {
       if (option.Functionality) {
         // Initialize or enable analytics
       }

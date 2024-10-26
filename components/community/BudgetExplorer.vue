@@ -23,6 +23,29 @@
             }"
             class="flex items-center py-1 px-2 rounded border-wv-gray-1 hover:bg-gray-500 hover:text-white border text-wv-gray-1 h-min"
           >
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 17 17"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="7.05289"
+                cy="6.56449"
+                r="3.92676"
+                transform="rotate(-30 7.05289 6.56449)"
+                stroke="black"
+                stroke-width="1.5"
+              />
+              <path
+                d="M9.08948 10.3943L11.2794 14.1874"
+                stroke="black"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+            </svg>
+
             ค้นหางบด้วยคีย์เวิร์ด
             <i class="el-icon-right ml-1" />
           </NuxtLink>
