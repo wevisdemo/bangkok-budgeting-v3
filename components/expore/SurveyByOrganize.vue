@@ -1,7 +1,7 @@
 <template>
   <div
     id="byYears"
-    class="mt-7 md:w-[80%] mx-auto lg:w-full flex lg:space-x-[35px] min-h-screen flex-col lg:flex-row justify-center relative"
+    class="mt-7 md:w-[80%] mx-auto lg:w-full flex lg:space-x-[35px] min-h-screen flex-col lg:flex-row justify-between relative"
   >
     <div class="fixed w-full bottom-0" v-if="resultKeySearch.length > 8">
       <div
@@ -15,15 +15,14 @@
     </div>
 
     <div class="lg:max-w-[400px] text-center lg:text-left">
-      <p class="wv-b5 text-wv-gray-1">
-        <b>ยุทธศาสตร์ 7 ด้าน</b> เป็นแผนพัฒนาที่กรุงเทพฯ <br />วางไว้
-        เพื่อจะก้าวไปสู่การเป็น “มหานครแห่งเอเชีย” <br />ภายใน 20 ปี (2561-2580)
+      <p class="wv-b6">
+        <b>งบแผนงานพัฒนา 9 ด้าน(ดี) </b>
       </p>
-      <div class="mt-5 flex-wrap grid-cols-1 px-3 text-start hidden md:grid">
+      <div class="mt-2 flex-wrap grid-cols-1 px-3 text-start hidden md:grid">
         <div
           v-for="(item, key) in navData()"
           :key="key"
-          class="flex items-center space-x-2 py-[5px]"
+          class="flex items-center space-x-2 py-[1px]"
         >
           <div
             class="min-w-[10px] min-h-[10px] rounded-[2px]"
@@ -68,6 +67,26 @@
           </el-option>
         </el-select>
       </div>
+      <div class="flex justify-between items-center mb-6">
+        <div>
+          <p class="wv-b3 font-bold">
+            พบ {{ resultKeySearch.length.toLocaleString("en-US", {}) }} รายการ
+          </p>
+          <p class="wv-b5 font-bold">
+            ใช้งบรวม {{ convertMillion(filterTotalAmount) || 0 }} ล้านบาท
+          </p>
+          <p class="wv-b6 opacity-50">
+            ({{ ((filterTotalAmount / totalAmount) * 100).toFixed(2) }}%
+            ของงบทั้งหมด)
+          </p>
+        </div>
+        <a class="wv-b7 underline opacity-50 flex items-center cursor-pointer">
+          <img
+            src="~/assets/images/download.svg"
+            class="w-3 h-3 mr-2"
+          />ดาวน์โหลดข้อมูล</a
+        >
+      </div>
       <div class="mt-5 flex-wrap grid grid-cols-3 px-3 text-start md:hidden">
         <div
           v-for="(item, key) in navData()"
@@ -84,6 +103,7 @@
         </div>
       </div>
       <div class="flex justify-between mt-5">
+        <ToggleUnit :toggle="() => toggle()" :is-million="isMillion" />
         <div
           class="text-wv-gray-1 wv-b6 flex space-x-2 justify-center cursor-pointer mb-4"
         >
@@ -103,7 +123,6 @@
             </el-option>
           </el-select>
         </div>
-        <ToggleUnit :toggle="() => toggle()" :is-million="isMillion" />
       </div>
       <div v-if="resultKeySearch.length === 0" class="text-center my-5">
         ไม่พบข้อมูล
@@ -176,11 +195,13 @@
 </template>
 
 <script>
+import _ from "lodash";
 import { mapState, mapActions } from "vuex";
 import { filterByOrganize } from "../budget/charts/filterBy";
 import { navData } from "~/components/expore/navData";
 import {
   bgColorSet,
+  convertMillion,
   orderByStrategy,
   strategyList,
 } from "~/components/budget/utils";
@@ -214,6 +235,8 @@ export default {
         { label: "ทุกปี", value: "" },
         { label: "2568", value: 68 },
       ],
+      filterTotalAmount: 0,
+      totalAmount: 0,
     };
   },
   methods: {
@@ -228,6 +251,7 @@ export default {
     strategyList,
     filterByOrganize,
     getChartDataGroupByOrganizations,
+    convertMillion,
     scrollToTop() {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
@@ -243,6 +267,7 @@ export default {
       });
       this.barChartData = filterByOrganize(this.selectedFilter, response);
       this.resultKeySearch = this.barChartData;
+      this.filterOrganize = "";
     },
 
     fetchByOrganize(nameOrganization) {
@@ -369,6 +394,8 @@ export default {
         this.resultKeySearch = this.barChartData.filter((s) =>
           s.nameOrganization.toString().includes(newValue)
         );
+        (this.filterTotalAmount = _.sumBy(this.resultKeySearch, "amount")),
+          (this.totalAmount = _.sumBy(this.barChartData, "amount"));
       },
     },
   },

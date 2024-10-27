@@ -5,9 +5,8 @@
     :class="chartData.years ? 'pointer-events-auto' : 'pointer-events-none'"
   >
     <div class="lg:w-[400px] mb-4 lg:mb-0">
-      <p class="wv-b5 text-wv-gray-1 text-center lg:text-left">
-        <b>ยุทธศาสตร์ 7 ด้าน</b> เป็นแผนพัฒนาที่กรุงเทพฯ <br />วางไว้
-        เพื่อจะก้าวไปสู่การเป็น “มหานครแห่งเอเชีย” <br />ภายใน 20 ปี (2561-2580)
+      <p class="wv-b5 text-center lg:text-left">
+        <b>แผนงานพัฒนา 9 ด้าน(ดี) </b>
       </p>
       <div v-if="$mq === 'md'" class="flex items-center w-max mx-auto">
         <div
@@ -43,7 +42,7 @@
           class="absolute top-0 right-0 m-5"
           @click="mobileStrategy = false"
         />
-        <p class="wv-b5 font-bold mb-2 lg:hidden">แผนยุทธศาสตร์ 7 ด้าน</p>
+        <p class="wv-b5 font-bold mb-2 lg:hidden">แผนงานพัฒนา 9 ด้าน(ดี)</p>
 
         <div v-for="(strategy, key) in navData()" :key="key">
           <button
@@ -200,7 +199,7 @@ export default {
       handleRemoveSelected(".wrapper-sub-strategy", "z-[20]");
       handleRemoveSelected(".wrapper-strategy", "grayScale");
       handleRemoveSelected(".wrapper-strategy", "hidden");
-      this.updateSubTitleModal("ตามแผนยุทธศาสตร์ 7 ด้าน");
+      this.updateSubTitleModal("ตามแผนงานพัฒนา 9 ด้าน(ดี)");
     },
   },
 };

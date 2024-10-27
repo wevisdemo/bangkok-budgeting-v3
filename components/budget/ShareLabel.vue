@@ -26,14 +26,6 @@
         :data-url="shareUrl"
       />
     </div>
-    <a
-      class="mt-2 wv-b6 flex items-center cursor-pointer"
-      :href="GOOGLE_SHEETS_CSV"
-      target="_blank"
-    >
-      <img src="~/assets/images/download.svg" class="w-3 h-3 mr-2" />
-      ดาวน์โหลดข้อมูล
-    </a>
   </div>
 </template>
 

@@ -280,7 +280,7 @@ export default {
   mounted() {
     this.filterYears = filterBy(this.selectedFilter, this.isModalDetails);
     this.resultKeySearch = this.filterYears;
-    if (this.subTitleModal === "ตามแผนยุทธศาสตร์ 7 ด้าน") this.fetchByYear();
+    if (this.subTitleModal === "ตามแผนงานพัฒนา 9 ด้าน(ดี)") this.fetchByYear();
     if (this.page === "organize")
       this.selectFilter = this.selectYearOrganize.label;
     if (this.page === "strategy")

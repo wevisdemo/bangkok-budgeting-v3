@@ -37,7 +37,7 @@ export const state = (): State => ({
   chartSelected: "",
   isCookieSet: false,
   isModalDetails: [],
-  subTitleModal: "ตามแผนยุทธศาสตร์ 7 ด้าน",
+  subTitleModal: "ตามแผนงานพัฒนา 9 ด้าน(ดี)",
   selectedVoteDropdown: {
     district_name: "",
     project_type: "",

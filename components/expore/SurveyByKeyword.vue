@@ -109,25 +109,25 @@
         >
           <div class="flex justify-between">
             <div>
-              <p class="wv-h8 font-bold wv-kondolar">{{ selectedKey.Word }}</p>
-              <p class="wv-b5">
-                พบใน
-                <span class="font-bold">{{
-                  rawData?.total?.toLocaleString("en-US", {})
-                }}</span>
-                รายการ <br />ใช้งบรวม
-                <span class="font-bold">{{
-                  convertMillion(totalFilterAmout)
-                }}</span>
-                ล้านบาท <br />({{
-                  ((totalFilterAmout / chartData.amount) * 100).toFixed()
-                }}% ของงบทั้งหมด)
+              <p class="wv-h8 font-bold wv-kondolar">
+                “{{ selectedKey.Word }}”
+              </p>
+              <p class="wv-b3 font-bold">
+                พบ {{ rawData?.total?.toLocaleString("en-US", {}) }} รายการ
+              </p>
+              <p class="wv-b5 font-bold">
+                ใช้งบรวม {{ convertMillion(totalFilterAmout) || 0 }} ล้านบาท
+              </p>
+              <p class="wv-b6 opacity-50">
+                ({{ ((totalFilterAmout / chartData.amount) * 100).toFixed(2) }}%
+                ของงบทั้งหมด)
               </p>
             </div>
             <ModalDetails
               :handle-modal="() => handleModal()"
               :is-open="isOpen"
               page="keyword"
+              class="flex flex-col items-end space-y-2"
             >
               <div
                 class="bg-black flex text-white w-fit wv-b6 px-[10px] py-[6px] rounded-[5px] cursor-pointer"
@@ -136,6 +136,14 @@
                 <img src="~/assets/icons/seemore.svg" class="mr-2" />
                 ดูรายการใช้งบ
               </div>
+              <a
+                class="wv-b7 underline opacity-50 flex items-center cursor-pointer"
+              >
+                <img
+                  src="~/assets/images/download.svg"
+                  class="w-3 h-3 mr-2"
+                />ดาวน์โหลดข้อมูล</a
+              >
             </ModalDetails>
           </div>
           <!-- dropdown÷ -->

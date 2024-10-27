@@ -160,6 +160,7 @@
               :commuData="commuData"
               :filterData="filterData"
               page="keyword"
+              class="flex flex-col items-end space-y-2"
             >
               <div
                 class="bg-black flex text-white w-fit wv-b6 px-[10px] py-[6px] rounded-[5px] cursor-pointer"
@@ -168,6 +169,14 @@
                 <img src="~/assets/icons/seemore.svg" class="mr-2" />
                 ดูรายการใช้งบ
               </div>
+              <a
+                class="wv-b7 underline opacity-50 flex items-center cursor-pointer"
+              >
+                <img
+                  src="~/assets/images/download.svg"
+                  class="w-3 h-3 mr-2"
+                />ดาวน์โหลดข้อมูล</a
+              >
             </ModalDetails>
           </div>
           <ToggleUnit :toggle="() => toggle()" :isMillion="isMillion" />

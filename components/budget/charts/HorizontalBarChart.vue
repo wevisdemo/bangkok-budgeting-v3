@@ -5,14 +5,24 @@
     class="max-w-[685px] h-fit flex-1 flex flex-col justify-between w-full mx-auto"
   >
     <div class="flex justify-between items-center mb-6">
-      <p class="wv-b4 font-bold">
-        ใช้งบรวม {{ convertMillion(summaryAnount) || 0 }} ล้านบาท
-      </p>
+      <div>
+        <p class="wv-b3 font-bold">
+          พบ {{ filterItems.length.toLocaleString("en-US", {}) }} รายการ
+        </p>
+        <p class="wv-b5 font-bold">
+          ใช้งบรวม {{ convertMillion(summaryAmount) || 0 }} ล้านบาท
+        </p>
+        <p class="wv-b6 opacity-50">
+          ({{ ((summaryAmount / totalAmount) * 100).toFixed(2) }} %
+          ของงบทั้งหมด)
+        </p>
+      </div>
       <ModalDetails
         :handle-modal="() => handleModal()"
         :is-open="isOpen"
         :is-selected-year="(year) => isSelectedYear(year)"
         page="strategy"
+        class="flex flex-col items-end space-y-2"
       >
         <div
           class="bg-black flex text-white w-fit wv-b6 px-[10px] py-[6px] rounded-[5px] cursor-pointer"
@@ -21,6 +31,12 @@
           <img src="~/assets/icons/seemore.svg" class="mr-2" />
           ดูรายการใช้งบ
         </div>
+        <a class="wv-b7 underline opacity-50 flex items-center cursor-pointer">
+          <img
+            src="~/assets/images/download.svg"
+            class="w-3 h-3 mr-2"
+          />ดาวน์โหลดข้อมูล</a
+        >
       </ModalDetails>
     </div>
     <ToggleUnit :toggle="() => toggle()" :is-million="isMillion" />
@@ -125,7 +141,8 @@
                 chartSelected ===
                   pickSubStrategy(d.strategies, strategy.name, subStrategy)
                     ?.name &&
-                pickSubStrategy(d.strategies, strategy.name, subStrategy)
+                pickSubStrategy(d.strategies, strategy.name, subStrategy) &&
+                strategy.name !== 'ไม่พบข้อมูล'
               "
               class="absolute top-0 t wv-b7 translate-y-[-100%] left-[50%] translate-x-[-50%] font-bold pointer-events-none"
             >
@@ -191,7 +208,9 @@ export default {
       prevSelected: "",
       isOpen: false,
       isMillion: true,
-      summaryAnount: 0,
+      summaryAmount: 0,
+      totalAmount: 0,
+      filterItems: [],
     };
   },
   computed: {
@@ -252,15 +271,11 @@ export default {
       handleRemoveSelected(".wrapper-sub-strategy", "grayScale");
       handleAddSelected(".wrapper-strategy", "grayScale");
       handleRemoveSelected(".wrapper-strategy", "hidden");
-      if (strategy !== "ไม่พบข้อมูล") {
-        handleAddSelected("#strategy-" + strategy, "hidden");
-        const data = this.$store.getters["data/getBudgetItems"]({
-          strategy,
-        }).items;
-        this.summaryAnount = _.sumBy(data, "amount");
-      } else {
-        this.summaryAnount = this.chartData.amount;
-      }
+      handleAddSelected("#strategy-" + strategy, "hidden");
+      this.filterItems = this.$store.getters["data/getBudgetItems"]({
+        strategy,
+      }).items;
+      this.summaryAmount = _.sumBy(this.filterItems, "amount");
       this.updateChartSelected(strategy);
       this.fetchByStrategy(strategy);
       strategy === "ไม่พบข้อมูล"
@@ -277,14 +292,15 @@ export default {
         handleRemoveSelected(".wrapper-sub-strategy", "z-[20]");
         handleRemoveSelected(".wrapper-strategy", "grayScale");
         handleRemoveSelected(".wrapper-strategy", "hidden");
-        this.updateSubTitleModal("ตามแผนยุทธศาสตร์ 7 ด้าน");
+        this.updateSubTitleModal("ตามแผนงานพัฒนา 9 ด้าน(ดี)");
         this.currentSelected = "";
-        this.summaryAnount = this.chartData.amount;
+        this.summaryAmount = this.chartData.amount;
+        this.filterItems = this.$store.getters["data/getBudgetItems"]().items;
       } else {
-        const data = this.$store.getters["data/getBudgetItems"]({
+        this.filterItems = this.$store.getters["data/getBudgetItems"]({
           substrategy: strategy,
         }).items;
-        this.summaryAnount = _.sumBy(data, "amount");
+        this.summaryAmount = _.sumBy(this.filterItems, "amount");
         handleRemoveSelected(".wrapper-sub-strategy", "z-[20]");
         handleAddSelected(`[id='subStrategy-${strategy}']`, "z-[20]");
         this.fetchBySubStrategy(strategy);
@@ -346,17 +362,21 @@ export default {
       } else if (!filterStrategy[0] && filterSubStrategy && newValue) {
         this.handleSubStrategy(newValue);
       } else {
-        this.updateIsModalDetails(this.$store.getters["data/getBudgetItems"]());
-        this.updateSubTitleModal(`ตามแผนยุทธศาสตร์ 7 ด้าน`);
+        const getData = this.$store.getters["data/getBudgetItems"]();
+        this.updateIsModalDetails(getData);
+        this.updateSubTitleModal(`ตามแผนงานพัฒนา 9 ด้าน(ดี)`);
+        this.filterItems = getData.items;
         this.updateChartSelected();
         handleRemoveSelected(".wrapper-strategy", "grayScale");
         handleRemoveSelected(".wrapper-strategy", "hidden");
-        this.summaryAnount = this.chartData.amount;
+        this.summaryAmount = this.chartData.amount;
       }
     },
   },
   mounted() {
-    this.summaryAnount = this.chartData.amount;
+    this.summaryAmount = this.chartData.amount;
+    this.totalAmount = this.chartData.amount;
+    this.filterItems = this.$store.getters["data/getBudgetItems"]().items;
   },
 };
 </script>

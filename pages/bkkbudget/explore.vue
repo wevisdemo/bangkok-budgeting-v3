@@ -13,7 +13,10 @@
       class="flex wv-kondolar lg:justify-between text-center lg:text-left items-center flex-col lg:flex-row"
     >
       <div>
-        <div class="wv-black wv-h5">สำรวจการใช้งบกรุงเทพฯ ตามแผนยุทธศาสตร์</div>
+        <div class="wv-black wv-h5">
+          สำรวจการใช้งบกรุงเทพฯ <br />
+          ตามแผนงานพัฒนา 9 ด้าน (ดี)
+        </div>
         <p class="wv-b7 text-red-500">
           *เว็บไซต์นี้แสดงเฉพาะงบที่ใช้ตามยุทธศาสตร์
           <b>ซึ่งไม่ใช่งบทั้งหมดของกรุงเทพฯ</b>

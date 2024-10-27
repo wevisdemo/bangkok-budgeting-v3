@@ -68,7 +68,14 @@
           </p>
         </div>
         <div class="flex-1 flex justify-end">
-          <button class="wv-b7 opacity-50 underline">ดาวน์โหลดข้อมูล</button>
+          <a
+            class="wv-b7 underline opacity-50 flex items-center cursor-pointer"
+          >
+            <img
+              src="~/assets/images/download.svg"
+              class="w-3 h-3 mr-2"
+            />ดาวน์โหลดข้อมูล</a
+          >
         </div>
       </div>
       <div class="flex justify-between mt-5">
