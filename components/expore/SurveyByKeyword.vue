@@ -137,7 +137,21 @@
                 ดูรายการใช้งบ
               </div>
               <a
+                v-if="selectedKey.Word"
                 class="wv-b7 underline opacity-50 flex items-center cursor-pointer"
+                :href="`https://docs.google.com/spreadsheets/d/15Xd-xM-Mi3qVRRyyqMxHrRgXYT3WNmWIzpvdUn9xWZo/gviz/tq?tqx=out:csv&gid=1915709666&&tq=where%20B%20like%20'%25${selectedKey.Word}%25'`"
+                target="_blank"
+              >
+                <img
+                  src="~/assets/images/download.svg"
+                  class="w-3 h-3 mr-2"
+                />ดาวน์โหลดข้อมูล</a
+              >
+              <a
+                v-else
+                class="wv-b7 underline opacity-50 flex items-center cursor-pointer"
+                :href="`https://docs.google.com/spreadsheets/d/15Xd-xM-Mi3qVRRyyqMxHrRgXYT3WNmWIzpvdUn9xWZo/gviz/tq?tqx=out:csv&gid=1915709666&&tq=select%20*`"
+                target="_blank"
               >
                 <img
                   src="~/assets/images/download.svg"

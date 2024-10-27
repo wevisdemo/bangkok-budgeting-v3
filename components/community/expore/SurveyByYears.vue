@@ -69,7 +69,32 @@
         </div>
         <div class="flex-1 flex justify-end">
           <a
+            v-if="filterData.community"
             class="wv-b7 underline opacity-50 flex items-center cursor-pointer"
+            :href="`https://docs.google.com/spreadsheets/d/15Xd-xM-Mi3qVRRyyqMxHrRgXYT3WNmWIzpvdUn9xWZo/gviz/tq?tqx=out:csv&gid=453189989&&tq=where(%20A%20like%20'%25${filterData.year}%25')and%20B%20%3D%20'${filterData.district}'%20and%20C%20%3D%20'${filterData.community}'`"
+            target="_blank"
+          >
+            <img
+              src="~/assets/images/download.svg"
+              class="w-3 h-3 mr-2"
+            />ดาวน์โหลดข้อมูล</a
+          >
+          <a
+            v-else-if="!filterData.community && filterData.district"
+            class="wv-b7 underline opacity-50 flex items-center cursor-pointer"
+            :href="`https://docs.google.com/spreadsheets/d/15Xd-xM-Mi3qVRRyyqMxHrRgXYT3WNmWIzpvdUn9xWZo/gviz/tq?tqx=out:csv&gid=453189989&&tq=where(%20A%20like%20'%25${filterData.year}%25')and%20B%20%3D%20'${filterData.district}'`"
+            target="_blank"
+          >
+            <img
+              src="~/assets/images/download.svg"
+              class="w-3 h-3 mr-2"
+            />ดาวน์โหลดข้อมูล</a
+          >
+          <a
+            v-else
+            class="wv-b7 underline opacity-50 flex items-center cursor-pointer"
+            :href="`https://docs.google.com/spreadsheets/d/15Xd-xM-Mi3qVRRyyqMxHrRgXYT3WNmWIzpvdUn9xWZo/gviz/tq?tqx=out:csv&gid=453189989&&tq=where(%20A%20like%20'%25${filterData.year}%25')`"
+            target="_blank"
           >
             <img
               src="~/assets/images/download.svg"
