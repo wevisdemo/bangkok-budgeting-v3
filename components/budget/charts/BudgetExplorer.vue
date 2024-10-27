@@ -17,8 +17,13 @@
           ขนาดคำ = จำนวนที่พบ
         </p>
       </div>
-      <div class="w-full flex-1 flex flex-col justify-between gap-4">
-        <div id="wordCloundWrapper"></div>
+      <div
+        class="w-full flex-1 flex flex-col justify-between gap-4 items-center lg:items-end"
+      >
+        <div
+          id="wordCloundWrapper"
+          class="rounded-full h-[260px] lg:w-[400px] w-[260px] lg:h-[400px] flex items-center justify-center bg-wv-cream-30"
+        />
         <div class="flex justify-center sm:justify-end">
           <NuxtLink
             :to="{
@@ -78,8 +83,11 @@ export default Vue.extend({
       const getWidth =
         d3.select("#wordCloundWrapper").node().getBoundingClientRect()?.width ||
         0;
-      const width = getWidth;
-      const height = 450;
+      const getHeight =
+        d3.select("#wordCloundWrapper").node().getBoundingClientRect()
+          ?.height || 0;
+      const width = getWidth - 60;
+      const height = getHeight - 60;
       var svg = d3
         .select("#wordCloundWrapper")
         .append("svg")
@@ -99,7 +107,7 @@ export default Vue.extend({
           return ~~(Math.random() * 2);
         })
         .fontSize(function (d) {
-          return d.size / 5;
+          return getWidth == "260" ? d.size / 13 : d.size / 10;
         })
         .on("end", draw);
       layout.start();

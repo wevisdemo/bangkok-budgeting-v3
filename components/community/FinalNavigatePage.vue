@@ -23,7 +23,9 @@
             เพื่อให้เข้าใจแผนการใช้งบและร่วมขับเคลื่อน<br />
             ให้กรุงเทพฯ เป็นเมืองที่น่าอยู่มากขึ้น
           </p>
-          <div class="flex max-w-[135px] mx-auto flex-col space-y-3">
+          <div
+            class="flex max-w-[135px] md:max-w-[150px] h-full mx-auto flex-col space-y-3"
+          >
             <NuxtLink
               :to="{
                 path: 'bkkbudget',

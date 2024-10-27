@@ -1,6 +1,45 @@
 <template>
   <div class="fixed inset-0 z-[50]">
     <div
+      v-if="isExpand"
+      class="bg-black fixed inset-0 z-[60] p-5 h-screen bg-opacity-80 flex items-center"
+    >
+      <div
+        class="absolute inset-0 top-0 left-0 cursor-pointer"
+        @click.stop="isExpand = false"
+      ></div>
+      <div
+        class="md:h-full w-full md:w-auto m-auto border border-black relative"
+      >
+        <img
+          v-if="isExpand === 1"
+          src="~/assets/images/manual01.jpeg"
+          class="md:h-full w-full"
+        />
+        <img
+          v-if="isExpand === 2"
+          src="~/assets/images/manual02.jpeg"
+          class="md:h-full w-full"
+        />
+        <img
+          v-if="isExpand === 3"
+          src="~/assets/images/manual03.jpeg"
+          class="md:h-full w-full"
+        />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1024 1024"
+          class="absolute bottom-0 right-0 z-20 w-10 m-5 cursor-pointer"
+          @click.stop="isExpand = false"
+        >
+          <path
+            fill="black"
+            d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896M288 512a38.4 38.4 0 0 0 38.4 38.4h371.2a38.4 38.4 0 0 0 0-76.8H326.4A38.4 38.4 0 0 0 288 512"
+          ></path>
+        </svg>
+      </div>
+    </div>
+    <div
       class="fixed inset-0 bg-wv-gray-4 bg-opacity-70 z-40"
       @click="() => handleDesignDialog()"
     />
@@ -28,7 +67,41 @@
           ดาวน์โหลดแบบฟอร์ม
         </a>
       </div>
-      img
+      <div class="flex overflow-x-auto space-x-4 px-2 md:justify-center mb-3">
+        <div class="relative min-w-max">
+          <img
+            @click="() => expandImgHandle(1)"
+            src="~/assets/images/manual01.jpeg"
+            class="max-h-[280px] min-w-max h-[280px] border border-black cursor-pointer"
+          /><img
+            src="~/assets/icons/expandIcon.svg"
+            class="absolute bottom-0 right-0 w-10 m-3 cursor-pointer pointer-events-none"
+            @click.stop="isExpand = false"
+          />
+        </div>
+        <div class="relative min-w-max">
+          <img
+            @click="() => expandImgHandle(2)"
+            src="~/assets/images/manual02.jpeg"
+            class="max-h-[280px] min-w-max h-[280px] border border-black cursor-pointer"
+          /><img
+            src="~/assets/icons/expandIcon.svg"
+            class="absolute bottom-0 right-0 w-10 m-3 cursor-pointer pointer-events-none"
+            @click.stop="isExpand = false"
+          />
+        </div>
+        <div class="relative min-w-max">
+          <img
+            @click="() => expandImgHandle(3)"
+            src="~/assets/images/manual03.jpeg"
+            class="max-h-[280px] min-w-max h-[280px] border border-black cursor-pointer"
+          /><img
+            src="~/assets/icons/expandIcon.svg"
+            class="absolute bottom-0 pointer-events-none right-0 w-10 m-3 cursor-pointer"
+            @click.stop="isExpand = false"
+          />
+        </div>
+      </div>
       <p class="wv-b5 font-bold">ขั้นตอนที่ 2: กรอกข้อมูลโครงการในแบบฟอร์ม</p>
       <p class="wv-b6 my-3 opacity-50">สามารถอิงจากไฟล์ตัวอย่าง</p>
       <div class="mb-3">
@@ -156,7 +229,7 @@
               โดยอ้างอิงจากตารางข้อมูลข้างล่างนี้
             </li>
           </ul>
-          <img src="~/assets/illustrations/design03.svg" class="mx-auto my-5" />
+          <img src="~/assets/illustrations/design03.png" class="mx-auto my-5" />
         </div>
         <div class="mb-5">
           <p class="wv-b6 font-bold">
@@ -209,13 +282,13 @@
 
           แนวทางการเขียนตัวชี้วัดความสำเร็จ
         </div>
-        <img src="~/assets/illustrations/design02.svg" class="mx-auto my-5" />
+        <img src="~/assets/illustrations/design02.png" class="mx-auto my-5" />
         <p class="wv-b5 text-center font-bold mt-5">
           ขั้นตอนที่ 3 : พิมพ์โครงการ และส่งต่อให้<br />
           คณะกรรมการอำนวยการจัดทำแผนพัฒนาชุมชน ระดับเขต<br />
           ที่สำนักงานเขตตามสังกัดของชุมชน
         </p>
-        <img src="~/assets/illustrations/disign01.svg" class="mx-auto my-5" />
+        <img src="~/assets/illustrations/design01.png" class="mx-auto my-5" />
       </div>
       <div id="footer" class="flex flex-col items-center bg-wv-gray-20 py-4">
         <a
@@ -250,6 +323,20 @@
 <script>
 export default {
   props: ["handleDesignDialog"],
+  data() {
+    return {
+      isExpand: "",
+    };
+  },
+  methods: {
+    expandImgHandle(img) {
+      if (this.isExpand === img) {
+        this.isExpand = "";
+      } else {
+        this.isExpand = img;
+      }
+    },
+  },
 };
 </script>
 <style lang=""></style>

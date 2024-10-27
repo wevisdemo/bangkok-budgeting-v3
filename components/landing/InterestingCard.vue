@@ -1,5 +1,5 @@
 <template>
-  <div class="flex overflow-x-scroll space-x-1">
+  <div class="flex overflow-x-auto space-x-1">
     <div v-for="(item, index) in data" :key="index" class="h-[255px]">
       <div
         class="wv-b6 font-bold items-center flex justify-center w-[190px] h-[55px] text-center p-[10px] rounded-t-md"
