@@ -87,7 +87,7 @@
             >
               ประกอบด้วย {{ strategy.substrategies.length }} มิติย่อย
             </p>
-            <div class="ml-5">
+            <div class="ml-5" v-if="strategy.name != 'ไม่พบข้อมูล'">
               <button
                 v-for="(sub, index) in strategy.substrategies"
                 :key="index"
@@ -161,6 +161,9 @@ export default {
 
   computed: {
     ...mapState(["chartSelected", "strategyChoice", "chartData"]),
+  },
+  mounted() {
+    this.reloadStrategy();
   },
   methods: {
     navData,

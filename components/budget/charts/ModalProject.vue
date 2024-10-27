@@ -26,7 +26,7 @@
         />
         <p class="wv-b5">
           {{
-            isProject.strategy === "N/A" ? "ไม่พบข้อมูล" : isProject.strategy
+            isProject.strategy === "ไม่พบข้อมูล" ? "ไม่พบข้อมูล" : isProject.strategy
           }}
         </p>
       </div>

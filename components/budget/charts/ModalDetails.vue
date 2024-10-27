@@ -114,7 +114,7 @@
           <el-pagination
             v-if="resultKeySearch.total > 0"
             class="mx-auto"
-            :pager-count="perPage"
+            :page-size="perPage"
             layout="prev, pager, next"
             :total="resultKeySearch?.total"
             @current-change="handleCurrentChange"

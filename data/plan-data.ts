@@ -264,6 +264,6 @@ export const planData: Plan[] = [
     ],
   },
   {
-    strategy: "N/A",
+    strategy: "ไม่พบข้อมูล",
   },
 ];

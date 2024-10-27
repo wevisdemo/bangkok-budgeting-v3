@@ -35,7 +35,7 @@
           class="flex flex-col justify-between items-center cursor-pointer z-30"
           @click="handleStrategy(item.strategy)"
         >
-          <div v-if="item.strategy !== 'N/A'" class="relative">
+          <div v-if="item.strategy !== 'ไม่พบข้อมูล'" class="relative">
             <img
               v-show="onHoverImg === item.img"
               :id="planIndex.toString()"

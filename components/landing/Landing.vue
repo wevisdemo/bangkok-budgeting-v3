@@ -112,7 +112,7 @@ export default Vue.extend({
           header: "ก่อสร้าง",
           budget: "82",
           path: "bkkbudget/explore",
-          query: { select: "OrganizeBudget", key: "N/A" },
+          query: { select: "OrganizeBudget", key: "ไม่พบข้อมูล" },
         },
       ],
       topInterestYellow: [

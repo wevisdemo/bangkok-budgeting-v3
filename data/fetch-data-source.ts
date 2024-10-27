@@ -111,8 +111,9 @@ export const fetchDataSource = async (): Promise<BudgetRow[]> => {
       outputName: row.output_name,
       outputName1: row.output_name1,
       purposeProj: row.purpose_proj,
-      subStrategy: row.sub_strategy,
-      strategy: row.strategy,
+      subStrategy:
+        row.sub_strategy === "N/A" ? "ไม่พบข้อมูล" : row.sub_strategy,
+      strategy: row.strategy === "N/A" ? "ไม่พบข้อมูล" : row.strategy,
       planStrategy: row.plan_strategy,
       side: row.side,
       integration: isIntegration(row.integration),

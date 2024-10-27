@@ -115,7 +115,7 @@ export const strategyList = () => [
   "โปร่งใสดี",
   "เรียนดี",
   "บริหารจัดการดี",
-  "N/A",
+  "ไม่พบข้อมูล",
 ];
 
 export const orderByStrategy = (

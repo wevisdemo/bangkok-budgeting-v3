@@ -74,7 +74,7 @@ export const navData = () => {
     },
     {
       name: "ไม่พบข้อมูล",
-      substrategies: [],
+      substrategies: ["ไม่พบข้อมูล"],
     },
   ];
 };

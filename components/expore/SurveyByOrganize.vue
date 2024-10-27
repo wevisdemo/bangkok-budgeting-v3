@@ -272,6 +272,7 @@ export default {
       this.selectedFilter = label;
       const resultFilter = filterByOrganize(label, this.barChartData);
       this.barChartData = resultFilter;
+      this.resultKeySearch = resultFilter;
     },
     selectOrganize(nameOrganization) {
       this.fetchByOrganize(nameOrganization);
