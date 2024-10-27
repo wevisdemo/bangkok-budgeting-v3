@@ -1,5 +1,5 @@
 <template>
-  <div v-if="commuData">
+  <div v-if="originData">
     <el-popover
       ref="commu"
       class="w-full filterSelect"
@@ -37,19 +37,20 @@
 <script>
 import _ from "lodash";
 export default {
-  props: ["filterData", "commuData", "handleFilterData"],
+  props: ["filterData", "originData", "handleFilterData"],
   data() {
     return {
       inputData: "",
       searchBy: [],
       isOpen: false,
+      filterDistrict: [],
     };
   },
 
   methods: {
     handleFormat(key) {
       return _.uniqBy(
-        this.commuData.filter((d) => d.community.toString().includes(key)),
+        this.originData.filter((d) => d.community.toString().includes(key)),
         "community"
       );
     },
@@ -65,7 +66,7 @@ export default {
         this.inputData = commu;
         this.handleFilterData({
           ...this.filterData,
-          district: this.commuData.filter((y) => y.community === commu)[0]
+          district: this.originData.filter((y) => y.community === commu)[0]
             .district,
           community: commu,
         });
@@ -74,22 +75,27 @@ export default {
       this.isOpen = false;
     },
   },
+  mounted() {
+    this.searchBy = _.uniqBy(this.originData, "community");
+  },
   watch: {
     filterData: {
+      immediate: true,
+      deep: false,
       handler(newValue) {
         this.inputData = newValue.community;
+        this.searchBy = _.uniqBy(this.originData, "community");
+        if (newValue.district) {
+          this.filterDistrict = this.originData.filter(
+            (d) => d.district === newValue.district
+          );
+          this.searchBy = _.uniqBy(this.filterDistrict, "community");
+        }
       },
     },
     inputData: {
       handler(newValue) {
         this.searchBy = this.handleFormat(newValue);
-      },
-    },
-    commuData: {
-      immediate: true,
-      deep: false,
-      handler() {
-        this.searchBy = _.uniqBy(this.commuData, "community");
       },
     },
   },

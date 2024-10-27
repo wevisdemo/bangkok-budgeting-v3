@@ -27,7 +27,7 @@
       />
       <FilterByComnunity
         :filterData="filterData"
-        :commuData="originData"
+        :originData="originData"
         :handleFilterData="handleFilterData"
       />
     </div>
@@ -133,7 +133,7 @@
             />
             <FilterByComnunity
               :filterData="filterData"
-              :commuData="originData"
+              :originData="originData"
               :handleFilterData="handleFilterData"
             />
           </div>
@@ -444,8 +444,7 @@ export default {
           (o) => o.community === community
         );
       }
-      if (district) {
-      }
+
       this.totalProject = this.commuData.length;
       this.totalFilterAmout = _.sumBy(this.commuData, "amount");
       this.itemsChart = this.formatItem(this.commuData);

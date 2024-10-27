@@ -54,9 +54,6 @@ export default {
       } else {
         this.inputData = district;
         this.handleFilterData({ district, community: "" });
-        this.searchBy = this.districtData.filter((d) =>
-          d.toString().includes(district)
-        );
       }
       this.isOpen = false;
     },
@@ -70,11 +67,7 @@ export default {
     inputData: {
       immediate: true,
       deep: true,
-      handler(newValue) {
-        this.searchBy = this.districtData.filter((d) =>
-          d.toString().includes(newValue)
-        );
-      },
+      handler(newValue) {},
     },
     districtData: {
       immediate: true,

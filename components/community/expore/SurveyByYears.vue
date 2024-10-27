@@ -36,7 +36,7 @@
       class="lg:max-w-[685px] flex-1 flex flex-col card p-[15px] md:p-[30px]"
     >
       <!-- ------------ -->
-      <div id="filter" class="flex space-y-1 flex-col">
+      <div id="filter" class="flex space-y-1 flex-col" v-if="originData.length">
         <FilterByYear
           :yearData="yearData"
           :handleFilterData="handleFilterYear"
@@ -49,7 +49,7 @@
         />
         <FilterByComnunity
           :filterData="filterData"
-          :commuData="originData"
+          :originData="originData"
           :handleFilterData="handleFilterData"
         />
         <!-- ------------- -->
