@@ -39,7 +39,11 @@
         <div v-show="voteTab === 1" class="pt-5">
           <Topic :setStepSurvey="setStepSurvey" v-if="stepSurvey === 1" />
           <Projects :setStepSurvey="setStepSurvey" v-if="stepSurvey === 2" />
-          <Review :resetStep="resetStep" v-if="stepSurvey === 3" />
+          <Review
+            :resetStep="resetStep"
+            v-if="stepSurvey === 3"
+            :toggleVote="toggleVote"
+          />
         </div>
         <div v-show="voteTab === 2">
           <IdeaVote />
