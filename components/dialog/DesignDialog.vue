@@ -8,9 +8,7 @@
         class="absolute inset-0 top-0 left-0 cursor-pointer"
         @click.stop="isExpand = false"
       ></div>
-      <div
-        class="md:h-full w-full md:w-auto m-auto border border-black relative"
-      >
+      <div class="md:h-full w-auto m-auto border border-black relative">
         <img
           v-if="isExpand === 1"
           src="~/assets/images/manual01.jpeg"

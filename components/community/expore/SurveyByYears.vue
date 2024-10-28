@@ -323,7 +323,7 @@ export default {
             .width / 1.5;
 
         const originY = isMobile
-          ? bkkDistrictsSquare.getBoundingClientRect().top
+          ? bkkDistrictsSquare.getBoundingClientRect().height - 20
           : bkkDistrictsSquare.getBoundingClientRect().height + 40;
 
         const x =
@@ -380,7 +380,7 @@ export default {
         d3.select(".bkkDistrictsSquare").node().getBoundingClientRect().width /
         1.5;
       const originY = isMobile
-        ? bkkDistrictsSquare.getBoundingClientRect().top
+        ? bkkDistrictsSquare.getBoundingClientRect().height - 20
         : bkkDistrictsSquare.getBoundingClientRect().height + 40;
 
       const x =
