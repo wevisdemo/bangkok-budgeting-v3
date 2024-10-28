@@ -15,13 +15,34 @@
     </div>
 
     <div class="flex-1 pt-5 relative h-fit">
+      <div
+        id="filter"
+        class="flex space-y-1 flex-col lg:hidden"
+        v-if="originData.length"
+      >
+        <FilterByYear
+          :yearData="yearData"
+          :handleFilterData="handleFilterYear"
+          :filterData="filterData"
+        />
+        <FilterByDistrict
+          :filterData="filterData"
+          :districtData="districtData"
+          :handleFilterData="handleFilterData"
+        />
+        <FilterByComnunity
+          :filterData="filterData"
+          :originData="originData"
+          :handleFilterData="handleFilterData"
+        />
+      </div>
       <BkkMap class="my-5 mx-auto w-full md:w-fit" />
       <div
         :style="{
           opacity: filterData.district ? '100%' : '0%',
         }"
         id="tooltip"
-        class="absolute text-center w-[75px] md:w-auto wv-b7 top-0 left-0 bg-white card py-[3px] px-[8px] rounded-[5px]"
+        class="absolute text-center w-[75px] md:w-auto wv-b7 top-0 left-0 bg-white card py-[3px] px-[8px] rounded-[5px] pointer-events-none"
       >
         <p>เขต{{ filterData.district }}</p>
 
@@ -36,7 +57,11 @@
       class="lg:max-w-[685px] flex-1 flex flex-col card p-[15px] md:p-[30px]"
     >
       <!-- ------------ -->
-      <div id="filter" class="flex space-y-1 flex-col" v-if="originData.length">
+      <div
+        id="filter"
+        class="hidden lg:flex space-y-1 flex-col"
+        v-if="originData.length"
+      >
         <FilterByYear
           :yearData="yearData"
           :handleFilterData="handleFilterYear"
@@ -235,6 +260,7 @@ export default {
       selectedProject: {},
       commuData: [],
       yearGroup: [],
+      prevDistrictClick: "",
     };
   },
   methods: {
@@ -278,14 +304,38 @@ export default {
         );
       }
 
+      const isMobile = this.$mq == "md";
+
       d3.selectAll(".pathBKK").each(function (d) {
-        const districtId = mapingDistrict(d3.select(this).attr("id"));
+        const districtId = mapingDistrict(this.id);
         d3.select(this)
           .style("opacity", () => {
             if (!district) return "100%";
             return district !== districtId ? "20%" : "100%";
           })
           .style("stroke", () => (district !== districtId ? "" : "black"));
+
+        const bkkDistrictsSquare = document.querySelector(
+          ".bkkDistrictsSquare"
+        );
+        const originWidth =
+          d3.select(".bkkDistrictsSquare").node().getBoundingClientRect()
+            .width / 1.5;
+
+        const originY = isMobile
+          ? bkkDistrictsSquare.getBoundingClientRect().top
+          : bkkDistrictsSquare.getBoundingClientRect().height + 40;
+
+        const x =
+          this.getBoundingClientRect().x -
+          bkkDistrictsSquare.getBoundingClientRect().x;
+        const calX = x > originWidth ? x - 50 : x;
+        const y = this.getBoundingClientRect().top - originY;
+
+        d3.select("#tooltip").style(
+          "transform",
+          "translate(" + calX + "px" + "," + y + "px" + ")"
+        );
       });
       this.mapColorMapping();
     },
@@ -324,18 +374,20 @@ export default {
       this.selectedProject = project;
     },
     setToolTip(elem) {
+      const isMobile = this.$mq == "md";
       const bkkDistrictsSquare = document.querySelector(".bkkDistrictsSquare");
       const originWidth =
         d3.select(".bkkDistrictsSquare").node().getBoundingClientRect().width /
         1.5;
+      const originY = isMobile
+        ? bkkDistrictsSquare.getBoundingClientRect().top
+        : bkkDistrictsSquare.getBoundingClientRect().height + 40;
 
       const x =
         elem.getBoundingClientRect().x -
         bkkDistrictsSquare.getBoundingClientRect().x;
       const calX = x > originWidth ? x - 50 : x;
-      const y =
-        elem.getBoundingClientRect().y -
-        bkkDistrictsSquare.getBoundingClientRect().y;
+      const y = elem.getBoundingClientRect().top - originY;
       d3.select("#tooltip").style(
         "transform",
         "translate(" + calX + "px" + "," + y + "px" + ")"
@@ -343,25 +395,30 @@ export default {
     },
 
     mapColorMapping() {
-      const groupDistrict = _.chain(this.originData)
+      const groupDistrict = _.chain(this.commuData)
         .groupBy("district")
         .mapValues((s) => _.sumBy(s, "amount"))
         .value();
 
       const selectedDistrict = (district, elem) => {
-        this.handleFilterData({ district });
+        if (!groupDistrict[district] || this.prevDistrictClick == district) {
+          this.handleFilterData({ district: "", community: "" });
+          this.prevDistrictClick = "";
+        } else {
+          this.prevDistrictClick = district;
+          this.handleFilterData({ district });
+        }
+
         this.setToolTip(elem);
       };
 
-      d3.selectAll(".pathBKK").each(function (_, key) {
-        const district = mapingDistrict(key);
+      d3.selectAll(".pathBKK").each(function (_) {
+        const district = mapingDistrict(this.id);
         d3.select(this)
           .attr("fill", mapingColorDistrict(groupDistrict[district]))
-          .style("cursor", groupDistrict[district] && "pointer");
-        d3.select(this).on(
-          "click",
-          () => groupDistrict[district] && selectedDistrict(district, this)
-        );
+          .style("cursor", "pointer");
+
+        d3.select(this).on("click", () => selectedDistrict(district, this));
       });
     },
 
@@ -404,6 +461,7 @@ export default {
       Object.values(this.yearGroup)[0]?.map((d) => d.district)
     );
     this.filterData = { year: this.yearData[0] };
+    this.mapColorMapping();
   },
   watch: {
     selectedFilter: {

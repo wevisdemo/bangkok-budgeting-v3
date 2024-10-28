@@ -11,7 +11,7 @@
           </p>
         </div>
         <div id="section-navigation" class="text-center flex-1">
-          <div class="max-w-[360px] mx-auto">
+          <div class="max-w-[400px] mx-auto">
             <p class="wv-b7 opacity-70 mb-2">กดเลือกเนื้อหาที่สนใจ</p>
             <div class="bg-wv-yellow md:bg-white mx-5 rounded-[5px]">
               <NavLinks :links="communityPlans" arrow-direction="Down" />
@@ -90,15 +90,15 @@ export default {
     return {
       communityPlans: [
         {
-          title: "วางแผนแก้ปัญหาแบบไหน",
+          title: "ทำความรู้จักโครงการชุมชนเข้มแข็งฯ",
           anchorLink: "/communityfund#section-get-to-know",
         },
         {
-          title: "ใช้ทำอะไรไปแล้ว",
+          title: "สำรวจโครงการของชุมชนตามเขตที่คุณสนใจ",
           anchorLink: "/communityfund#community-survey",
         },
         {
-          title: "อยากให้งบทำเรื่องอะไร",
+          title: "อยากให้ชุมชนของคุณพัฒนาโครงการอะไร",
           anchorLink: "/communityfund#community-plans",
         },
       ],

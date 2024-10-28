@@ -131,7 +131,7 @@ export default Vue.extend({
     this.totalProject = groupYear[this.currentYear].length;
 
     d3.selectAll(".pathBKK").each(function (d) {
-      const district = mapingDistrict(d3.select(this).attr("id"));
+      const district = mapingDistrict(this.id);
       d3.select(this)
         .attr("fill", mapingColorDistrict(groupDistrict[district]))
         .style("opacity", () => {

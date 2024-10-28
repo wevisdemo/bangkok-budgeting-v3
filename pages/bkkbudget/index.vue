@@ -71,8 +71,10 @@
                   />
                 </svg>
               </NuxtLink>
-              <button
-                @click="scrollToTop"
+              <NuxtLink
+                :to="{
+                  path: '/',
+                }"
                 class="wv-b5 border-black border py-2 opacity-60 mt-2 w-full flex justify-center rounded-[5px]"
               >
                 ย้อนกลับหน้าแรก<svg
@@ -88,7 +90,7 @@
                     fill="#454343"
                   />
                 </svg>
-              </button>
+              </NuxtLink>
             </div>
           </div>
         </div>

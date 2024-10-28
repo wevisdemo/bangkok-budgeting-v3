@@ -437,7 +437,6 @@ export default {
           (o) => o.community === community && o.district === district
         );
       } else if (district) {
-        this.originData = this.handleFilterKeyword(this.filterData.key);
         this.commuData = this.originData.filter((c) => c.district == district);
       } else if (community) {
         this.commuData = this.originData.filter(

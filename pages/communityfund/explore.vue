@@ -56,7 +56,7 @@ export default {
   data() {
     return {
       toppics: [
-        { name: "รายปี", value: "YearlyBudget" },
+        { name: "สำรวจรายเขต", value: "YearlyBudget" },
         { name: "ค้นด้วยคีย์เวิร์ด", value: "KeyWordBudget" },
       ],
       topic: {},

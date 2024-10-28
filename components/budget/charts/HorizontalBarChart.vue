@@ -31,9 +31,19 @@
           <img src="~/assets/icons/seemore.svg" class="mr-2" />
           ดูรายการใช้งบ
         </div>
-        {{ chartSelected }}
         <a
-          v-if="chartSelected"
+          v-if="chartSelected == 'ไม่พบข้อมูล'"
+          class="wv-b7 underline opacity-50 flex items-center cursor-pointer"
+          :href="`https://docs.google.com/spreadsheets/d/15Xd-xM-Mi3qVRRyyqMxHrRgXYT3WNmWIzpvdUn9xWZo/gviz/tq?tqx=out:csv&gid=1915709666&&tq=where%20D%20%3D%20'N/A'%20or%20E%20%3D%20'N/A'`"
+          target="_blank"
+        >
+          <img
+            src="~/assets/images/download.svg"
+            class="w-3 h-3 mr-2"
+          />ดาวน์โหลดข้อมูล</a
+        >
+        <a
+          v-else-if="chartSelected"
           class="wv-b7 underline opacity-50 flex items-center cursor-pointer"
           :href="`https://docs.google.com/spreadsheets/d/15Xd-xM-Mi3qVRRyyqMxHrRgXYT3WNmWIzpvdUn9xWZo/gviz/tq?tqx=out:csv&gid=1915709666&&tq=where%20D%20%3D%20'${chartSelected}'%20or%20E%20%3D%20'${chartSelected}'`"
           target="_blank"

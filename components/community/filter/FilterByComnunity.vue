@@ -30,7 +30,7 @@
     </el-popover>
     <el-button v-popover:commu class="filterBtn wv-b6"
       ><span v-if="filterData.community">{{ filterData.community }}</span
-      ><span v-else>ทุกเขต ({{ searchBy.length }} ชุมชน)</span>
+      ><span v-else>ทุกชุมชน ({{ searchBy.length }} ชุมชน)</span>
     </el-button>
   </div>
 </template>
@@ -62,15 +62,17 @@ export default {
           community: "",
         });
         this.inputData = "";
+        this.filterDistrict = this.originData.filter(
+          (d) => d.district === this.filterData.district
+        );
+        this.searchBy = _.uniqBy(this.filterDistrict, "community");
       } else if (commu) {
-        this.inputData = commu;
         this.handleFilterData({
           ...this.filterData,
           district: this.originData.filter((y) => y.community === commu)[0]
             .district,
           community: commu,
         });
-        this.searchBy = this.handleFormat(commu);
       }
       this.isOpen = false;
     },
@@ -91,11 +93,6 @@ export default {
           );
           this.searchBy = _.uniqBy(this.filterDistrict, "community");
         }
-      },
-    },
-    inputData: {
-      handler(newValue) {
-        this.searchBy = this.handleFormat(newValue);
       },
     },
   },
