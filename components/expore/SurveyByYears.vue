@@ -13,7 +13,7 @@
           class="p-[10px] my-[10px] text-left flex justify-between wv-b5 border-black border w-[300px] mx-auto rounded-[5px]"
           @click="mobileStrategy = true"
         >
-          {{ chartSelected || "ทุกแผนยุทธศาสตร์" }}
+          {{ chartSelected || "ทุกแผนงานพัฒนา 9 ด้าน(ดี)" }}
           <img src="~/assets/images/open-modal.svg" />
         </div>
         <div class="ml-3" v-if="chartSelected" @click="reloadStrategy">

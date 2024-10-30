@@ -112,7 +112,7 @@ export default Vue.extend({
           header: "ก่อสร้าง",
           budget: "82",
           path: "bkkbudget/explore",
-          query: { select: "OrganizeBudget", key: "ไม่พบข้อมูล" },
+          query: { select: "KeyWordBudget", key: "ก่อสร้าง" },
         },
       ],
       topInterestYellow: [
@@ -135,13 +135,14 @@ export default Vue.extend({
           header: "โต๊ะ",
           budget: "148",
           path: "communityfund/explore",
-          query: { select: "OrganizeBudget", key: "โต๊ะ" },
+          query: { select: "KeyWordBudget", key: "โต๊ะ" },
         },
       ],
       surveyBudgetBKK: {
         title: "สำรวจงบประมาณกรุงเทพมหานคร",
         title_mb: "สำรวจงบประมาณ<br/>กรุงเทพมหานคร",
-        des: "เพื่อขับเคลื่อนสู่ <br/>'เมืองน่าอยู่สำหรับทุกคน'",
+        des: "เพื่อขับเคลื่อนสู่ 'เมืองน่าอยู่สำหรับทุกคน'",
+        des_mb: "เพื่อขับเคลื่อนสู่ <br/>'เมืองน่าอยู่สำหรับทุกคน'",
         bullet: [
           "ทำความเข้าใจแผนการใช้งบ",
           "สำรวจการใช้งบประมาณ",
@@ -151,7 +152,8 @@ export default Vue.extend({
       surveyBudgetCommunityFund: {
         title: "สำรวจงบประมาณพัฒนาชุมชนเมือง",
         title_mb: "สำรวจงบประมาณ<br/>พัฒนาชุมชนเมือง",
-        des: "โคงการชุมชมเข้มแข็งฯ<br/> 200,000 บาทต่อชุมชน",
+        des: "โคงการชุมชมเข้มแข็งฯ 200,000 บาทต่อชุมชน",
+        des_mb: "โคงการชุมชมเข้มแข็งฯ<br/> 200,000 บาทต่อชุมชน",
         bullet: [
           "ทำความรู้จักโครงการชุมชนเข้มแข็ง",
           "สำรวจโครงการของชุมชนตามเขตที่คุณสนใจ",

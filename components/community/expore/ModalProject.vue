@@ -1,7 +1,7 @@
 <template>
   <div class="fixed inset-0 z-40">
     <div
-      class="bg-white z-30 relative py-[70px] h-screen lg:h-fit top-[50%] translate-y-[-50%] max-w-[800px] left-[50%] translate-x-[-50%] card px-[50px]"
+      class="bg-white z-30 relative py-[70px] h-screen md:h-fit top-[50%] translate-y-[-50%] max-w-[800px] left-[50%] translate-x-[-50%] card px-[50px]"
     >
       <div class="absolute w-[25px] md:w-[50px] z-50 top-0 right-0 m-5">
         <img
@@ -33,7 +33,10 @@
       </div>
       <div class="py-5 border-t border-t-gray-300">
         <p class="font-bold wv-b7">รายการใช้จ่าย</p>
-        <p class="wv-b5">{{ project.procurement_list }}</p>
+        <p
+          class="wv-b5 mt-2"
+          v-html="project.procurement_list.replace(/(?:\r\n|\r|\n)/g, '<br />')"
+        ></p>
       </div>
     </div>
   </div>
@@ -48,6 +51,9 @@ export default {
     handleProject: {
       type: Function,
     },
+  },
+  mounted() {
+    console.log(this.project, "project");
   },
 };
 </script>

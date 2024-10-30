@@ -433,15 +433,9 @@ export default {
       };
       this.commuData = this.handleFilterKeyword(this.filterData.key);
       if (district && community) {
-        this.commuData = this.originData.filter(
-          (o) => o.community === community && o.district === district
-        );
+        this.commuData = this.originData.filter((o) => o.district === district);
       } else if (district) {
         this.commuData = this.originData.filter((c) => c.district == district);
-      } else if (community) {
-        this.commuData = this.originData.filter(
-          (o) => o.community === community
-        );
       }
 
       this.totalProject = this.commuData.length;
@@ -475,7 +469,10 @@ export default {
   mounted() {
     this.originData = this.$store.getters["data/getCommunity"]();
     this.commuData = this.originData;
-    this.selectKey(keywords()[0]);
+    this.selectKey(
+      keywords().filter((k) => k.Word === this.$route.query.key)[0] ||
+        keywords()[0]
+    );
     this.filterKeyword = this.fetchOriginFilterKey();
     this.yearGroup = _.groupBy(this.commuData, "budget_year");
   },

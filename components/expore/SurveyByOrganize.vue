@@ -373,6 +373,10 @@ export default {
   mounted() {
     document.querySelector("#scrollTopTop").style.opacity = "0";
     document.querySelector("#scrollTopBottom").style.opacity = "0";
+    if (this.$route.query.key)
+      this.resultKeySearch = this.barChartData.filter((s) =>
+        s.nameOrganization.toString().includes(this.$route.query.key)
+      );
   },
   created() {
     window.addEventListener("scroll", this.handleScroll);

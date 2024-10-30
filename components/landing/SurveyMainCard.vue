@@ -10,7 +10,8 @@
         <p class="wv-h6 font-bold lg:hidden" v-html="data.title_mb" />
         <i class="el-icon-right ml-2 text-5xl" />
       </div>
-      <p class="wv-b4 my-2" v-html="data.des" />
+      <p class="wv-b4 my-2 hidden lg:block" v-html="data.des" />
+      <p class="wv-b4 my-2 lg:hidden" v-html="data.des_mb" />
       <ul
         v-for="(list, index) in data.bullet"
         :key="index"

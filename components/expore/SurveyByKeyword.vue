@@ -353,6 +353,7 @@ export default {
       mobileKeyword: false,
     };
   },
+
   methods: {
     ...mapActions({
       updateIsModalDetails: "updateIsModalDetails",
@@ -505,7 +506,10 @@ export default {
     },
   },
   mounted() {
-    this.selectKey(this.filterKeyword[0]);
+    this.selectKey(
+      this.filterKeyword.filter((k) => k.Word === this.$route.query.key)[0] ||
+        this.filterKeyword[0]
+    );
   },
 };
 </script>

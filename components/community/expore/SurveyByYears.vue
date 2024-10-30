@@ -292,15 +292,11 @@ export default {
       this.commuData = this.formatData();
       if (district && community) {
         this.originData = this.originData.filter(
-          (o) => o.community === community && o.district === district
+          (o) => o.district === district
         );
       } else if (district) {
         this.originData = this.originData.filter(
           (o) => o.district === district
-        );
-      } else if (community) {
-        this.originData = this.originData.filter(
-          (o) => o.community === community
         );
       }
 
@@ -460,7 +456,11 @@ export default {
     this.districtData = _.uniqBy(
       Object.values(this.yearGroup)[0]?.map((d) => d.district)
     );
-    this.filterData = { year: this.yearData[0] };
+    this.filterData = {
+      year: this.yearData[0],
+      district: this.$route.query.district,
+      community: this.$route.query.community,
+    };
     this.mapColorMapping();
   },
   watch: {
