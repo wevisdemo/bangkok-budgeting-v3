@@ -65,7 +65,7 @@ import Vue from "vue";
 import VizChart from "~/components/budget/charts/VizChartContainer.vue";
 import * as d3 from "d3";
 import * as cloud from "d3-cloud";
-import { mainKeyWord } from "~/data/budgets/mainKeyword";
+import { mainKeyWord } from "~/data/community/mainKeyword";
 
 export default Vue.extend({
   name: "KeyWordBudget",
@@ -103,7 +103,7 @@ export default Vue.extend({
           return ~~(Math.random() * 2);
         })
         .fontSize(function (d) {
-          return getWidth == "260" ? d.size / 13 : d.size / 10;
+          return getWidth == "260" ? d.size / 9 : d.size / 6;
         })
         .on("end", draw);
       layout.start();
