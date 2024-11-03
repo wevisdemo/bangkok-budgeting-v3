@@ -65,6 +65,7 @@ interface IdeaVoteData {
   showCookieWarning: boolean;
   formatData: any;
   voter: any;
+  totalVotes: number;
 }
 
 export default defineComponent({
@@ -75,6 +76,7 @@ export default defineComponent({
     FormDialog,
     CookieWarning,
   },
+  props: ["voteTab"],
   data(): IdeaVoteData {
     return {
       ideaVotes: projectsData.map((p) => ({
@@ -89,6 +91,7 @@ export default defineComponent({
       showCookieWarning: false,
       formatData: [],
       voter: [],
+      totalVotes: 0,
     };
   },
   computed: {
@@ -96,11 +99,6 @@ export default defineComponent({
       if (!this.voter?.pageInfo) return 0;
       return this.formatData.length;
     },
-  },
-  async mounted() {
-    this.projectResponseData = await this.getProjectData();
-    this.voter = await this.getTotalVote();
-    this.formatIdea(this.projectResponseData);
   },
   methods: {
     formatIdea(projectResponseData: any) {
@@ -145,36 +143,10 @@ export default defineComponent({
       }
     },
 
-    async getTotalVote(districtThName?: District["th_name"]) {
-      try {
-        if (districtThName === "ทุกเขต" || !districtThName) {
-          const data = await this.$nocoDb.dbTableRow.list(
-            "v1",
-            "bangkok-budgeting",
-            "User-Data-2024"
-          );
-          return data;
-        } else {
-          const data = await this.$nocoDb.dbTableRow.list(
-            "v1",
-            "bangkok-budgeting",
-            "User-Data-2024",
-            {
-              where: `(district,eq,เขต${districtThName})`,
-            }
-          );
-          return data;
-        }
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error);
-      }
-    },
     async getProjectData(districtThName?: string) {
       const result: NocoDBResponseType = await this.groubByTableRow(
         districtThName
       );
-      this.voter = await this.getTotalVote(districtThName);
       if (result?.list.length > 0) {
         this.ideaVotes.forEach((strategy, index) => {
           const _vouteCount = parseInt(result.list[index]?.count);
@@ -182,6 +154,19 @@ export default defineComponent({
         });
       }
       return result;
+    },
+  },
+  watch: {
+    voteTab: {
+      immediate: true,
+      deep: true,
+      async handler(newValue) {
+        if (newValue === 2) {
+          this.projectResponseData = await this.getProjectData();
+          this.formatIdea(this.projectResponseData);
+          this.totalVotes = this.projectResponseData.list.length;
+        }
+      },
     },
   },
 });

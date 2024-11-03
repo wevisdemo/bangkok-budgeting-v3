@@ -58,6 +58,9 @@ export default {
       this.isOpen = false;
     },
   },
+  mounted() {
+    this.handleSelectedData(this.filterData.district);
+  },
   watch: {
     filterData: {
       handler(newValue) {

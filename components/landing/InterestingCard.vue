@@ -12,7 +12,7 @@
           <p class="hidden">.</p>
         </div>
         <div class="w-[160px] mx-auto">
-          <p class="pt-5 wv-b3 font-bold">{{ item.budget }} ล้านบาท</p>
+          <p class="pt-5 wv-b3 font-bold">{{ item.budget }}</p>
         </div>
         <div class="my-3">
           <div>

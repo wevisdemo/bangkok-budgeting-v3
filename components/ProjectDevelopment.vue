@@ -46,7 +46,7 @@
           />
         </div>
         <div v-show="voteTab === 2">
-          <IdeaVote />
+          <IdeaVote :voteTab="voteTab" />
         </div>
       </div>
       <Transition name="slide-fade">

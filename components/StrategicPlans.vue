@@ -9,13 +9,19 @@
         <br class="md:hidden" />
         แผนการใช้งบ
       </p>
-      <p class="wv-b3 mt-3 px-3 max-w-[544px] mx-auto">
+      <p class="wv-b3 mt-3 px-3 mx-auto">
         เริ่มต้นในปี 2568 กรุงเทพมหานคร <br class="md:hidden" />ปรับแผนการทำงาน
-        <br class="hidden md:block" />โดยมุ่ง
-        <br class="md:hidden" />วัดผลลัพธ์สำคัญตามวัตถุประสงค์
-        เปลี่ยนทิศทางการบริหารเมืองโดยใช้ แผนงานพัฒนา<br class="md:hidden" /><b>
-          9 ด้าน (ดี) และ 28 ประเด็นการพัฒนาเพื่อเป้าหมาย ‘กรุงเทพฯ
-          เมืองน่าอยู่สำหรับทุกคน’</b
+        โดยมุ่ง<br class="md:hidden" />วัด<br
+          class="hidden md:block"
+        />ผลลัพธ์สำคัญตามวัตถุประสงค์<br class="md:hidden" />
+        เปลี่ยนทิศทางการบริหารเมือง<br class="hidden md:block" />โดยใช้<br
+          class="md:hidden"
+        />แผนงานพัฒนา<b>
+          9 ด้าน (ดี) และ 28<br class="md:hidden" />
+          ประเด็นการพัฒนา<br class="hidden md:block" />เพื่อเป้าหมาย<br
+            class="md:hidden"
+          />
+          ‘กรุงเทพฯ เมืองน่าอยู่สำหรับทุกคน’</b
         >
       </p>
       <div

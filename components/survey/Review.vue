@@ -12,7 +12,7 @@
 
       <img
         class="w-20 h-28 mx-auto"
-        :src="`${$config.path.images}/strategies/${formatName(
+        :src="`/bangkok-budgeting-v3/images/strategies/${formatName(
           selectedSurvey.plan
         )}_hover.svg`"
       />

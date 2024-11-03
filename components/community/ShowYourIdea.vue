@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white pt-28 -mt-20 pb-9 px-3">
+  <div class="bg-white md:bg-wv-cream pt-28 -mt-24 pb-9 px-3">
     <div v-if="!isSuccess">
       <div class="max-w-[600px] mx-auto">
         <p class="wv-h5 font-bold">
@@ -7,7 +7,7 @@
           แจ้งปัญหาการเข้าถึงข้อมูล <br />งบประมาณในโครงการ
         </p>
         <textarea
-          class="h-[200px] bg-wv-gray-20 rounded-[5px] w-full mt-3 p-2 wv-b6 font-thin"
+          class="h-[200px] bg-wv-gray-20 md:bg-white rounded-[5px] w-full mt-3 p-2 wv-b6 font-thin"
           maxlength="1000"
           placeholder="พิมพ์ความคิดเห็น เช่น ระเบียบที่เป็นอุปสรรค 
 การไม่ได้รับข้อมูลข่าวสาร ความซับซ้อนของการ
@@ -17,7 +17,7 @@
         <p class="text-right wv-b7 opacity-70">({{ idea.length }}/1,000)</p>
       </div>
       <button
-        class="wv-b5 py-[5px] px-[10px] border border-black rounded-[5px]"
+        class="wv-b5 py-[5px] px-[10px] border bg-white border-black rounded-[5px]"
         @click="() => sendData()"
         :class="idea.length > 0 ? `opacity-100` : `opacity-20`"
         :disabled="idea.length === 0"

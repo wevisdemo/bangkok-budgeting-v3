@@ -26,7 +26,7 @@
               path: 'communityfund/explore',
               query: { select: 'KeyWordBudget' },
             }"
-            class="flex items-center py-1 px-2 rounded border-wv-gray-1 hover:bg-gray-500 hover:text-white border text-wv-gray-1 h-min"
+            class="flex bg-wv-yellow items-center py-1 px-2 rounded h-min"
           >
             <svg
               width="17"

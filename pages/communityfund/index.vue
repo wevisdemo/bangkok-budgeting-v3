@@ -55,12 +55,16 @@
         สำรวจโครงการ<br class="md:hidden" />
         ชุมชนเข้มแข็งฯ
       </p>
-      <div class="max-w-7xl px-3 md:px-6 py-6 m-auto">
-        <BudgetUsage class="mb-5" />
-        <BudgetExplorer />
-        <DesignCommunity />
+      <div class="max-w-7xl py-6 m-auto">
+        <div class="px-3 md:px-6">
+          <BudgetUsage class="mb-5" />
+          <BudgetExplorer />
+          <DesignCommunity />
+        </div>
         <ShowYourIdea />
-        <FinalNavigatePage />
+        <div class="px-3 md:px-6">
+          <FinalNavigatePage />
+        </div>
       </div>
     </div>
   </div>

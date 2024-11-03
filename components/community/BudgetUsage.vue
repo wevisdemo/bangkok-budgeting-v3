@@ -11,7 +11,14 @@
             ตามเขตและชุมชนที่คุณสนใจ
           </p>
         </div>
-        <BkkMap class="md:hidden w-full" />
+        <div class="relative md:hidden">
+          <BkkMap class="w-full" />
+          <img
+            src="~/assets/images/heatMap.svg"
+            class="absolute bottom-0 right-0 m-5"
+          />
+        </div>
+
         <div class="mb-5">
           <p class="wv-b5">
             เขตที่ใช้งบประมาณโครงการ<br />
@@ -35,8 +42,30 @@
                 path: 'communityfund/explore',
                 query: { select: 'YearlyBudget' },
               }"
-              class="flex items-center py-1 px-2 rounded border-wv-gray-1 hover:bg-gray-500 hover:text-white border text-wv-gray-1 h-min"
+              class="flex bg-wv-yellow items-center py-1 px-2 rounded h-min"
             >
+              <svg
+                width="17"
+                height="17"
+                viewBox="0 0 17 17"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="7.05289"
+                  cy="6.56449"
+                  r="3.92676"
+                  transform="rotate(-30 7.05289 6.56449)"
+                  stroke="black"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M9.08948 10.3943L11.2794 14.1874"
+                  stroke="black"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+              </svg>
               สำรวจหน่วยงานที่เหลือ
               <i class="el-icon-right ml-1" />
             </NuxtLink>
@@ -44,7 +73,13 @@
         </div>
       </div>
       <div class="hidden flex-1 md:block">
-        <BkkMap class="w-full" />
+        <div class="relative">
+          <BkkMap class="w-full" />
+          <img
+            src="~/assets/images/heatMap.svg"
+            class="absolute bottom-0 right-0 m-5"
+          />
+        </div>
         <div class="w-full flex flex-col justify-between gap-4">
           <div class="flex justify-center sm:justify-end">
             <NuxtLink
@@ -52,7 +87,7 @@
                 path: 'communityfund/explore',
                 query: { select: 'YearlyBudget' },
               }"
-              class="flex items-center py-1 px-2 rounded border-wv-gray-1 hover:bg-gray-500 hover:text-white border text-wv-gray-1 h-min"
+              class="flex bg-wv-yellow items-center py-1 px-2 rounded h-min"
             >
               <svg
                 width="17"
