@@ -52,9 +52,6 @@ export default {
       type: Function,
     },
   },
-  mounted() {
-    console.log(this.project, "project");
-  },
 };
 </script>
 

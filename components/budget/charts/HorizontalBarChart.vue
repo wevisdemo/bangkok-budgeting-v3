@@ -93,7 +93,6 @@
         >
           ’{{ d.year }}
         </div>
-
         <div
           v-for="(strategy, i) in navData()"
           :id="strategy.name"

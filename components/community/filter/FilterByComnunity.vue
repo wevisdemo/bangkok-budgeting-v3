@@ -141,7 +141,6 @@ export default {
           );
         } else {
           if (this.filterData.district) {
-            console.log(this.filterData);
             this.filterDistrict = this.originData.filter(
               (d) => d.district === this.filterData.district
             );

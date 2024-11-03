@@ -227,7 +227,7 @@
                 class="flex-1 md:ml-[25px] flex flex-col-reverse items-center relative z-10 h-full"
               >
                 <div
-                  class="absolute bottom-0 wv-b5 translate-y-[120%] left-[50%] translate-x-[-50%] z-20"
+                  class="absolute bottom-0 font-bold wv-b5 translate-y-[120%] left-[50%] translate-x-[-50%] z-20"
                 >
                   `{{ key }}
                 </div>
@@ -237,7 +237,13 @@
                   :style="{
                     height: `${(item.amount / maxOrigin) * 100}%`,
                   }"
-                ></div>
+                >
+                  <div
+                    class="absolute top-0 translate-y-[-100%] left-[50%] translate-x-[-50%] wv-b7 font-bold"
+                  >
+                    {{ convertMillion(item.amount) }}
+                  </div>
+                </div>
 
                 <div class="flex absolute bottom-0 w-full h-full items-end">
                   <div
