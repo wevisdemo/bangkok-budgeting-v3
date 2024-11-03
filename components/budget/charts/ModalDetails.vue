@@ -48,7 +48,7 @@
             <div class="md:hidden mx-auto text-center mt-3">
               รายการ ({{ sumAllBudget() }} ล้านบาท)
             </div>
-            <p class="wv-b6 text-center my-2">{{ subTitleModal }}</p>
+            <p class="wv-b6 text-center my-2" v-html="subTitleModal"></p>
 
             <div class="relative max-w-[500px] mx-auto">
               <img

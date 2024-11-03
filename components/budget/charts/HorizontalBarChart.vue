@@ -305,8 +305,10 @@ export default {
       this.updateChartSelected(strategy);
       this.fetchByStrategy(strategy);
       strategy === "ไม่พบข้อมูล"
-        ? this.updateSubTitleModal(`"${strategy}"`)
-        : this.updateSubTitleModal(`เพื่อ "${strategy}""`);
+        ? this.updateSubTitleModal(`“${strategy}”`)
+        : this.updateSubTitleModal(
+            `ตามแผนงานพัฒนา 9 ด้าน(ดี) ด้าน “<b>${strategy}</b>”`
+          );
       this.prevSelected = this.currentSelected;
     },
     handleSubStrategy(strategy) {
@@ -332,7 +334,9 @@ export default {
         this.fetchBySubStrategy(strategy);
         strategy === "ไม่พบข้อมูล"
           ? this.updateSubTitleModal(`"${strategy}"`)
-          : this.updateSubTitleModal(`เพื่อ "${strategy}""`);
+          : this.updateSubTitleModal(
+              `ตามแผนงานพัฒนา 9 ด้าน(ดี) ด้าน “<b>${strategy}</b>”`
+            );
         this.updateChartSelected(strategy);
       }
       this.prevSelected = this.currentSelected;

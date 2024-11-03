@@ -64,6 +64,7 @@
   </div>
 </template>
 <script>
+import * as d3 from "d3";
 export default {
   props: ["filterData", "districtData", "handleFilterData"],
   data() {
@@ -81,6 +82,11 @@ export default {
     handleSelectedData(district) {
       if (district === "clear") {
         this.handleFilterData({ district: "", community: "" });
+        d3.selectAll(".pathBKK").each(function (d) {
+          d3.select(this)
+            .style("opacity", () => "100%")
+            .style("stroke", () => "#828282");
+        });
         this.inputData = "";
       } else {
         this.inputData = district;

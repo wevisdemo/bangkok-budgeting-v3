@@ -94,12 +94,6 @@ export default defineComponent({
       totalVotes: 0,
     };
   },
-  computed: {
-    totalVotes(): number | undefined {
-      if (!this.voter?.pageInfo) return 0;
-      return this.formatData.length;
-    },
-  },
   methods: {
     formatIdea(projectResponseData: any) {
       const groupBy = _.groupBy(projectResponseData.list, "sub_policy");

@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto min-h-[90vh] px-2">
+  <div class="container mx-auto min-h-[90vh] md:px-2">
     <div id="nav" class="flex justify-between my-5">
       <NuxtLink :to="{ path: '/communityfund', hash: `#${topic}` }">
         <div class="flex items-center font-bold">
@@ -11,27 +11,35 @@
     <div class="flex md:flex-row flex-col">
       <div
         id="header"
-        class="flex flex-1 wv-kondolar lg:justify-between flex-col text-center md:text-left items-center md:items-start"
+        class="flex md:w-[480px] wv-kondolar lg:justify-between flex-col text-center md:text-left items-center md:items-start"
       >
         <div class="wv-black wv-h5">
           สำรวจการใช้งบ<br class="md:hidden" />โครงการ<br />
           ชุมชนเข้มแข็งฯ
         </div>
-        <p class="text-red-500 mt-2 max-w-[270px] mx-auto md:mx-0 wv-b7">
-          *เนื่องด้วยข้อจำกัดในการรวบรวมและเปิดเผยข้อมูลโครงการชุมชนเข้มแข็งฯ
+        <p
+          class="text-red-500 mt-2 max-w-[270px] md:max-w-none mx-auto md:mx-0 wv-b7"
+        >
+          *เนื่องด้วยข้อจำกัดในการรวบรวมและเปิดเผยข้อมูลโครงการชุมชนเข้มแข็งฯ<br
+            class="hidden md:block"
+          />
           <b
             >เว็บไซต์นี้จึงแสดงเฉพาะรายละเอียดโครงการฯ ของชุมชนจาก 5
             เขตที่มีชุดข้อมูล'</b
           >
         </p>
       </div>
-      <div class="flex wv-b5 items-center mt-3 flex-1 lg:mt-0">
+      <div
+        class="flex wv-b5 items-center mt-3 flex-1 lg:mt-0 max-w-[420px] mx-auto"
+      >
         <div
           v-for="item in toppics"
           :key="item.id"
           class="px-[14px] flex-1 hover:border-black cursor-pointer text-center whitespace-nowrap py-[5px] border border-wv-gray-4"
           :class="
-            topic === item.value ? 'bg-wv-gray-4 text-black' : 'text-gray-400'
+            topic === item.value
+              ? 'bg-wv-gray-4 text-black font-bold'
+              : 'text-gray-400'
           "
           @click="chooseTopic(item.value)"
         >

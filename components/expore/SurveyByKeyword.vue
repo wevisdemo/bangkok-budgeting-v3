@@ -1,10 +1,28 @@
 <template>
   <div class="relative">
-    <p class="wv-b7 text-wv-gray-1 text-center my-[30px]">
-      <span class="font-bold">หมายเหตุ</span> :
-      คียเวิร์ดเหล่านี้เป็นการค้นหาและตัดคำเบื้องต้นโดยคอมพิวเตอร์
-      โดยรวบรวมจากทุกข้อมูลที่มีคำนั้นปรากฎ โปรดตรวจสอบบริบทของคำก่อนการใช้งาน
-    </p>
+    <div
+      class="wv-b7 text-wv-gray-1 md:hidden justify-center flex ml-3 text-start my-[15px]"
+    >
+      <svg
+        class="mr-2 mt-1"
+        width="12"
+        height="11"
+        viewBox="0 0 12 11"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M9.96392 10.4443H2.38485C1.62177 10.4443 1.04624 10.1785 0.764007 9.69607C0.481708 9.21319 0.536527 8.58817 0.918026 7.93587L4.70745 1.45601C5.08868 0.803623 5.60981 0.444336 6.17419 0.444336C6.73863 0.444336 7.25968 0.803535 7.64093 1.45601L11.4304 7.93587C11.8118 8.58817 11.8666 9.21319 11.5844 9.69607C11.3022 10.1785 10.7267 10.4443 9.96371 10.4443H9.96392ZM6.94777 8.1636C6.94777 7.77471 6.62839 7.4593 6.23441 7.4593C5.84052 7.4593 5.52106 7.77462 5.52106 8.1636C5.52106 8.55249 5.84043 8.8679 6.23441 8.8679C6.62839 8.8679 6.94777 8.55257 6.94777 8.1636ZM6.967 3.9255C6.967 3.52619 6.63904 3.20239 6.23459 3.20239C5.83015 3.20239 5.50219 3.52619 5.50219 3.9255L5.67518 6.49196H5.67752C5.70264 6.77538 5.94095 6.99862 6.2346 6.99862C6.50617 6.99862 6.73287 6.80841 6.78527 6.55561C6.78952 6.53517 6.78986 6.51327 6.79177 6.49206H6.79671L6.967 3.9255Z"
+          fill="#6E6E6E"
+        />
+      </svg>
+      <p>
+        <span class="font-bold">หมายเหตุ</span> :
+        คียเวิร์ดเหล่านี้เป็นการค้นหาและตัดคำเบื้องต้น<br />
+        โดยคอมพิวเตอร์ โดยรวบรวมจากทุกข้อมูลที่มีคำนั้นปรากฎ<br />
+        โปรดตรวจสอบบริบทของคำก่อนการใช้งาน
+      </p>
+    </div>
     <div
       v-if="$mq === 'md'"
       @click="handdleModalMobile"
@@ -16,88 +34,110 @@
       />
       {{ selectedKey.Word || "พิมพ์คีย์เวิร์ด" }}
     </div>
-    <div class="flex flex-col lg:flex-row">
-      <div
-        v-if="($mq === 'md' && mobileKeyword) || $mq === 'lg'"
-        class="lg:w-[400px] lg:h-fit border-2 border-black rounded-[5px] p-[22px] fixed h-screen lg:relative inset-0 bg-white z-[20]"
-      >
-        <i
-          class="el-icon-close mr-4 cursor-pointer w-[15px] absolute top-0 right-0 m-5"
-          @click="handdleModalMobile"
-          v-if="$mq === 'md'"
-        />
+    <div class="flex flex-col lg:flex-row mt-3">
+      <div>
+        <div class="wv-b7 text-wv-gray-1 hidden md:flex text-start my-[30px]">
+          <svg
+            class="mr-2 mt-1"
+            width="12"
+            height="11"
+            viewBox="0 0 12 11"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M9.96392 10.4443H2.38485C1.62177 10.4443 1.04624 10.1785 0.764007 9.69607C0.481708 9.21319 0.536527 8.58817 0.918026 7.93587L4.70745 1.45601C5.08868 0.803623 5.60981 0.444336 6.17419 0.444336C6.73863 0.444336 7.25968 0.803535 7.64093 1.45601L11.4304 7.93587C11.8118 8.58817 11.8666 9.21319 11.5844 9.69607C11.3022 10.1785 10.7267 10.4443 9.96371 10.4443H9.96392ZM6.94777 8.1636C6.94777 7.77471 6.62839 7.4593 6.23441 7.4593C5.84052 7.4593 5.52106 7.77462 5.52106 8.1636C5.52106 8.55249 5.84043 8.8679 6.23441 8.8679C6.62839 8.8679 6.94777 8.55257 6.94777 8.1636ZM6.967 3.9255C6.967 3.52619 6.63904 3.20239 6.23459 3.20239C5.83015 3.20239 5.50219 3.52619 5.50219 3.9255L5.67518 6.49196H5.67752C5.70264 6.77538 5.94095 6.99862 6.2346 6.99862C6.50617 6.99862 6.73287 6.80841 6.78527 6.55561C6.78952 6.53517 6.78986 6.51327 6.79177 6.49206H6.79671L6.967 3.9255Z"
+              fill="#6E6E6E"
+            />
+          </svg>
+          <p>
+            <span class="font-bold">หมายเหตุ</span> :
+            คียเวิร์ดเหล่านี้เป็นการค้นหาและตัดคำเบื้องต้นโดยคอมพิวเตอร์
+            โดยรวบรวม<br />จากทุกข้อมูลที่มีคำนั้นปรากฎโปรดตรวจสอบบริบทของคำก่อนการใช้งาน
+          </p>
+        </div>
         <div
-          class="md:px-16 lg:px-0 lg:py-0 md:py-16 mx-auto mt-[40px] md:mt-0"
+          v-if="($mq === 'md' && mobileKeyword) || $mq === 'lg'"
+          class="lg:w-[400px] mb-5 lg:h-fit border-2 border-black rounded-[5px] p-[22px] fixed h-screen lg:relative inset-0 bg-white z-[20]"
         >
-          <div>
-            <div class="relative">
-              <img
-                src="~/assets/images/searchIcon.svg"
-                class="absolute top-0 left-0 ml-2"
-              />
-              <input
-                v-model="data"
-                type="text"
-                class="border-b border-b-black w-full wv-b5 mb-3 pl-8"
-                placeholder="พิมพ์คีย์เวิร์ด"
-              />
-            </div>
-            <div class="flex flex-col justify-between wv-b7 mb-[10px]">
-              <div class="flex items-center">
-                เรียงตาม
-                <el-select
-                  v-model="selectSort"
-                  placeholder="Select"
-                  class="sortInput"
-                  size="mini"
-                >
-                  <el-option
-                    v-for="item in sortList"
-                    :key="item"
-                    :label="item"
-                    :value="item"
+          <i
+            class="el-icon-close mr-4 cursor-pointer w-[15px] absolute top-0 right-0 m-5"
+            @click="handdleModalMobile"
+            v-if="$mq === 'md'"
+          />
+          <div
+            class="md:px-16 lg:px-0 lg:py-0 md:py-16 mx-auto mt-[40px] md:mt-0"
+          >
+            <div>
+              <div class="relative">
+                <img
+                  src="~/assets/images/searchIcon.svg"
+                  class="absolute top-0 left-0 ml-2"
+                />
+                <input
+                  v-model="data"
+                  type="text"
+                  class="border-b border-b-black w-full wv-b5 mb-3 pl-8"
+                  placeholder="พิมพ์คีย์เวิร์ด"
+                />
+              </div>
+              <div class="flex flex-col justify-between wv-b7 mb-[10px]">
+                <div class="flex items-center">
+                  เรียงตาม
+                  <el-select
+                    v-model="selectSort"
+                    placeholder="Select"
+                    class="sortInput"
+                    size="mini"
                   >
-                  </el-option>
-                </el-select>
-              </div>
-              <div class="flex mt-3 opacity-50">
-                <p class="w-[100px]">คีย์เวิร์ด</p>
-                <p class="flex-1 text-center ml-2">จำนวนที่พบ</p>
-                <p class="flex-1 text-end">งบ (ล้านบาท)</p>
+                    <el-option
+                      v-for="item in sortList"
+                      :key="item"
+                      :label="item"
+                      :value="item"
+                    >
+                    </el-option>
+                  </el-select>
+                </div>
+                <div class="flex mt-3 opacity-50">
+                  <p class="w-[100px]">คีย์เวิร์ด</p>
+                  <p class="flex-1 text-center ml-2">จำนวนที่พบ</p>
+                  <p class="flex-1 text-end">งบ (ล้านบาท)</p>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="h-[70vh] md:h-[80vh] lg:h-full overflow-auto">
-            <div
-              v-for="(item, index) in filterKeyword.slice(0, 50)"
-              :key="index"
-              class="flex justify-between py-[2.5px] text-right px-[10px] rounded-[5px] cursor-pointer"
-              :class="
-                selectedKey.Word === item.Word
-                  ? 'text-white bg-black '
-                  : 'hover:bg-wv-gray-4'
-              "
-              @click="() => selectKey(item)"
-            >
-              <div class="flex items-center w-[100px]">
-                <div
-                  class="w-[10px] h-[10px] rounded-full border border-wv-gray-2 mr-[5px]"
-                >
-                  <img
-                    v-if="selectedKey.Word === item.Word"
-                    src="~/assets/icons/selected.svg"
-                    alt="selected"
-                    class="w-full"
-                  />
+            <div class="h-[70vh] md:h-[80vh] lg:h-full overflow-auto">
+              <div
+                v-for="(item, index) in filterKeyword.slice(0, 50)"
+                :key="index"
+                class="flex justify-between py-[2.5px] text-right px-[10px] rounded-[5px] cursor-pointer"
+                :class="
+                  selectedKey.Word === item.Word
+                    ? 'text-white bg-black '
+                    : 'hover:bg-wv-gray-4'
+                "
+                @click="() => selectKey(item)"
+              >
+                <div class="flex items-center w-[100px]">
+                  <div
+                    class="w-[10px] h-[10px] rounded-full border border-wv-gray-2 mr-[5px]"
+                  >
+                    <img
+                      v-if="selectedKey.Word === item.Word"
+                      src="~/assets/icons/selected.svg"
+                      alt="selected"
+                      class="w-full"
+                    />
+                  </div>
+                  <p class="wv-b6 font-bold text-left">{{ item.Word }}</p>
                 </div>
-                <p class="wv-b6 font-bold text-left">{{ item.Word }}</p>
+                <p class="wv-b7 opacity-50 flex-1 text-center">
+                  {{ item.total }}
+                </p>
+                <p class="wv-b7 opacity-50 flex-1">
+                  {{ convertMillion(item.amount) }}
+                </p>
               </div>
-              <p class="wv-b7 opacity-50 flex-1 text-center">
-                {{ item.total }}
-              </p>
-              <p class="wv-b7 opacity-50 flex-1">
-                {{ convertMillion(item.amount) }}
-              </p>
             </div>
           </div>
         </div>
@@ -465,7 +505,7 @@ export default {
         _.groupBy(response.items, "nameOrganization")
       );
       this.filterOrganize = [
-        `${groupOrganize.length} หน่วยงาน`,
+        `ทุกหน่วยงาน (${groupOrganize.length} หน่วยงาน)`,
         ...groupOrganize,
       ];
       this.selectFilter = this.filterOrganize[0];

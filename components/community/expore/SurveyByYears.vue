@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div class="flex-1 pt-5 relative h-fit">
+    <div class="pt-5 relative h-fit lg:w-[480px]">
       <div
         id="filter"
         class="flex space-y-1 flex-col lg:hidden"
@@ -36,7 +36,18 @@
           :handleFilterData="handleFilterData"
         />
       </div>
-      <BkkMap class="my-5 mx-auto w-full md:w-fit" />
+      <div class="relative">
+        <img
+          src="~/assets/images/clickHere.svg"
+          class="absolute top-[10%] left-0-0 m-5"
+        />
+        <img
+          src="~/assets/images/heatMap.svg"
+          class="absolute bottom-0 right-0 m-5"
+        />
+        <BkkMap class="my-5 mx-auto w-full md:w-fit" />
+      </div>
+
       <div
         :style="{
           opacity: filterData.district ? '100%' : '0%',
@@ -53,156 +64,156 @@
         <p class="font-bold">{{ convertMillion(maxFilterData()) }} บาท</p>
       </div>
     </div>
-    <div
-      class="lg:max-w-[685px] flex-1 flex flex-col card p-[15px] md:p-[30px]"
-    >
-      <!-- ------------ -->
-      <div
-        id="filter"
-        class="hidden lg:flex space-y-1 flex-col"
-        v-if="originData.length"
-      >
-        <FilterByYear
-          :yearData="yearData"
-          :handleFilterData="handleFilterYear"
-          :filterData="filterData"
-        />
-        <FilterByDistrict
-          :filterData="filterData"
-          :districtData="districtData"
-          :handleFilterData="handleFilterData"
-        />
-        <FilterByComnunity
-          :filterData="filterData"
-          :originData="originData"
-          :handleFilterData="handleFilterData"
-        />
-        <!-- ------------- -->
-      </div>
-      <div class="my-3 flex">
-        <div class="fle-1">
-          <p class="wv-b3 font-bold">
-            พบ {{ commuData.length.toLocaleString("en-US", {}) }} รายการ
-          </p>
-          <p class="wv-b5">
-            ใช้งบรวม <b>{{ convertMillion(maxFilterData()) }} ล้านบาท</b>
-          </p>
-          <p class="wv-b6 opacity-50">
-            ({{ ((maxFilterData() / maxCommu()) * 100).toFixed(0) }} %
-            ของงบทั้งหมด)
-          </p>
-        </div>
-        <div class="flex-1 flex justify-end">
-          <a
-            v-if="filterData.community"
-            class="wv-b7 underline opacity-50 flex items-center cursor-pointer"
-            :href="`https://docs.google.com/spreadsheets/d/15Xd-xM-Mi3qVRRyyqMxHrRgXYT3WNmWIzpvdUn9xWZo/gviz/tq?tqx=out:csv&gid=453189989&&tq=where(%20A%20like%20'%25${filterData.year}%25')and%20B%20%3D%20'${filterData.district}'%20and%20C%20%3D%20'${filterData.community}'`"
-            target="_blank"
-          >
-            <img
-              src="~/assets/images/download.svg"
-              class="w-3 h-3 mr-2"
-            />ดาวน์โหลดข้อมูล</a
-          >
-          <a
-            v-else-if="!filterData.community && filterData.district"
-            class="wv-b7 underline opacity-50 flex items-center cursor-pointer"
-            :href="`https://docs.google.com/spreadsheets/d/15Xd-xM-Mi3qVRRyyqMxHrRgXYT3WNmWIzpvdUn9xWZo/gviz/tq?tqx=out:csv&gid=453189989&&tq=where(%20A%20like%20'%25${filterData.year}%25')and%20B%20%3D%20'${filterData.district}'`"
-            target="_blank"
-          >
-            <img
-              src="~/assets/images/download.svg"
-              class="w-3 h-3 mr-2"
-            />ดาวน์โหลดข้อมูล</a
-          >
-          <a
-            v-else
-            class="wv-b7 underline opacity-50 flex items-center cursor-pointer"
-            :href="`https://docs.google.com/spreadsheets/d/15Xd-xM-Mi3qVRRyyqMxHrRgXYT3WNmWIzpvdUn9xWZo/gviz/tq?tqx=out:csv&gid=453189989&&tq=where(%20A%20like%20'%25${filterData.year}%25')`"
-            target="_blank"
-          >
-            <img
-              src="~/assets/images/download.svg"
-              class="w-3 h-3 mr-2"
-            />ดาวน์โหลดข้อมูล</a
-          >
-        </div>
-      </div>
-      <div class="flex justify-between mt-5">
-        <ToggleUnit :toggle="() => toggle()" :is-million="isMillion" />
+    <div class="flex-1 flex flex-col">
+      <div class="max-w-[685px] card mx-auto w-full p-[15px] md:p-[30px]">
+        <!-- ------------ -->
         <div
-          class="text-wv-gray-1 wv-b6 flex space-x-2 justify-center cursor-pointer mb-4"
+          id="filter"
+          class="hidden lg:flex space-y-1 flex-col"
+          v-if="originData.length"
         >
-          <p class="">เรียงตาม</p>
-          <el-select
-            v-model="selectedFilter"
-            placeholder="Select"
-            class="sortInput"
-            size="mini"
-          >
-            <el-option
-              v-for="(item, key) in filterList"
-              :key="key"
-              :label="item.label"
-              :value="item.label"
+          <FilterByYear
+            :yearData="yearData"
+            :handleFilterData="handleFilterYear"
+            :filterData="filterData"
+          />
+          <FilterByDistrict
+            :filterData="filterData"
+            :districtData="districtData"
+            :handleFilterData="handleFilterData"
+          />
+          <FilterByComnunity
+            :filterData="filterData"
+            :originData="originData"
+            :handleFilterData="handleFilterData"
+          />
+          <!-- ------------- -->
+        </div>
+        <div class="my-3 flex">
+          <div class="fle-1">
+            <p class="wv-b3 font-bold">
+              พบ {{ commuData.length.toLocaleString("en-US", {}) }} รายการ
+            </p>
+            <p class="wv-b5">
+              ใช้งบรวม <b>{{ convertMillion(maxFilterData()) }} ล้านบาท</b>
+            </p>
+            <p class="wv-b6 opacity-50">
+              ({{ ((maxFilterData() / maxCommu()) * 100).toFixed(0) }} %
+              ของงบทั้งหมด)
+            </p>
+          </div>
+          <div class="flex-1 flex justify-end">
+            <a
+              v-if="filterData.community"
+              class="wv-b7 underline opacity-50 flex items-center cursor-pointer"
+              :href="`https://docs.google.com/spreadsheets/d/15Xd-xM-Mi3qVRRyyqMxHrRgXYT3WNmWIzpvdUn9xWZo/gviz/tq?tqx=out:csv&gid=453189989&&tq=where(%20A%20like%20'%25${filterData.year}%25')and%20B%20%3D%20'${filterData.district}'%20and%20C%20%3D%20'${filterData.community}'`"
+              target="_blank"
             >
-            </el-option>
-          </el-select>
-        </div>
-      </div>
-
-      <div
-        v-for="(item, key) in commuData"
-        :key="key"
-        :id="`card-${key + 1}`"
-        class="borderCard my-[5px] flex hover:border-black hover:border-[2px] border-[2px] border-transparent cursor-pointer"
-        @click="() => handleProjectDialog(item)"
-      >
-        <div class="wv-h8 text-gray-300">
-          {{ key + 1 }}
-        </div>
-        <div class="ml-5 flex flex-col flex-1">
-          <div class="flex justify-between">
-            <div class="max-w-[200px]">
-              <p class="wv-b4 font-bold">{{ item.project_name }}</p>
-              <p class="wv-b6 opacity-50">
-                <span>เขต {{ item.district }}</span
-                ><span>ชุมชน {{ item.community }}</span>
-              </p>
-            </div>
-            <div class="flex text-end">
-              <div v-if="isMillion">
-                <span class="wv-b6 font-bold">
-                  {{ item.amount.toLocaleString("en-US", {}) }}<br />
-                </span>
-                <span class="wv-b6">บาท</span>
-              </div>
-              <div v-else class="wv-b6 font-bold">
-                {{ ((item.amount / maxValue) * 100).toFixed(2) }} %
-              </div>
-              <div class="ml-2 mt-[3px]">
-                <img src="~/assets/images/list-button.svg" />
-              </div>
-            </div>
-          </div>
-
-          <div class="h-[10px] w-full bg-wv-gray-4 flex mt-2">
-            <div
-              class="h-[10px] bg-wv-yellow-70"
-              :style="{ width: drawChart(item) }"
-            ></div>
+              <img
+                src="~/assets/images/download.svg"
+                class="w-3 h-3 mr-2"
+              />ดาวน์โหลดข้อมูล</a
+            >
+            <a
+              v-else-if="!filterData.community && filterData.district"
+              class="wv-b7 underline opacity-50 flex items-center cursor-pointer"
+              :href="`https://docs.google.com/spreadsheets/d/15Xd-xM-Mi3qVRRyyqMxHrRgXYT3WNmWIzpvdUn9xWZo/gviz/tq?tqx=out:csv&gid=453189989&&tq=where(%20A%20like%20'%25${filterData.year}%25')and%20B%20%3D%20'${filterData.district}'`"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/download.svg"
+                class="w-3 h-3 mr-2"
+              />ดาวน์โหลดข้อมูล</a
+            >
+            <a
+              v-else
+              class="wv-b7 underline opacity-50 flex items-center cursor-pointer"
+              :href="`https://docs.google.com/spreadsheets/d/15Xd-xM-Mi3qVRRyyqMxHrRgXYT3WNmWIzpvdUn9xWZo/gviz/tq?tqx=out:csv&gid=453189989&&tq=where(%20A%20like%20'%25${filterData.year}%25')`"
+              target="_blank"
+            >
+              <img
+                src="~/assets/images/download.svg"
+                class="w-3 h-3 mr-2"
+              />ดาวน์โหลดข้อมูล</a
+            >
           </div>
         </div>
+        <div class="flex justify-between mt-5">
+          <ToggleUnit :toggle="() => toggle()" :is-million="isMillion" />
+          <div
+            class="text-wv-gray-1 wv-b6 flex space-x-2 justify-center cursor-pointer mb-4"
+          >
+            <p class="">เรียงตาม</p>
+            <el-select
+              v-model="selectedFilter"
+              placeholder="Select"
+              class="sortInput"
+              size="mini"
+            >
+              <el-option
+                v-for="(item, key) in filterList"
+                :key="key"
+                :label="item.label"
+                :value="item.label"
+              >
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+
+        <div
+          v-for="(item, key) in commuData"
+          :key="key"
+          :id="`card-${key + 1}`"
+          class="borderCard my-[5px] flex hover:border-black hover:border-[2px] border-[2px] border-transparent cursor-pointer"
+          @click="() => handleProjectDialog(item)"
+        >
+          <div class="wv-h8 text-gray-300">
+            {{ key + 1 }}
+          </div>
+          <div class="ml-5 flex flex-col flex-1">
+            <div class="flex justify-between">
+              <div class="max-w-[200px]">
+                <p class="wv-b4 font-bold">{{ item.project_name }}</p>
+                <p class="wv-b6 opacity-50">
+                  <span>เขต {{ item.district }}</span
+                  ><span>ชุมชน {{ item.community }}</span>
+                </p>
+              </div>
+              <div class="flex text-end">
+                <div v-if="isMillion">
+                  <span class="wv-b6 font-bold">
+                    {{ item.amount.toLocaleString("en-US", {}) }}<br />
+                  </span>
+                  <span class="wv-b6">บาท</span>
+                </div>
+                <div v-else class="wv-b6 font-bold">
+                  {{ ((item.amount / maxValue) * 100).toFixed(2) }} %
+                </div>
+                <div class="ml-2 mt-[3px]">
+                  <img src="~/assets/images/list-button.svg" />
+                </div>
+              </div>
+            </div>
+
+            <div class="h-[10px] w-full bg-wv-gray-4 flex mt-2">
+              <div
+                class="h-[10px] bg-wv-yellow-70"
+                :style="{ width: drawChart(item) }"
+              ></div>
+            </div>
+          </div>
+        </div>
+        <div
+          @click="scrollToTop"
+          class="flex items-center my-5 cursor-pointer bottom-0 bg-white text-wv-gray-1 py-[8px] px-[12px] rounded-[5px]"
+          id="scrollTopBottom"
+        >
+          <img src="~/assets/images/scrollTop.svg" class="mr-2" />
+          กลับไปด้านบน
+        </div>
+        <ShareLabel />
       </div>
-      <div
-        @click="scrollToTop"
-        class="flex items-center my-5 cursor-pointer bottom-0 bg-white text-wv-gray-1 py-[8px] px-[12px] rounded-[5px]"
-        id="scrollTopBottom"
-      >
-        <img src="~/assets/images/scrollTop.svg" class="mr-2" />
-        กลับไปด้านบน
-      </div>
-      <ShareLabel />
     </div>
     <ModalProject
       v-if="isProjectDialog"
@@ -297,38 +308,42 @@ export default {
         this.commuData = this.originData.filter((o) => o.district === district);
       }
 
-      const isMobile = this.$mq == "md";
-
       d3.selectAll(".pathBKK").each(function (d) {
         const districtId = mapingDistrict(this.id);
-        d3.select(this)
-          .style("opacity", () => {
-            if (!district) return "100%";
-            return district !== districtId ? "20%" : "100%";
-          })
-          .style("stroke", () => (district !== districtId ? "" : "black"));
+        if (district) {
+          d3.select(this)
+            .style("opacity", () => {
+              if (district === districtId) return "100%";
+              return "20%";
+            })
+            .style("stroke", () => {
+              if (district === districtId) return "black";
+              return "#828282";
+            });
+        }
+        if (districtId == district) {
+          const isMobile = this.$mq == "md";
+          const bkkDistrictsSquare = document.querySelector(
+            ".bkkDistrictsSquare"
+          );
+          const originWidth =
+            d3.select(".bkkDistrictsSquare").node().getBoundingClientRect()
+              .width / 1.5;
+          const originY = isMobile
+            ? bkkDistrictsSquare.getBoundingClientRect().height - 20
+            : bkkDistrictsSquare.getBoundingClientRect().height + 20;
 
-        const bkkDistrictsSquare = document.querySelector(
-          ".bkkDistrictsSquare"
-        );
-        const originWidth =
-          d3.select(".bkkDistrictsSquare").node().getBoundingClientRect()
-            .width / 1.5;
+          const x =
+            this.getBoundingClientRect().x -
+            bkkDistrictsSquare.getBoundingClientRect().x;
+          const calX = x > originWidth ? x - 50 : x;
+          const y = this.getBoundingClientRect().top - originY;
 
-        const originY = isMobile
-          ? bkkDistrictsSquare.getBoundingClientRect().height - 20
-          : bkkDistrictsSquare.getBoundingClientRect().height + 40;
-
-        const x =
-          this.getBoundingClientRect().x -
-          bkkDistrictsSquare.getBoundingClientRect().x;
-        const calX = x > originWidth ? x - 50 : x;
-        const y = this.getBoundingClientRect().top - originY;
-
-        d3.select("#tooltip").style(
-          "transform",
-          "translate(" + calX + "px" + "," + y + "px" + ")"
-        );
+          d3.select("#tooltip").style(
+            "transform",
+            "translate(" + calX + "px" + "," + y + "px" + ")"
+          );
+        }
       });
       this.mapColorMapping();
     },
@@ -374,7 +389,7 @@ export default {
         1.5;
       const originY = isMobile
         ? bkkDistrictsSquare.getBoundingClientRect().height - 20
-        : bkkDistrictsSquare.getBoundingClientRect().height + 40;
+        : bkkDistrictsSquare.getBoundingClientRect().height + 20;
 
       const x =
         elem.getBoundingClientRect().x -
@@ -388,7 +403,7 @@ export default {
     },
 
     mapColorMapping() {
-      const groupDistrict = _.chain(this.commuData)
+      const groupDistrict = _.chain(this.originData)
         .groupBy("district")
         .mapValues((s) => _.sumBy(s, "amount"))
         .value();
@@ -396,6 +411,11 @@ export default {
       const selectedDistrict = (district, elem) => {
         if (!groupDistrict[district] || this.prevDistrictClick == district) {
           this.handleFilterData({ district: "", community: "" });
+          d3.selectAll(".pathBKK").each(function (d) {
+            d3.select(this)
+              .style("opacity", () => "100%")
+              .style("stroke", () => "#828282");
+          });
           this.prevDistrictClick = "";
         } else {
           this.prevDistrictClick = district;
@@ -404,7 +424,6 @@ export default {
 
         this.setToolTip(elem);
       };
-
       d3.selectAll(".pathBKK").each(function (_) {
         const district = mapingDistrict(this.id);
         d3.select(this)

@@ -317,7 +317,7 @@ export default {
     },
     selectOrganize(nameOrganization) {
       this.fetchByOrganize(nameOrganization);
-      this.updateSubTitleModal(`ที่ของบโดย "${nameOrganization}""`);
+      this.updateSubTitleModal(`ที่ของบโดย “<b>${nameOrganization}</b>”`);
       this.handleModal();
     },
     drawChart(item, strategy) {
