@@ -478,6 +478,10 @@ export default {
       district: this.$route.query.district,
       community: this.$route.query.community,
     };
+    this.handleFilterData({
+      district: this.filterData.district,
+      community: this.filterData.community,
+    });
     this.mapColorMapping();
   },
   watch: {

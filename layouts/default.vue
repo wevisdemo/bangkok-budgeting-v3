@@ -72,8 +72,8 @@
           {{ bkkbudget.title }}
         </NuxtLink>
         <NuxtLink
-          :to="bkkbudget.path"
           v-for="(item, index) in bkkbudget.des"
+          :to="item.path"
           :key="index"
           class="opacity-50 space-y-1"
         >
@@ -85,8 +85,8 @@
           {{ community.title }}
         </NuxtLink>
         <NuxtLink
-          :to="community.path"
           v-for="(item, index) in community.des"
+          :to="item.path"
           :key="index"
           class="opacity-50 space-y-1"
         >
@@ -130,23 +130,32 @@ export default Vue.extend({
         title: "สำรวจการใช้งบประมาณ",
         path: "/bkkbudget",
         des: [
-          { title: "ทำความเข้าใจแผนการใช้งบ", path: "/bkkbudget" },
-          { title: "สำรวจการใช้งบประมาณ", path: "/bkkbudget" },
-          { title: "อยากให้ใช้งบทำอะไร", path: "/bkkbudget" },
+          {
+            title: "ทำความเข้าใจแผนการใช้งบ",
+            path: "/bkkbudget#sections-strategy-plan",
+          },
+          { title: "สำรวจการใช้งบประมาณ", path: "/bkkbudget#budget-plans" },
+          {
+            title: "อยากให้ใช้งบทำอะไร",
+            path: "/bkkbudget#allocate-question",
+          },
         ],
       },
       community: {
         title: "พัฒนาชุมชนเมืองให้เข้มแข็ง",
         path: "/communityfund",
         des: [
-          { title: "ทำความรู้จักโครงการชุมชนเข้มแข็ง", path: "/communityfund" },
+          {
+            title: "ทำความรู้จักโครงการชุมชนเข้มแข็ง",
+            path: "/communityfund#section-get-to-know",
+          },
           {
             title: "สำรวจโครงการของชุมชนตามเขตที่คุณสนใจ",
-            path: "/communityfund",
+            path: "/communityfund#community-survey",
           },
           {
             title: "อยากให้ชุมชนของคุณพัฒนาโครงการอะไร",
-            path: "/communityfund",
+            path: "/communityfund#community-plans",
           },
         ],
       },
@@ -163,9 +172,15 @@ export default Vue.extend({
           title: "สำรวจการใช้งบประมาณ",
           path: "/bkkbudget",
           des: [
-            { title: "ทำความเข้าใจแผนการใช้งบ", path: "/bkkbudget" },
-            { title: "สำรวจการใช้งบประมาณ", path: "/bkkbudget" },
-            { title: "อยากให้ใช้งบทำอะไร", path: "/bkkbudget" },
+            {
+              title: "ทำความเข้าใจแผนการใช้งบ",
+              path: "/bkkbudget#sections-strategy-plan",
+            },
+            { title: "สำรวจการใช้งบประมาณ", path: "/bkkbudget#budget-plans" },
+            {
+              title: "อยากให้ใช้งบทำอะไร",
+              path: "/bkkbudget#allocate-question",
+            },
           ],
         },
         {
@@ -174,15 +189,15 @@ export default Vue.extend({
           des: [
             {
               title: "ทำความรู้จักโครงการชุมชนเข้มแข็ง",
-              path: "/communityfund",
+              path: "/communityfund#section-get-to-know",
             },
             {
               title: "สำรวจโครงการของชุมชนตามเขตที่คุณสนใจ",
-              path: "/communityfund",
+              path: "/communityfund#community-survey",
             },
             {
               title: "อยากให้ชุมชนของคุณพัฒนาโครงการอะไร",
-              path: "/communityfund",
+              path: "/communityfund#community-plans",
             },
           ],
         },
