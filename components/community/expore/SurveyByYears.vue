@@ -49,7 +49,7 @@
         <p class="opacity-50" v-if="filterData.community">
           {{ filterData.community }}
         </p>
-        <p v-else class="opacity-50">({{ originData.length }} ชุมชน)</p>
+        <p v-else class="opacity-50">({{ commuData.length }} ชุมชน)</p>
         <p class="font-bold">{{ convertMillion(maxFilterData()) }} บาท</p>
       </div>
     </div>
@@ -82,7 +82,7 @@
       <div class="my-3 flex">
         <div class="fle-1">
           <p class="wv-b3 font-bold">
-            พบ {{ originData.length.toLocaleString("en-US", {}) }} รายการ
+            พบ {{ commuData.length.toLocaleString("en-US", {}) }} รายการ
           </p>
           <p class="wv-b5">
             ใช้งบรวม <b>{{ convertMillion(maxFilterData()) }} ล้านบาท</b>
@@ -152,7 +152,7 @@
       </div>
 
       <div
-        v-for="(item, key) in originData"
+        v-for="(item, key) in commuData"
         :key="key"
         :id="`card-${key + 1}`"
         class="borderCard my-[5px] flex hover:border-black hover:border-[2px] border-[2px] border-transparent cursor-pointer"
@@ -258,7 +258,6 @@ export default {
       commuData: [],
       districtData: [],
       selectedProject: {},
-      commuData: [],
       yearGroup: [],
       prevDistrictClick: "",
     };
@@ -267,10 +266,10 @@ export default {
     orderByStrategy,
     convertMillion,
     maxFilterData() {
-      return _.sumBy(this.originData, "amount");
+      return _.sumBy(this.commuData, "amount");
     },
     maxCommu() {
-      return _.sumBy(this.commuData, "amount");
+      return _.sumBy(this.originData, "amount");
     },
     scrollToTop() {
       document.body.scrollTop = 0;
@@ -291,13 +290,11 @@ export default {
       this.originData = this.formatData();
       this.commuData = this.formatData();
       if (district && community) {
-        this.originData = this.originData.filter(
-          (o) => o.district === district
+        this.commuData = this.originData.filter(
+          (o) => o.district === district && o.community === community
         );
       } else if (district) {
-        this.originData = this.originData.filter(
-          (o) => o.district === district
-        );
+        this.commuData = this.originData.filter((o) => o.district === district);
       }
 
       const isMobile = this.$mq == "md";
@@ -456,6 +453,7 @@ export default {
     this.districtData = _.uniqBy(
       Object.values(this.yearGroup)[0]?.map((d) => d.district)
     );
+
     this.filterData = {
       year: this.yearData[0],
       district: this.$route.query.district,

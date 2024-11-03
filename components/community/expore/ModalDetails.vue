@@ -234,7 +234,7 @@ export default {
     },
     isOpen: {
       immediate: true,
-      deep: false,
+      deep: true,
       handler(newValue) {
         const yearGroup = _.groupBy(this.commuData, "budget_year");
         const yearData = Object.keys(yearGroup);
@@ -244,7 +244,7 @@ export default {
           items: this.commuData,
           total: this.commuData.length,
         };
-
+        this.selectSort(this.selectedFilter);
         this.isProjectDialog = false;
       },
     },
