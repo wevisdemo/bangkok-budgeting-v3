@@ -10,7 +10,7 @@
         </p>
 
         <p class="wv-b7 text-wv-gray-1 text-center sm:text-left">
-          ขนาดคำ = จำนวนที่พบ
+          ขนาดคำ = จำนวนรายการที่พบ
         </p>
       </div>
       <div
@@ -51,7 +51,7 @@
               />
             </svg>
 
-            ค้นหางบด้วยคีย์เวิร์ด
+            ค้นหาโครงการด้วยคีย์เวิร์ด
             <i class="el-icon-right ml-1" />
           </NuxtLink>
         </div>

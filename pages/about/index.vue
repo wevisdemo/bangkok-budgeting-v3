@@ -80,8 +80,11 @@
         <div class="grid gap-4">
           <p>
             ทางทีมมีความตั้งใจที่พัฒนาทุกโปรเจกต์ให้เป็น Open Source
-            และเปิดข้อมูลเป็น Open Data ภายใต้<span class="underline"
-              >ข้อตกลงในการใช้งาน (Terms of Use)</span
+            และเปิดข้อมูลเป็น Open Data ภายใต้<a
+              href="https://wevis.info/terms-of-use/"
+              target="_blank"
+              class="underline"
+              >ข้อตกลงในการใช้งาน (Terms of Use)</a
             > หากมีข้อสงสัยต้องการสอบถามเพิ่มเติม
             ประสงค์แจ้งเปลี่ยนแปลงหรือเพิ่มเติมข้อมูลเพื่อความถูกต้อง
             หรือมีข้อเสนอแนะใดๆ สามารถติดต่อได้ที่ team@wevis.info
@@ -108,7 +111,19 @@
             <div v-if="text" v-html="text"></div>
           </div>
         </div>
+        <p class="py-4">
+          ในปี 2024 โปรเจกต์ Bangkok Budgeting
+          ได้รับการสนับสนุนทุนในการดำเนินงานจาก <a
+            class="underline"
+            href="https://www.ndi.org/"
+            target="_blank"
+            >National Democratic Institute: NDI</a
+          >
+          ซึ่งนำมาใช้เป็นต้นทุนในการรวมรวมข้อมูล ออกแบบ พัฒนาเว็บไซต์ ประสานงาน
+          บริหารจัดการ ตลอดจนการจัดประชุมเพื่อดำเนินโครงการ
+        </p>
       </div>
+
       <!-- partners -->
       <div class="grid gap-6">
         <h5 class="wv-h5 wv-bold">PARTNERS</h5>
@@ -283,7 +298,11 @@ export default Vue.extend({
           names: ["นัฐพล ไก่แก้ว"],
         },
         {
-          position: "สืบค้นและรวบรวมข้อมูล",
+          position: "วิเคราะห์ข้อมูล",
+          names: ["ปฏิภาณ ศรีชัย"],
+        },
+        {
+          position: "สืบค้นและเรียบเรียงข้อมูล",
           names: [
             "<a href='https://www.linkedin.com/in/alawee-wamae-113a7a1b3' target='_blank'>อาลาวีย์ วาแม</a>",
           ],
@@ -301,9 +320,9 @@ export default Vue.extend({
       ],
       partners: [
         {
-          name: "Hand social enterprise",
+          name: "Hand Social Enterprise",
           img: "hand",
-          link: "https://www.facebook.com/HANDenterprise",
+          link: "https://hand.co.th/",
         },
         {
           name: "กรุงเทพมหานคร",

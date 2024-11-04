@@ -110,6 +110,7 @@ export default defineComponent({
       this.selected_district_name = district.th_name;
       this.projectResponseData = await this.getProjectData(district.th_name);
       this.formatIdea(this.projectResponseData);
+      this.totalVotes = this.projectResponseData.list.length;
     },
     async groubByTableRow(districtThName?: District["th_name"]) {
       try {
