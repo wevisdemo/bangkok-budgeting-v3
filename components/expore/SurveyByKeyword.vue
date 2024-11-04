@@ -63,8 +63,15 @@
           <i
             class="el-icon-close mr-4 cursor-pointer w-[15px] absolute top-0 right-0 m-5"
             @click="handdleModalMobile"
-            v-if="$mq === 'md'"
+            v-if="$mq === 'md' && !isSelectedKey"
           />
+          <div
+            class="font-bold py-[5px] px-[8px] rounded-[5px] absolute top-0 right-0 m-5 mr-4 cursor-pointer wv-b6 border border-black"
+            @click="handdleModalMobile"
+            v-if="$mq === 'md' && isSelectedKey"
+          >
+            ตกลง
+          </div>
           <div
             class="md:px-16 lg:px-0 lg:py-0 md:py-16 mx-auto mt-[40px] md:mt-0"
           >
@@ -391,6 +398,7 @@ export default {
       isOpen: false,
       sortList: ["งบมากไปน้อย", "จำนวนที่พบ", "ตัวอักษร"],
       mobileKeyword: false,
+      isSelectedKey: false,
     };
   },
 
@@ -407,6 +415,7 @@ export default {
     filterByKey,
     navData,
     handdleModalMobile() {
+      this.isSelectedKey = false;
       this.mobileKeyword = !this.mobileKeyword;
     },
     handleModal() {
@@ -457,6 +466,7 @@ export default {
         .amount;
     },
     selectKey(item) {
+      this.isSelectedKey = true;
       this.selectedKey = item;
       this.fetchbudgetItem(item);
     },

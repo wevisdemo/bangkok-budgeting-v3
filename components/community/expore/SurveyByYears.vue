@@ -349,22 +349,22 @@ export default {
     },
     selectFilter(label) {
       if (label === "งบมากไปน้อย") {
-        return (this.originData = orderByStrategy(
-          this.originData,
+        return (this.commuData = orderByStrategy(
+          this.commuData,
           "amount",
           "desc"
         ));
       }
       if (label === "งบน้อยไปมาก") {
-        return (this.originData = orderByStrategy(
-          this.originData,
+        return (this.commuData = orderByStrategy(
+          this.commuData,
           "amount",
           "asc"
         ));
       }
       if (label === "ตัวอักษร") {
-        return (this.originData = orderByStrategy(
-          this.originData,
+        return (this.commuData = orderByStrategy(
+          this.commuData,
           "project_name",
           "asc"
         ));

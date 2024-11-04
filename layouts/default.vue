@@ -54,9 +54,9 @@
       </a>
     </div>
     <div
-      class="bg-black text-white justify-center items-start space-x-10 wv-b7 py-5 flex md:hidden px-2"
+      class="bg-black text-white justify-center items-start wv-b7 py-5 flex md:hidden px-2"
     >
-      <div class="text-start flex flex-col space-y-2">
+      <div class="text-start flex flex-col space-y-2 mr-2">
         <NuxtLink to="/"> หน้าแรก </NuxtLink>
         <NuxtLink to="/about"> About us </NuxtLink>
         <a
@@ -64,10 +64,11 @@
           target="_blank"
           class="wv-b7"
         >
-          สำรวจงบประมาณ<br />กทม. 2561-2567
+          สำรวจงบ<br />ประมาณ กทม.<br />
+          2561-2567
         </a>
       </div>
-      <div class="text-start flex flex-col">
+      <div class="text-start flex flex-col mr-3">
         <NuxtLink :to="bkkbudget.path" class="mb-2">
           {{ bkkbudget.title }}
         </NuxtLink>
@@ -75,7 +76,7 @@
           v-for="(item, index) in bkkbudget.des"
           :to="item.path"
           :key="index"
-          class="opacity-50 space-y-1"
+          class="opacity-50 space-y-1 w-max"
         >
           {{ item.title }}
         </NuxtLink>
@@ -170,7 +171,7 @@ export default Vue.extend({
         },
         {
           title: "สำรวจการใช้งบประมาณ",
-          path: "/bkkbudget",
+          path: "/bkkbudget/explore?select=YearlyBudget",
           des: [
             {
               title: "ทำความเข้าใจแผนการใช้งบ",
@@ -185,7 +186,7 @@ export default Vue.extend({
         },
         {
           title: "พัฒนาชุมชนเมืองให้เข้มแข็ง",
-          path: "/communityfund",
+          path: "/communityfund/explore?select=YearlyBudget",
           des: [
             {
               title: "ทำความรู้จักโครงการชุมชนเข้มแข็ง",

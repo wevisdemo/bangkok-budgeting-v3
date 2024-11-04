@@ -26,12 +26,10 @@
           </p>
           <p class="wv-h5 font-bold">“{{ topDistrict }}”</p>
           <div class="opacity-50 wv-b6">
+            <p>งบประมาณ <b>13,705,656.85</b> บาท</p>
             <p>
-              งบประมาณ <b>{{ totalAmount.toLocaleString("en-US", {}) }}</b> บาท
-            </p>
-            <p>
-              ประกอบด้วย <b>{{ totalCommunity }} ชุมชน</b> ดำเนิน
-              <b>{{ totalProject }} โครงการ</b>
+              ประกอบด้วย <b>100 ชุมชน</b> ดำเนิน
+              <b>197 โครงการ</b>
             </p>
           </div>
         </div>

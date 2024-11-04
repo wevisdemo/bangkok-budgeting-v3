@@ -83,8 +83,15 @@
           <i
             class="el-icon-close mr-4 cursor-pointer w-[15px] absolute top-0 right-0 m-5"
             @click="handdleModalMobile"
-            v-if="$mq === 'md'"
+            v-if="$mq === 'md' && !isSelectedKey"
           />
+          <div
+            class="font-bold py-[5px] px-[8px] rounded-[5px] absolute top-0 right-0 m-5 mr-4 cursor-pointer wv-b6 border border-black"
+            @click="handdleModalMobile"
+            v-if="$mq === 'md' && isSelectedKey"
+          >
+            ตกลง
+          </div>
 
           <div
             class="md:px-16 lg:px-0 lg:py-0 md:py-16 mx-auto mt-[40px] md:mt-0"
@@ -186,16 +193,19 @@
               <p class="wv-b3 font-bold wv-kondolar">
                 พบ {{ totalProject?.toLocaleString("en-US", {}) }} โครงการ
               </p>
-              <p class="wv-b5">
+              <div class="wv-b5">
                 ใช้งบรวม
                 <span class="font-bold"
                   >{{ convertMillion(totalFilterAmout) }} ล้านบาท</span
                 >
-                <p class=" wv-b6 opacity-50">({{ ((totalFilterAmout / maxOrigin) * 100).toFixed() }}%
-                ของงบทั้งหมด)</p>
-        
+                <p class="wv-b6 opacity-50">
+                  ({{ ((totalFilterAmout / maxOrigin) * 100).toFixed() }}%
+                  ของงบทั้งหมด)
+                </p>
+              </div>
+              <p class="wv-b6 opacity-50 mb-5">
+                ในคีย์เวิร์ด “{{ selectedKey.Word }}”
               </p>
-              <p class=" wv-b6 opacity-50 mb-5">ในคีย์เวิร์ด “{{ selectedKey.Word }}”</p>
             </div>
             <ModalDetails
               :handle-modal="() => handleModal()"
@@ -348,6 +358,7 @@ export default {
       originFilterWord: [],
       filterKeyword: [],
       selectedKey: {},
+      isSelectedKey: false,
       itemsChart: [],
       isMillion: true,
       selectFilter: "",
@@ -370,6 +381,7 @@ export default {
     orderByStrategy,
     handdleModalMobile() {
       this.mobileKeyword = !this.mobileKeyword;
+      this.isSelectedKey = false;
     },
     handleModal() {
       this.isOpen = !this.isOpen;
@@ -406,6 +418,7 @@ export default {
     },
 
     selectKey(item) {
+      this.isSelectedKey = true;
       this.selectedKey = item;
       this.initFilterByKey(item);
       this.filterData = {
