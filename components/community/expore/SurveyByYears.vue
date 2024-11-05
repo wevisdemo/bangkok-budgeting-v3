@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div class="pt-5 relative h-fit lg:w-[480px]">
+    <div class="pt-5 relative h-fit lg:w-[480px]" id="topic-pointer">
       <div
         id="filter"
         class="flex space-y-1 flex-col lg:hidden"
@@ -162,7 +162,7 @@
         </div>
 
         <div
-          v-for="(item, key) in commuData"
+          v-for="(item, key) in commuData.slice(0, this.sliceDivide)"
           :key="key"
           :id="`card-${key + 1}`"
           class="borderCard my-[5px] flex hover:border-black hover:border-[2px] border-[2px] border-transparent cursor-pointer"
@@ -205,6 +205,20 @@
           </div>
         </div>
         <div
+          class="flex mt-3 cursor-pointer items-center justify-center wv-b5 opacity-50"
+          @click="seeMore"
+          v-if="
+            commuData.length - commuData.slice(0, this.sliceDivide).length > 0
+          "
+        >
+          <p class="mr-1">
+            ดูอีก
+            {{ commuData.length - commuData.slice(0, this.sliceDivide).length }}
+            รายการที่เหลือ
+          </p>
+          <p class="wv-b3">+</p>
+        </div>
+        <div
           @click="scrollToTop"
           class="flex items-center my-5 cursor-pointer bottom-0 bg-white text-wv-gray-1 py-[8px] px-[12px] rounded-[5px]"
           id="scrollTopBottom"
@@ -212,8 +226,8 @@
           <img src="~/assets/images/scrollTop.svg" class="mr-2" />
           กลับไปด้านบน
         </div>
-        <ShareLabel />
       </div>
+      <ShareLabel />
     </div>
     <ModalProject
       v-if="isProjectDialog"
@@ -271,9 +285,12 @@ export default {
       selectedProject: {},
       yearGroup: [],
       prevDistrictClick: "",
+      sliceDivide: 10,
     };
   },
   methods: {
+    mapingColorDistrict,
+    mapingDistrict,
     orderByStrategy,
     convertMillion,
     maxFilterData() {
@@ -281,6 +298,9 @@ export default {
     },
     maxCommu() {
       return _.sumBy(this.originData, "amount");
+    },
+    seeMore() {
+      this.sliceDivide = this.sliceDivide + 10;
     },
     scrollToTop() {
       document.body.scrollTop = 0;
@@ -460,9 +480,7 @@ export default {
     },
   },
   mounted() {
-    mapingColorDistrict,
-      mapingDistrict,
-      (document.querySelector("#scrollTopTop").style.opacity = "0");
+    document.querySelector("#scrollTopTop").style.opacity = "0";
     document.querySelector("#scrollTopBottom").style.opacity = "0";
     this.commuData = this.$store.getters["data/getCommunity"]();
     this.yearGroup = _.groupBy(this.commuData, "budget_year");
@@ -483,6 +501,12 @@ export default {
       community: this.filterData.community,
     });
     this.mapColorMapping();
+  },
+  created() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  unmounted() {
+    window.removeEventListener("scroll", this.handleScroll);
   },
   watch: {
     selectedFilter: {
