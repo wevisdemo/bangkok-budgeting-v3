@@ -64,7 +64,7 @@
                   stroke-linecap="round"
                 />
               </svg>
-              สำรวจหน่วยงานที่เหลือ
+              สำรวจโครงการรายเขตเพิ่มเติม
               <i class="el-icon-right ml-1" />
             </NuxtLink>
           </div>
