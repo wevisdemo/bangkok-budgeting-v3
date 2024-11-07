@@ -116,7 +116,6 @@ import AboutFooter from "~/components/AboutFooter.vue";
 
 export default Vue.extend({
   components: { WvNavbar, WvFooter, WvNavButton, WvCookieConsent, AboutFooter },
-
   data() {
     return {
       routes: [
@@ -171,13 +170,16 @@ export default Vue.extend({
         },
         {
           title: "สำรวจการใช้งบประมาณ",
-          path: "/bkkbudget/explore?select=YearlyBudget",
+          path: "/bkkbudget",
           des: [
             {
               title: "ทำความเข้าใจแผนการใช้งบ",
               path: "/bkkbudget#sections-strategy-plan",
             },
-            { title: "สำรวจการใช้งบประมาณ", path: "/bkkbudget#budget-plans" },
+            {
+              title: "สำรวจการใช้งบประมาณ",
+              path: "/bkkbudget/explore?select=YearlyBudget",
+            },
             {
               title: "อยากให้ใช้งบทำอะไร",
               path: "/bkkbudget#allocate-question",
@@ -186,7 +188,7 @@ export default Vue.extend({
         },
         {
           title: "พัฒนาชุมชนเมืองให้เข้มแข็ง",
-          path: "/communityfund/explore?select=YearlyBudget",
+          path: "/communityfund",
           des: [
             {
               title: "ทำความรู้จักโครงการชุมชนเข้มแข็ง",
@@ -194,7 +196,7 @@ export default Vue.extend({
             },
             {
               title: "สำรวจโครงการของชุมชนตามเขตที่คุณสนใจ",
-              path: "/communityfund#community-survey",
+              path: "/communityfund/explore?select=YearlyBudget",
             },
             {
               title: "อยากให้ชุมชนของคุณพัฒนาโครงการอะไร",
@@ -210,6 +212,22 @@ export default Vue.extend({
     if (this.$cookies.get("uuid")) {
       this.$store.commit("setCookieState", true);
     }
+    const elemtFooter = document.querySelector(".wv_footer .wv_footer__follow");
+    console.log(elemtFooter, "elemtFooter");
+    const elemtX = elemtFooter.querySelectorAll("div.wv_footer__follow > a")[1];
+
+    elemtX.removeChild(elemtX.querySelector("svg"));
+    elemtX.innerHTML = `<a
+        target="_blank"
+        rel="noreferrer noopener"
+        href="https://twitter.com/wevisdemo"
+        aria-label="Twitter"
+      >
+      <svg width="30" height="30" viewBox="0 0 28 28"><path d="M15.3831 12.7137L21.5027 5.60001H20.0526L14.7389 11.7767L10.4948 5.60001H5.59985L12.0177 14.9402L5.59985 22.4H7.0501L12.6615 15.8772L17.1435 22.4H22.0385L15.3827 12.7137H15.3831ZM13.3968 15.0225L12.7465 14.0925L7.57264 6.69174H9.80014L13.9755 12.6644L14.6258 13.5944L20.0533 21.3579H17.8258L13.3968 15.0229V15.0225Z"></path></svg>
+      </a>`;
+
+    // trElement.removeChild(tdElement);
+    // trElement.innerHTML = str + trElement.innerHTML;
   },
   methods: {
     isAboutFooter() {
