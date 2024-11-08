@@ -134,7 +134,10 @@ export default Vue.extend({
             title: "ทำความเข้าใจแผนการใช้งบ",
             path: "/bkkbudget#sections-strategy-plan",
           },
-          { title: "สำรวจการใช้งบประมาณ", path: "/bkkbudget#budget-plans" },
+          {
+            title: "สำรวจการใช้งบประมาณ",
+            path: "/bkkbudget/explore?select=YearlyBudget",
+          },
           {
             title: "อยากให้ใช้งบทำอะไร",
             path: "/bkkbudget#allocate-question",
@@ -151,7 +154,7 @@ export default Vue.extend({
           },
           {
             title: "สำรวจโครงการของชุมชนตามเขตที่คุณสนใจ",
-            path: "/communityfund#community-survey",
+            path: "/communityfund/explore?select=YearlyBudget",
           },
           {
             title: "อยากให้ชุมชนของคุณพัฒนาโครงการอะไร",
