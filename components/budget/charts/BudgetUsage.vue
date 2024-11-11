@@ -7,7 +7,7 @@
       >
         <p class="wv-b3 flex-grow max-w-[253px] text-center sm:text-left mb-3">
           <span class="font-bold"
-            >3 อันดับหน่วยงานที่ได้รับงบฯ สูงที่สุดในปี </span
+            >5 อันดับหน่วยงานที่ได้รับงบฯ สูงที่สุดในปี </span
           >25{{ currentYear }} จาก {{ rawData.length }} หน่วยงาน
         </p>
 

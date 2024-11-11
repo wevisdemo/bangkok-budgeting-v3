@@ -212,7 +212,7 @@
 
           <WvButton>
             <a
-              href="         https://github.com/wevisdemo/bangkok-budgeting-v3"
+              href="https://github.com/wevisdemo/bangkok-budgeting-v3"
               target="_blank"
               class="flex space-x-2 items-center"
             >

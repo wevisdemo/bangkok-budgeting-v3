@@ -7,7 +7,7 @@
         <div id="section-bkk-header " class="text-center pb-5 flex-1">
           <p class="wv-h4 font-bold">สำรวจงบประมาณ <br />พัฒนาชุมชนเมือง</p>
           <p class="wv-b3 font-bold pt-3">
-            โคงการชุมชมเข้มแข็งฯ 200,000 บาทต่อชุมชน
+            โครงการชุมชมเข้มแข็งฯ 200,000 บาทต่อชุมชน
           </p>
         </div>
         <div id="section-navigation" class="text-center flex-1">
