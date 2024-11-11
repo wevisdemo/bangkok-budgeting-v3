@@ -1,7 +1,5 @@
 import { createMetadata } from "./utils/metadata";
-import { generateOgImageRoutes } from "./utils/ogimages";
 
-const BASE_PATH = "/bangkok-budgeting-v3";
 const { title, meta } = createMetadata();
 
 const config = {
@@ -107,14 +105,14 @@ const config = {
 
   publicRuntimeConfig: {
     path: {
-      base: BASE_PATH,
+      base: process.env.BASE_PATH ? `${process.env.BASE_PATH}/` : "/",
       images: `/images`,
     },
     nocoToken: process.env.NOCO_TOKEN,
   },
 
   router: {
-    base: BASE_PATH || "/",
+    base: process.env.BASE_PATH,
   },
 
   axios: {

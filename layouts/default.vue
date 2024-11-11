@@ -5,7 +5,7 @@
       :cookie-options="cookieOptions"
       :on-accept="onCookieAccept"
     />
-    <WvNavbar class="z-20" :dark="true" homeHref="/bangkok-budgeting-v3">
+    <WvNavbar class="z-20" :dark="true" :homeHref="$config.path.base">
       <NuxtLink v-for="{ label, path } in routes" :key="path" :to="path">
         <WvNavButton :active="path === $route.path" :dark="true">{{
           label
