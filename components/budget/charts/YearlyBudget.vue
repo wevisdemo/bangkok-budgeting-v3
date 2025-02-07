@@ -8,8 +8,8 @@
         <div class="wv-b3 text-center sm:text-left">
           <span class="font-bold">งบแผนงานพัฒนา 9 ด้าน(ดี) </span
           ><br />ส่วนใหญ่ถูกใช้ในด้าน
-          <p class="mt-2 text-strategy-9 wv-h5 font-black mb-2 wv-kondolar">
-            “บริหารจัดการดี”
+          <p class="mt-2 text-strategy-5 wv-h5 font-black mb-2 wv-kondolar">
+            “สุขภาพดี”
           </p>
         </div>
 
