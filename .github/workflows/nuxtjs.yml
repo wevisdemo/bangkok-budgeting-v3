@@ -18,32 +18,17 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: ["lts/hydrogen"]
+    runs-on: "ubuntu-latest"
 
     steps:
       - name: Checkout 🛎
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup node env 🏗
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
-          cache: "yarn"
-
-      - name: Restore cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            dist
-            .nuxt
-          key: ${{ runner.os }}-nuxt-build-${{ hashFiles('dist') }}
-          restore-keys: |
-            ${{ runner.os }}-nuxt-build-
+          node-version: 19
+          cache: yarn
 
       - name: Install dependencies 👨🏻‍💻
         run: yarn
@@ -55,7 +40,7 @@ jobs:
           NOCO_TOKEN: ${{ secrets.NOCO_TOKEN }}
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
@@ -68,4 +53,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
