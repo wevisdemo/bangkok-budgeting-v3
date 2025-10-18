@@ -163,7 +163,7 @@ export default Vue.extend({
       chartResponse: [],
       totalBudget: [
         { year: 68, amount: 89969500000 },
-        { year: 69, amount: 0 },
+        { year: 69, amount: 74956095550 },
         { year: 70, amount: 0 },
       ],
     };
@@ -171,11 +171,7 @@ export default Vue.extend({
   mounted() {
     this.chartResponse = this.$store.getters["data/getChartData"]().years;
     if (this.chartResponse.length < 3) {
-      this.chartResponse = [
-        ...this.chartResponse,
-        { year: 69, amount: 0 },
-        { year: 70, amount: 0 },
-      ];
+      this.chartResponse = [...this.chartResponse, { year: 70, amount: 0 }];
     }
   },
   methods: {

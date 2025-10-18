@@ -111,7 +111,7 @@ export default Vue.extend({
   mounted() {
     this.rawData = filterByOrganize(
       "งบมากไปน้อย",
-      this.$store.getters["data/getChartDataGroupByOrganizations"]({ year: 68 })
+      this.$store.getters["data/getChartDataGroupByOrganizations"]({ year: 69 })
     );
     const chartData = this.$store.getters["data/getChartData"]();
     this.chartOrganize = this.rawData.slice(0, 5);
