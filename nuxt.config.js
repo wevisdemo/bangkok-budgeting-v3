@@ -108,6 +108,10 @@ const config = {
       base: process.env.BASE_PATH ? `${process.env.BASE_PATH}/` : "/",
       images: `/images`,
     },
+    plausible: {
+      domain: "bangkokbudgeting.wevis.info",
+      apiHost: "https://analytics.punchup.world",
+    },
     nocoToken: process.env.NOCO_TOKEN,
   },
 

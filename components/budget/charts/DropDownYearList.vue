@@ -41,6 +41,7 @@ export default {
       yearList: [
         { label: "ทุกปี", value: "" },
         { label: "2568", value: 68 },
+        { label: "2569", value: 69 },
       ],
     };
   },

@@ -274,6 +274,7 @@ export default {
       yearList: [
         { label: "ทุกปี", value: "" },
         { label: "2568", value: 68 },
+        { label: "2569", value: 69 },
       ],
       filterTotalAmount: 0,
       totalAmount: 0,
@@ -312,7 +313,6 @@ export default {
       this.barChartData = filterByOrganize(this.selectedFilter, response);
       this.resultKeySearch = this.barChartData;
       this.filterOrganize = "";
-      console.log(this.barChartData, "this.barChartData");
     },
 
     fetchByOrganize(nameOrganization) {

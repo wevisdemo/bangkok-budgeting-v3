@@ -95,24 +95,24 @@ export default Vue.extend({
       topInterestGreen: [
         {
           topic: "แผนนโยบายที่ใช้งบมากที่สุด",
-          header: "สุขภาพดี",
-          budget: "1,800 ล้านบาท",
+          header: "เดินทางดี",
+          budget: "2,546 ล้านบาท",
           path: "bkkbudget/explore",
           query: { select: "YearlyBudget" },
         },
         {
           topic: "หน่วยงานที่ได้รับงบมากที่สุด",
           header: "สำนักการระบายน้ำ",
-          budget: "1,730 ล้านบาท",
+          budget: "4,072 ล้านบาท",
           path: "bkkbudget/explore",
           query: { select: "OrganizeBudget", key: "สำนักการระบายน้ำ" },
         },
         {
           topic: "คีย์เวิร์ดที่พบบ่อยมากที่สุด",
-          header: "สร้าง",
-          budget: "86 รายการ",
+          header: "ค่าใช้จ่าย",
+          budget: "410 รายการ",
           path: "bkkbudget/explore",
-          query: { select: "KeyWordBudget", key: "สร้าง" },
+          query: { select: "KeyWordBudget", key: "ค่าใช้จ่าย" },
         },
       ],
       topInterestYellow: [

@@ -40,7 +40,7 @@
                 </el-option>
               </el-select>
               <span>มี </span>
-              <span class="font-bold">{{ filterYears?.total }}</span>
+              <span class="font-bold">{{ resultKeySearch?.total }}</span>
               <span class="hidden md:block"
                 >รายการ ({{ sumAllBudget() }} ล้านบาท)</span
               >
@@ -59,7 +59,7 @@
                 v-model="filterProjectName"
                 type="text"
                 class="border-b border-b-black w-full wv-b5 mb-3 pl-8"
-                :placeholder="`ค้นหาโครงการจาก ${filterYears?.total} รายการ...`"
+                :placeholder="`ค้นหาโครงการจาก ${resultKeySearch?.total} รายการ...`"
               />
             </div>
             <div
@@ -173,6 +173,7 @@ export default {
       yearList: [
         { label: "ทุกปี", value: "" },
         { label: "2568", value: 68 },
+        { label: "2569", value: 69 },
       ],
     };
   },
@@ -226,10 +227,11 @@ export default {
         if (this.page === "organize") this.updateSelectYearOrganize(year);
         if (this.page === "strategy") this.updateSelectYearStrategy(year);
         if (this.page === "keyword") this.updateSelectKeywordStrategy(year);
+
         const itemsList = this.isModalDetails?.items?.filter(
           (str) => str.budgetYear === year
         );
-        this.filterYears = filterBy(this.selectedFilter, {
+        this.resultKeySearch = filterBy(this.selectedFilter, {
           items: itemsList,
           total: itemsList.length,
         });
@@ -240,13 +242,15 @@ export default {
           this.updateSelectYearStrategy({ label: "ทุกปี", value: "" });
         if (this.page === "keyword")
           this.updateSelectKeywordStrategy({ label: "ทุกปี", value: "" });
-        this.filterYears = filterBy(this.selectedFilter, {
+        this.resultKeySearch = filterBy(this.selectedFilter, {
           ...this.isModalDetails,
         });
       }
     },
     sumAllBudget() {
-      return convertMillion(_.sumBy(this.filterYears.items, (a) => a.amount));
+      return convertMillion(
+        _.sumBy(this.resultKeySearch.items, (a) => a.amount)
+      );
     },
   },
   watch: {

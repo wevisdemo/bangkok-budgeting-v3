@@ -1,208 +1,54 @@
 export const mainKeyWord = () => {
   return [
-    {
-      Word: "ก่อสร้าง",
-      Count: 82,
-    },
-    {
-      Word: "ปรับปรุง",
-      Count: 62,
-    },
-    {
-      Word: "โครงการ",
-      Count: 57,
-    },
-    {
-      Word: "กรุงเทพ",
-      Count: 52,
-    },
-    {
-      Word: "คลอง",
-      Count: 50,
-    },
-    {
-      Word: "ระบบ",
-      Count: 49,
-    },
-    {
-      Word: "เขต",
-      Count: 45,
-    },
-    {
-      Word: "น้ำ",
-      Count: 44,
-    },
-    {
-      Word: "ถนน",
-      Count: 39,
-    },
-    {
-      Word: "จ้าง",
-      Count: 32,
-    },
-    {
-      Word: "พัฒนา",
-      Count: 29,
-    },
-    {
-      Word: "พื้นที่",
-      Count: 28,
-    },
-    {
-      Word: "ศูนย์",
-      Count: 24,
-    },
-    {
-      Word: "อาคาร",
-      Count: 22,
-    },
-    {
-      Word: "บ้าน",
-      Count: 20,
-    },
-    {
-      Word: "ควบคุม",
-      Count: 20,
-    },
-    {
-      Word: "โรงเรียน",
-      Count: 19,
-    },
-    {
-      Word: "สถานี",
-      Count: 18,
-    },
-    {
-      Word: "เขื่อน",
-      Count: 18,
-    },
-    {
-      Word: "ค.ส.ล.",
-      Count: 18,
-    },
-    {
-      Word: "ระบาย",
-      Count: 16,
-    },
-    {
-      Word: "ที่ปรึกษา",
-      Count: 15,
-    },
-    {
-      Word: "เหมา",
-      Count: 14,
-    },
-    {
-      Word: "กีฬา",
-      Count: 13,
-    },
-    {
-      Word: "บริเวณ",
-      Count: 13,
-    },
-    {
-      Word: "ลาน",
-      Count: 12,
-    },
-    {
-      Word: "สูบน้ำ",
-      Count: 12,
-    },
-    {
-      Word: "สาย",
-      Count: 12,
-    },
-    {
-      Word: "ชุมชน",
-      Count: 12,
-    },
-    {
-      Word: "ส่งเสริม",
-      Count: 12,
-    },
-    {
-      Word: "สำนักงานเขต",
-      Count: 11,
-    },
-    {
-      Word: "สวน",
-      Count: 11,
-    },
-    {
-      Word: "สาธารณะ",
-      Count: 11,
-    },
-    {
-      Word: "น้ำเสีย",
-      Count: 10,
-    },
-    {
-      Word: "ศูนย์บริการสาธารณสุข",
-      Count: 10,
-    },
-    {
-      Word: "อุโมงค์",
-      Count: 10,
-    },
-    {
-      Word: "ซอย",
-      Count: 10,
-    },
-    {
-      Word: "วัด",
-      Count: 10,
-    },
-    {
-      Word: "ป้องกัน",
-      Count: 10,
-    },
-    {
-      Word: "หนังสือ",
-      Count: 8,
-    },
-    {
-      Word: "สะพาน",
-      Count: 7,
-    },
-    {
-      Word: "การเรียนรู้",
-      Count: 6,
-    },
-    {
-      Word: "ดับเพลิง",
-      Count: 6,
-    },
-    {
-      Word: "ห้องเรียน",
-      Count: 6,
-    },
-    {
-      Word: "คุณภาพ",
-      Count: 6,
-    },
-    {
-      Word: "พิษสุนัขบ้า",
-      Count: 6,
-    },
-    {
-      Word: "แมว",
-      Count: 6,
-    },
-    {
-      Word: "ทวีวัฒนา",
-      Count: 5,
-    },
-    {
-      Word: "กู้ภัย",
-      Count: 5,
-    },
-    {
-      Word: "โรงพยาบาล",
-      Count: 5,
-    },
-    {
-      Word: "ฝุ่น",
-      Count: 4,
-    },
+    { Word: "คลอง", Count: 248 },
+    { Word: "ก่อสร้าง", Count: 168 },
+    { Word: "ถนน", Count: 140 },
+    { Word: "โรงเรียน", Count: 122 },
+    { Word: "ระบบ", Count: 103 },
+    { Word: "จ้าง", Count: 100 },
+    { Word: "ปรับปรุง", Count: 89 },
+    { Word: "พื้นที่", Count: 86 },
+    { Word: "เขต", Count: 85 },
+    { Word: "education", Count: 83 },
+    { Word: "ชุมชน", Count: 68 },
+    { Word: "พัฒนา", Count: 68 },
+    { Word: "ขุด", Count: 63 },
+    { Word: "ลอก", Count: 63 },
+    { Word: "การเรียนรู้", Count: 61 },
+    { Word: "แก้ไขปัญหา", Count: 58 },
+    { Word: "ขับเคลื่อน", Count: 56 },
+    { Word: "อาหาร", Count: 54 },
+    { Word: "ซอย", Count: 54 },
+    { Word: "อาสาสมัคร", Count: 53 },
+    { Word: "bank", Count: 52 },
+    { Word: "bkk", Count: 52 },
+    { Word: "food", Count: 52 },
+    { Word: "รูปธรรม", Count: 52 },
+    { Word: "ที่อยู่อาศัย", Count: 51 },
+    { Word: "ลำราง", Count: 44 },
+    { Word: "ภาษา", Count: 43 },
+    { Word: "น้ำเสีย", Count: 43 },
+    { Word: "สองภาษา", Count: 43 },
+    { Word: "อาคาร", Count: 38 },
+    { Word: "บ้าน", Count: 37 },
+    { Word: "เขื่อน", Count: 37 },
+    { Word: "ควบคุม", Count: 36 },
+    { Word: "สถานี", Count: 35 },
+    { Word: "แยก", Count: 35 },
+    { Word: "ศูนย์", Count: 34 },
+    { Word: "คสล", Count: 34 },
+    { Word: "การศึกษา", Count: 33 },
+    { Word: "นวัตกรรม", Count: 33 },
+    { Word: "ดำเนินงาน", Count: 33 },
+    { Word: "สถานศึกษา", Count: 32 },
+    { Word: "นำร่อง", Count: 31 },
+    { Word: "sandbox", Count: 31 },
+    { Word: "ติดตาม", Count: 30 },
+    { Word: "บริเวณ", Count: 28 },
+    { Word: "ระบาย", Count: 27 },
+    { Word: "ส่งเสริม", Count: 26 },
+    { Word: "สูบน้ำ", Count: 25 },
+    { Word: "สาย", Count: 25 },
+    { Word: "รวบรวม", Count: 25 },
   ];
 };
