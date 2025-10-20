@@ -26,6 +26,28 @@ export const state = (): DataState => ({
 
 export type RootState = ReturnType<typeof state>;
 
+function formatData(data: CommunityRow[]) {
+  const grouped = {};
+
+  data.forEach((item) => {
+    const key = `${item.budget_year}-${item.district}-${item.community}-${item.project_name}-${item.project_objective}`;
+    if (!grouped[key]) {
+      grouped[key] = {
+        budget_year: item.budget_year,
+        district: item.district,
+        community: item.community,
+        project_name: item.project_name,
+        project_objective: item.project_objective,
+        procurement_list: [],
+      };
+    }
+    grouped[key].procurement_list.push(item.procurement_list);
+  });
+
+  // แปลงกลับเป็น array
+  return Object.values(grouped);
+}
+
 export const getters: GetterTree<RootState, RootState> = {
   getBudgetItems: (state) => (filters?: Filters) => {
     return getBudgetItems(state.budgetRows!, filters);
@@ -38,8 +60,9 @@ export const getters: GetterTree<RootState, RootState> = {
   getChartDataGroupByOrganizations: (state) => (year: number) => {
     return getChartDataGroupByOrganizations(state.budgetRows!, year);
   },
+
   getCommunity: (state) => () => {
-    return state.commuRows;
+    return formatData(state.commuRows);
   },
 };
 

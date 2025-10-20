@@ -24,7 +24,7 @@
       <div class="flex py-5 border-t border-t-gray-300">
         <div class="flex-[3] border-r border-r-gray-300 pr-4">
           <p class="wv-b7 font-bold">งบประมาณ</p>
-          <p>{{ project.amount.toLocaleString("en-US", {}) }} บาท</p>
+          <!-- <p>{{ project.amount.toLocaleString("en-US", {}) }} บาท</p> -->
         </div>
         <div class="flex-[3] pl-3">
           <p class="wv-b7 font-bold">ปีงบประมาณ</p>

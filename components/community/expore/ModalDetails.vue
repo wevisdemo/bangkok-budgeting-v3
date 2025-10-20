@@ -111,7 +111,7 @@
                 </div>
                 <div class="flex text-end">
                   <span class="wv-b6 font-bold">
-                    {{ item.amount.toLocaleString("en-US", {}) }}<br />
+                    <!-- {{ item.amount.toLocaleString("en-US", {}) }}<br /> -->
                   </span>
                   <span class="wv-b6">บาท</span>
                   <div class="ml-2 mt-[3px]">

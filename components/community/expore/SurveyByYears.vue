@@ -87,6 +87,11 @@
             :originData="originData"
             :handleFilterData="handleFilterData"
           />
+          <!-- <FilterByObjective
+            :filterData="filterData"
+            :originData="originData"
+            :handleFilterData="handleFilterData"
+          /> -->
           <!-- ------------- -->
         </div>
         <div class="my-3 flex">
@@ -183,7 +188,7 @@
               <div class="flex text-end">
                 <div v-if="isMillion">
                   <span class="wv-b6 font-bold">
-                    {{ item.amount.toLocaleString("en-US", {}) }}<br />
+                    <!-- {{ item.amount.toLocaleString("en-US", {}) }}<br /> -->
                   </span>
                   <span class="wv-b6">บาท</span>
                 </div>
@@ -245,6 +250,7 @@ import ShareLabel from "../../budget/ShareLabel.vue";
 import FilterByYear from "../filter/FilterByYear.vue";
 import FilterByDistrict from "../filter/FilterByDistrict.vue";
 import FilterByComnunity from "../filter/FilterByComnunity.vue";
+import FilterByObjective from "../filter/FilterByObjective.vue";
 import ModalProject from "./ModalProject.vue";
 import { convertMillion, orderByStrategy } from "~/components/budget/utils";
 import BkkMap from "../BkkMap.vue";
@@ -260,6 +266,7 @@ export default {
     FilterByYear,
     FilterByDistrict,
     FilterByComnunity,
+    FilterByObjective,
     BkkMap,
   },
   data() {
@@ -309,6 +316,7 @@ export default {
     handleFilterYear(year) {
       this.origin = this.yearGroup[year];
       this.filterData = { year };
+      this.commuData = this.origin;
       this.mapColorMapping();
     },
 
@@ -425,7 +433,7 @@ export default {
     mapColorMapping() {
       const groupDistrict = _.chain(this.originData)
         .groupBy("district")
-        .mapValues((s) => _.sumBy(s, "amount"))
+        .mapValues((s) => s.length)
         .value();
 
       const selectedDistrict = (district, elem) => {
@@ -486,7 +494,10 @@ export default {
     this.yearGroup = _.groupBy(this.commuData, "budget_year");
     this.originData = this.formatData();
     this.yearData = Object.keys(this.yearGroup);
+
     this.commuData = Object.values(this.yearGroup)[0];
+    console.log(this.commuData, "this.commuData");
+
     this.districtData = _.uniqBy(
       Object.values(this.yearGroup)[0]?.map((d) => d.district)
     );

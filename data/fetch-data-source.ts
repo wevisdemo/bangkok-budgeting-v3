@@ -26,7 +26,7 @@ export interface CommunityRow {
   district: string;
   community: string;
   project_name: string;
-  amount: string | number;
+  project_objective: string | number;
   procurement_list: string;
 }
 
@@ -34,7 +34,7 @@ const BUDGET_SHEET =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxZIXP5NcbvMFDxvSJJYmiYBzttiw1Lq4QmRnxinmo2egj49nGytUDgWJbMytBVmH14dCDmkUVy1DZ/pub?gid=1915709666&single=true&output=csv";
 
 const COMMUNITY_SHEET =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxZIXP5NcbvMFDxvSJJYmiYBzttiw1Lq4QmRnxinmo2egj49nGytUDgWJbMytBVmH14dCDmkUVy1DZ/pub?gid=453189989&single=true&output=csv";
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSCA-vsvCyfpey3LvV9ZUhkQ5FQlOnAE3cukhfTa0yxiQH2NuRiZ32rSFAc4fNWyGtUCEQDIGCGZOSe/pub?gid=764605226&single=true&output=csv";
 interface CSV_ROW {
   budget_year: string;
   plan_proj_name: string;
@@ -78,7 +78,7 @@ export const fetchCommunitySheet = async (): Promise<CommunityRow[]> => {
       district: row.district,
       community: row.community,
       project_name: row.project_name,
-      amount: formatAmount(row.amount as string),
+      project_objective: row.project_objective,
       procurement_list: row.procurement_list,
     })
   );

@@ -10,7 +10,7 @@
     <div class="flex py-5">
       <div class="flex-[1] border-r border-r-gray-300 pr-4">
         <p class="wv-b7 font-bold">งบประมาณ</p>
-        <p>{{ isProject.amount.toLocaleString("en-US", {}) }} บาท</p>
+        <!-- <p>{{ isProject.amount.toLocaleString("en-US", {}) }} บาท</p> -->
       </div>
       <div class="flex-[3] pl-12">
         <p class="wv-b7 font-bold">ปีงบประมาณ</p>
@@ -26,7 +26,9 @@
         />
         <p class="wv-b5">
           {{
-            isProject.strategy === "ไม่พบข้อมูล" ? "ไม่พบข้อมูล" : isProject.strategy
+            isProject.strategy === "ไม่พบข้อมูล"
+              ? "ไม่พบข้อมูล"
+              : isProject.strategy
           }}
         </p>
       </div>

@@ -100,12 +100,12 @@
                   {{ item.outputProjectName }}
                 </div>
                 <div class="w-[128px] opacity-50">
-                  {{
+                  <!-- {{
                     (item.amount / 1000000).toLocaleString("en-US", {
                       maximumFractionDigits: 2,
                       minimumFractionDigits: 2,
                     })
-                  }}
+                  }} -->
                   ล้านบาท
                 </div>
               </div>
