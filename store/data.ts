@@ -27,7 +27,16 @@ export const state = (): DataState => ({
 export type RootState = ReturnType<typeof state>;
 
 function formatData(data: CommunityRow[]) {
-  const grouped = {};
+  interface FormattedRow {
+    budget_year: CommunityRow["budget_year"];
+    district: CommunityRow["district"];
+    community: CommunityRow["community"];
+    project_name: CommunityRow["project_name"];
+    project_objective: CommunityRow["project_objective"];
+    procurement_list: any[];
+  }
+
+  const grouped: Record<string, FormattedRow> = {};
 
   data.forEach((item) => {
     const key = `${item.budget_year}-${item.district}-${item.community}-${item.project_name}-${item.project_objective}`;
