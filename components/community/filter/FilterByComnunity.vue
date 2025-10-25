@@ -59,7 +59,9 @@
     </el-popover>
     <el-button v-popover:commu class="filterBtn wv-b6"
       ><span v-if="filterData.community">{{ filterData.community }}</span
-      ><span v-else>ทุกชุมชน ({{ searchBy?.length }} ชุมชน)</span>
+      ><span v-else
+        >ทุกชุมชน ({{ searchBy?.length.toLocaleString() }} ชุมชน)</span
+      >
     </el-button>
   </div>
 </template>

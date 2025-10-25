@@ -35,16 +35,24 @@
           :originData="originData"
           :handleFilterData="handleFilterData"
         />
+         <FilterByObjective
+            :filterData="filterData"
+            :originData="originData"
+            :handleFilterData="handleFilterData"
+            :commuData="commuData"
+          />
       </div>
       <div class="relative">
         <img
           src="~/assets/images/clickHere.svg"
           class="absolute top-[10%] left-0-0 m-5"
         />
-        <img
-          src="~/assets/images/heatMap.svg"
-          class="absolute bottom-0 right-0 m-5"
-        />
+        <div class="absolute  wv-b7 bottom-0 right-0 m-5 flex flex-row space-x-1">
+          <p>1 โครงการ</p>
+          <img src="~/assets/images/heatMap.svg" class="w-[80px]" />
+          <p>{{ originData.length.toLocaleString() }} โครงการ</p>
+        </div>
+
         <BkkMap class="my-5 mx-auto w-full md:w-fit" />
       </div>
 
@@ -60,8 +68,8 @@
         <p class="opacity-50" v-if="filterData.community">
           {{ filterData.community }}
         </p>
-        <p v-else class="opacity-50">({{ commuData.length }} ชุมชน)</p>
-        <p class="font-bold">{{ convertMillion(maxFilterData()) }} บาท</p>
+        <p v-else class="opacity-50">({{ commuData.length }} โครงการ)</p>
+        <!-- <p class="font-bold">{{ convertMillion(maxFilterData()) }} บาท</p> -->
       </div>
     </div>
     <div class="flex-1 flex flex-col">
@@ -69,7 +77,7 @@
         <!-- ------------ -->
         <div
           id="filter"
-          class="hidden lg:flex space-y-1 flex-col"
+          class="hidden lg:flex space-y-1 flex-col relative"
           v-if="originData.length"
         >
           <FilterByYear
@@ -87,24 +95,25 @@
             :originData="originData"
             :handleFilterData="handleFilterData"
           />
-          <!-- <FilterByObjective
+          <FilterByObjective
             :filterData="filterData"
             :originData="originData"
             :handleFilterData="handleFilterData"
-          /> -->
+            :commuData="commuData"
+          />
           <!-- ------------- -->
         </div>
         <div class="my-3 flex">
           <div class="fle-1">
             <p class="wv-b3 font-bold">
-              พบ {{ commuData.length.toLocaleString("en-US", {}) }} รายการ
+              พบ {{ commuData.length.toLocaleString("en-US", {}) }} โครงการ
             </p>
-            <p class="wv-b5">
+            <!-- <p class="wv-b5">
               ใช้งบรวม <b>{{ convertMillion(maxFilterData()) }} ล้านบาท</b>
             </p>
             <p class="wv-b6 opacity-50">
               ({{ ((maxFilterData() / maxCommu()) * 100).toFixed(0) }} %
-              ของงบทั้งหมด)
+              ของงบทั้งหมด) -->
             </p>
           </div>
           <div class="flex-1 flex justify-end">
@@ -143,7 +152,7 @@
             >
           </div>
         </div>
-        <div class="flex justify-between mt-5">
+        <!-- <div class="flex justify-between mt-5">
           <ToggleUnit :toggle="() => toggle()" :is-million="isMillion" />
           <div
             class="text-wv-gray-1 wv-b6 flex space-x-2 justify-center cursor-pointer mb-4"
@@ -164,7 +173,7 @@
               </el-option>
             </el-select>
           </div>
-        </div>
+        </div> -->
 
         <div
           v-for="(item, key) in commuData.slice(0, this.sliceDivide)"
@@ -186,27 +195,27 @@
                 </p>
               </div>
               <div class="flex text-end">
-                <div v-if="isMillion">
+                <!-- <div v-if="isMillion">
                   <span class="wv-b6 font-bold">
-                    <!-- {{ item.amount.toLocaleString("en-US", {}) }}<br /> -->
+                    {{ item.amount.toLocaleString("en-US", {}) }}<br />
                   </span>
                   <span class="wv-b6">บาท</span>
                 </div>
                 <div v-else class="wv-b6 font-bold">
                   {{ ((item.amount / maxValue) * 100).toFixed(2) }} %
-                </div>
+                </div> -->
                 <div class="ml-2 mt-[3px]">
                   <img src="~/assets/images/list-button.svg" />
                 </div>
               </div>
             </div>
 
-            <div class="h-[10px] w-full bg-wv-gray-4 flex mt-2">
+            <!-- <div class="h-[10px] w-full bg-wv-gray-4 flex mt-2">
               <div
                 class="h-[10px] bg-wv-yellow-70"
                 :style="{ width: drawChart(item) }"
               ></div>
-            </div>
+            </div> -->
           </div>
         </div>
         <div
@@ -317,16 +326,18 @@ export default {
       this.origin = this.yearGroup[year];
       this.filterData = { year };
       this.commuData = this.origin;
-      this.mapColorMapping();
+      this.mapColorMapping(this.origin);
     },
 
-    handleFilterData({ district, community }) {
+    handleFilterData({ district, community, objectives }) {
       this.filterData = {
         ...this.filterData,
         district,
         community,
+        objectives
       };
       this.originData = this.formatData();
+      
       this.commuData = this.formatData();
       if (district && community) {
         this.commuData = this.originData.filter(
@@ -334,6 +345,12 @@ export default {
         );
       } else if (district) {
         this.commuData = this.originData.filter((o) => o.district === district);
+      }
+      
+      if (objectives && objectives.length > 0) {
+        this.commuData = this.commuData.filter((o) => {
+          return objectives.includes(o.project_objective);
+        });
       }
 
       d3.selectAll(".pathBKK").each(function (d) {
@@ -373,31 +390,31 @@ export default {
           );
         }
       });
-      this.mapColorMapping();
+      this.mapColorMapping(this.origin);
     },
-    selectFilter(label) {
-      if (label === "งบมากไปน้อย") {
-        return (this.commuData = orderByStrategy(
-          this.commuData,
-          "amount",
-          "desc"
-        ));
-      }
-      if (label === "งบน้อยไปมาก") {
-        return (this.commuData = orderByStrategy(
-          this.commuData,
-          "amount",
-          "asc"
-        ));
-      }
-      if (label === "ตัวอักษร") {
-        return (this.commuData = orderByStrategy(
-          this.commuData,
-          "project_name",
-          "asc"
-        ));
-      }
-    },
+    // selectFilter(label) {
+    //   if (label === "งบมากไปน้อย") {
+    //     return (this.commuData = orderByStrategy(
+    //       this.commuData,
+    //       "amount",
+    //       "desc"
+    //     ));
+    //   }
+    //   if (label === "งบน้อยไปมาก") {
+    //     return (this.commuData = orderByStrategy(
+    //       this.commuData,
+    //       "amount",
+    //       "asc"
+    //     ));
+    //   }
+    //   if (label === "ตัวอักษร") {
+    //     return (this.commuData = orderByStrategy(
+    //       this.commuData,
+    //       "project_name",
+    //       "asc"
+    //     ));
+    //   }
+    // },
     drawChart(item) {
       const divide = this.maxValue;
       return `${(item.amount / divide) * 100}%`;
@@ -430,15 +447,19 @@ export default {
       );
     },
 
-    mapColorMapping() {
-      const groupDistrict = _.chain(this.originData)
+    mapColorMapping(originData) {
+        if (!originData) {
+          console.warn('originData is undefined');
+          return;
+        }
+      const groupDistrict = _.chain(originData)
         .groupBy("district")
         .mapValues((s) => s.length)
         .value();
 
       const selectedDistrict = (district, elem) => {
         if (!groupDistrict[district] || this.prevDistrictClick == district) {
-          this.handleFilterData({ district: "", community: "" });
+          this.handleFilterData({ district: "", community: "" , objectives: []});
           d3.selectAll(".pathBKK").each(function (d) {
             d3.select(this)
               .style("opacity", () => "100%")
@@ -452,14 +473,17 @@ export default {
 
         this.setToolTip(elem);
       };
+      
       d3.selectAll(".pathBKK").each(function (_) {
         const district = mapingDistrict(this.id);
+        const commuDataLength = originData ? originData.length : 0;
         d3.select(this)
-          .attr("fill", mapingColorDistrict(groupDistrict[district]))
+          .attr("fill", mapingColorDistrict(groupDistrict[district], commuDataLength))
           .style("cursor", "pointer");
 
         d3.select(this).on("click", () => selectedDistrict(district, this));
       });
+
     },
 
     handleScroll() {
@@ -490,14 +514,11 @@ export default {
   mounted() {
     document.querySelector("#scrollTopTop").style.opacity = "0";
     document.querySelector("#scrollTopBottom").style.opacity = "0";
-    this.commuData = this.$store.getters["data/getCommunity"]();
+    this.commuData = this.$store.getters["data/getCommunity"]();    
     this.yearGroup = _.groupBy(this.commuData, "budget_year");
     this.originData = this.formatData();
     this.yearData = Object.keys(this.yearGroup);
-
     this.commuData = Object.values(this.yearGroup)[0];
-    console.log(this.commuData, "this.commuData");
-
     this.districtData = _.uniqBy(
       Object.values(this.yearGroup)[0]?.map((d) => d.district)
     );
@@ -511,7 +532,7 @@ export default {
       district: this.filterData.district,
       community: this.filterData.community,
     });
-    this.mapColorMapping();
+    this.mapColorMapping(this.originData);
   },
   created() {
     window.addEventListener("scroll", this.handleScroll);
@@ -519,13 +540,13 @@ export default {
   unmounted() {
     window.removeEventListener("scroll", this.handleScroll);
   },
-  watch: {
-    selectedFilter: {
-      handler(newValue) {
-        this.selectFilter(newValue);
-      },
-    },
-  },
+  // watch: {
+  //   selectedFilter: {
+  //     handler(newValue) {
+  //       this.selectFilter(newValue);
+  //     },
+  //   },
+  // },
 };
 </script>
 

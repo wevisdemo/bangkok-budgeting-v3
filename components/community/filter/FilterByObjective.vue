@@ -1,5 +1,5 @@
 <template>
-  <div v-if="originData" class="relative">
+  <div v-if="originData && commuData" class="relative">
     <div
       class="flex absolute pointer-events-none top-[50%] translate-y-[-50%] right-0 space-x-2 mr-5"
     >
@@ -28,130 +28,205 @@
         </svg>
       </button>
     </div>
+    <div
+      class="flex absolute pointer-events-none top-[50%] translate-y-[-50%] right-0 space-x-2 mr-5"
+    >
+      <!-- Keep existing arrow buttons -->
+    </div>
     <el-popover
       ref="commu"
       class="w-full filterSelect"
-      acement="bottom"
+      placement="bottom"
       trigger="click"
       v-model="isOpen"
     >
-      <div class="relative md:w-[500px]">
-        <img
-          src="~/assets/images/searchIcon.svg"
-          class="absolute top-0 left-0 ml-2"
-        />
-        <input
-          v-model="inputData"
-          type="text"
-          class="border-b border-b-black w-full wv-b5 mb-3 pl-8"
-          :placeholder="`ค้นหาจาก ${searchBy?.length} ชุมชน`"
-        />
-
-        <div class="overflow-auto max-h-[250px]" id="listCommu">
-          <button @click="handleSelectedData('clear')">ทุกชุมชน</button>
-          <div v-for="(item, index) in searchBy" :key="index">
-            <button @click="handleSelectedData(item.community)">
-              {{ item.community }}
-            </button>
+      <div class="relative">
+        <div class="overflow-auto max-h-[250px]" id="listObjectives">
+          <div class="flex flex-col space-y-2">
+            <label class="flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                v-model="selectAll"
+                @change="handleSelectAll"
+                class="mr-2"
+              />
+              <span class="wv-b6">เป้าประสงค์ทุกด้าน</span>
+            </label>
+            <label
+              v-for="objective in objectives"
+              :key="objective.id"
+              class="flex items-center cursor-pointer"
+              :class="{
+                'disabled-objective': !availableObjectives.includes(
+                  objective.id
+                ),
+              }"
+            >
+              <input
+                type="checkbox"
+                v-model="selectedObjectives"
+                :value="objective.id"
+                @change="handleObjectiveChange"
+                class="mr-2"
+              />
+              <span class="wv-b6">{{ objective.name }}</span>
+            </label>
           </div>
         </div>
       </div>
     </el-popover>
-    <el-button v-popover:commu class="filterBtn wv-b6"
-      ><span v-if="filterData.community">{{ filterData.community }}</span
-      ><span v-else>ทุกชุมชน ({{ searchBy?.length }} ชุมชน)</span>
+    <el-button v-popover:commu class="filterBtn wv-b6">
+      <span v-if="selectedObjectives.length === 0"
+        >เป้าประสงค์ทุกด้าน (5 ด้าน)</span
+      >
+      <span v-else-if="selectedObjectives.length === objectives.length"
+        >เป้าประสงค์ทุกด้าน (5 ด้าน)</span
+      >
+      <span v-else>{{ selectedObjectivesText }}</span>
     </el-button>
   </div>
 </template>
+
 <script>
-import _ from "lodash";
 export default {
-  props: ["filterData", "originData", "handleFilterData"],
+  props: ["filterData", "originData", "handleFilterData", "commuData"],
   data() {
     return {
-      inputData: "",
-      searchBy: [],
       isOpen: false,
-      filterDistrict: [],
+      selectedObjectives: [],
+      selectAll: false,
+      availableObjectives: [],
+      objectives: [
+        { id: "ด้านเศรษฐกิจ", name: "ด้านเศรษฐกิจ", isDisabled: true },
+        {
+          id: "ด้านกายภาพและสิ่งแวดล้อม",
+          name: "ด้านกายภาพและสิ่งแวดล้อม",
+          isDisabled: true,
+        },
+        { id: "ด้านสังคม", name: "ด้านสังคม", isDisabled: true },
+        { id: "ด้านอนามัย", name: "ด้านอนามัย", isDisabled: true },
+        { id: "ด้านจิตใจ", name: "ด้านจิตใจ", isDisabled: true },
+      ],
     };
   },
-
-  methods: {
-    handleFormat(key) {
-      return _.uniqBy(
-        this.originData.filter((d) => d.community.toString().includes(key)),
-        "community"
-      );
-    },
-
-    handleSelectedData(commu) {
-      if (commu === "clear") {
-        this.handleFilterData({
-          ...this.filterData,
-          community: "",
-        });
-        this.inputData = "";
-        this.filterDistrict = this.originData.filter(
-          (d) => d.district === this.filterData.district
-        );
-        this.searchBy = _.uniqBy(this.filterDistrict, "community");
-      } else if (commu) {
-        this.handleFilterData({
-          ...this.filterData,
-          district: this.originData.filter((y) => y.community === commu)[0]
-            .district,
-          community: commu,
-        });
-      }
-      this.isOpen = false;
+  computed: {
+    selectedObjectivesText() {
+      if (this.selectedObjectives.length === 0)
+        return "เป้าประสงค์ทุกด้าน (5 ด้าน)";
+      return this.objectives
+        .filter((obj) => this.selectedObjectives.includes(obj.id))
+        .map((obj) => obj.name)
+        .join(", ");
     },
   },
-  mounted() {
-    this.searchBy = _.uniqBy(this.originData, "community");
+  methods: {
+    handleSelectAll() {
+      if (this.selectAll) {
+        this.selectedObjectives = this.objectives
+          .filter((obj) => this.availableObjectives.includes(obj.id))
+          .map((obj) => obj.id);
+      } else {
+        this.selectedObjectives = [];
+      }
+      this.handleFilterChange();
+    },
+    handleObjectiveChange() {
+      this.selectAll =
+        this.selectedObjectives.length === this.objectives.length;
+      this.handleFilterChange();
+    },
+    handleFilterChange() {
+      this.handleFilterData({
+        ...this.filterData,
+        objectives: this.selectedObjectives,
+      });
+    },
   },
   watch: {
     filterData: {
       immediate: true,
       deep: true,
       handler(newValue) {
-        this.inputData = newValue.community;
-        this.searchBy = _.uniqBy(this.originData, "community");
-        if (newValue.district) {
-          this.filterDistrict = this.originData.filter(
-            (d) => d.district === newValue.district
-          );
-          this.searchBy = _.uniqBy(this.filterDistrict, "community");
+        if (newValue.objectives) {
+          this.selectedObjectives = newValue.objectives;
+          this.selectAll =
+            this.selectedObjectives.length === this.objectives.length;
         }
       },
     },
-    isOpen: {
-      handler(newValue) {
-        if (newValue === false) {
-          this.searchBy = _.uniqBy(this.filterDistrict, "community");
-          if (this.searchBy.length === 0) this.handleSelectedData("clear");
-        }
-        this.inputData = "";
-      },
-    },
-    inputData: {
-      handler(newValue) {
-        if (newValue) {
-          this.searchBy = _.uniqBy(this.filterDistrict, "community")?.filter(
-            (s) => s.community.toString().includes(newValue)
-          );
-        } else {
-          if (this.filterData.district) {
-            this.filterDistrict = this.originData.filter(
-              (d) => d.district === this.filterData.district
-            );
-            this.searchBy = _.uniqBy(this.filterDistrict, "community");
-          } else {
-            this.searchBy = _.uniqBy(this.originData, "community");
-          }
-        }
+    commuData: {
+      immediate: true,
+      deep: true,
+      handler() {
+        this.availableObjectives = this.commuData
+          ? [...new Set(this.commuData.map((item) => item.project_objective))]
+          : [];
       },
     },
   },
 };
 </script>
-<style lang=""></style>
+<style scoped>
+.filterSelect {
+  width: 100%;
+}
+.el-popover.el-popper {
+  /* max-width: 250px !important; */
+}
+
+/* Checkbox and label container */
+label {
+  /* padding: 8px; */
+  border-radius: 4px;
+}
+
+/* Selected label background */
+input[type="checkbox"]:checked + span {
+  background-color: #000;
+  width: 100%;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  /* max-width: 250px; */
+  display: inline-block;
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  min-width: 18px;
+  min-height: 18px;
+  border: 2px solid #000;
+  border-radius: 50%;
+  margin-right: 8px;
+  position: relative;
+  cursor: pointer;
+}
+
+/* Checked checkbox state */
+input[type="checkbox"]:checked {
+  background-color: #000;
+}
+
+/* Checkmark symbol */
+input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 12px;
+  line-height: 1;
+}
+.disabled-objective {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+input[type="checkbox"]:disabled {
+  cursor: not-allowed;
+  border-color: #ccc;
+}
+</style>

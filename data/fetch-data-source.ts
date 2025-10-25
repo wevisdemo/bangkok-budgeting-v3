@@ -26,7 +26,7 @@ export interface CommunityRow {
   district: string;
   community: string;
   project_name: string;
-  project_objective: string | number;
+  project_objective: string;
   procurement_list: string;
 }
 

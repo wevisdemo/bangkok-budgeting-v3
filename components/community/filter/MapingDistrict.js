@@ -311,14 +311,13 @@ export const mapingDistrict = (id) => {
   return district.filter((d) => d.id == id)[0].district;
 };
 
-export const mapingColorDistrict = (volume) => {
-  const million = 1000000;
+export const mapingColorDistrict = (volume, max) => {
   if (volume) {
-    if (volume / million <= 1) return "#FFFCAF";
-    if (volume / million <= 5) return "#FFF846";
-    if (volume / million <= 10) return "#EFE602";
-    if (volume / million <= 15) return "#D0C800";
-    if (volume / million <= 20) return "#ACA500";
+    if (volume <= max * (1 / 5)) return "#FFFCAF";
+    if (volume <= max * (2 / 5)) return "#FFF846";
+    if (volume <= max * (3 / 5)) return "#EFE602";
+    if (volume <= max * (4 / 5)) return "#D0C800";
+    if (volume <= max) return "#ACA500";
   }
   return "#E8E8E8";
 };

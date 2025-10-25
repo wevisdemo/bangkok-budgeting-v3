@@ -26,20 +26,23 @@ export const state = (): DataState => ({
 
 export type RootState = ReturnType<typeof state>;
 
-function formatData(data: CommunityRow[] | undefined) {
-  interface FormattedRow {
-    budget_year: CommunityRow["budget_year"];
-    district: CommunityRow["district"];
-    community: CommunityRow["community"];
-    project_name: CommunityRow["project_name"];
-    project_objective: CommunityRow["project_objective"];
-    procurement_list: any[];
-  }
+type GroupedProject = {
+  budget_year: number;
+  district: string;
+  community: string;
+  project_name: string;
+  project_objective: string;
+  procurement_list: string[];
+};
 
-  const grouped: Record<string, FormattedRow> = {};
+function formatData(data: CommunityRow[] | undefined) {
+  const grouped: Record<string, GroupedProject> = {};
 
   data?.forEach((item) => {
+    // สร้าง key สำหรับ group
     const key = `${item.budget_year}-${item.district}-${item.community}-${item.project_name}-${item.project_objective}`;
+
+    // ถ้ายังไม่มี group นี้ ให้สร้างใหม่
     if (!grouped[key]) {
       grouped[key] = {
         budget_year: item.budget_year,
@@ -50,6 +53,8 @@ function formatData(data: CommunityRow[] | undefined) {
         procurement_list: [],
       };
     }
+
+    // เพิ่มรายการ procurement_list เข้า array
     grouped[key].procurement_list.push(item.procurement_list);
   });
 
