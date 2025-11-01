@@ -8,71 +8,66 @@
       />
 
       <div
-        class="lg:w-[850px] bg-white inset-0 overflow-hidden px-3 md:px-12 py-8 absolute z-50 lg:top-[50%] lg:translate-y-[-50%] lg:translate-x-[-50%] lg:left-[50%]"
+        class="lg:w-[850px] bg-white overflow-auto px-3 md:px-12 py-8 absolute z-[60] lg:top-[50%] lg:translate-y-[-50%] lg:translate-x-[-50%] lg:left-[50%] lg:h-[600px]"
       >
-        <ModalProject
-          v-if="isProjectDialog"
-          :handleProject="handleProjectDialog"
-          :project="selectedProject"
-        />
-      </div>
-      <div
-        v-if="!isProjectDialog"
-        class="lg:w-[850px] overflow-auto bg-white inset-0 lg:h-[600px] px-3 md:px-12 py-8 absolute z-50 lg:top-[50%] lg:translate-y-[-50%] lg:translate-x-[-50%] lg:left-[50%]"
-      >
-        <div class="fixed w-[25px] md:w-[50px] z-10 top-0 right-0 m-5">
-          <img
-            src="~/assets/images/cancel.svg"
-            class="cursor-pointer"
-            @click="handleModal"
+        <template v-if="isProjectDialog">
+          <ModalProject
+            :handleProject="handleProjectDialog"
+            :project="selectedProject"
           />
-        </div>
-        <div class="flex justify-between flex-col h-auto lg:h-full">
-          <div class="mb-4">
-            <!-- ------- header -->
-            <div class="wv-b5 flex space-x-2 items-center justify-center">
-              <p>ปีงบประมาณ</p>
-              <el-select
-                v-model="selectFilter"
-                placeholder="Select"
-                class="ml-2 w-[150px] wv-b4 font-bold"
-              >
-                <el-option
-                  v-for="(item, index) in yearList"
-                  :key="index"
-                  :label="item"
-                  :value="item"
-                >
-                </el-option>
-              </el-select>
-              <span>มี </span>
-              <span class="font-bold">{{ filterYears?.total }}</span>
-              <span class="hidden md:block"
-                >รายการ ({{ sumAllBudget() }} ล้านบาท)</span
-              >
-            </div>
-            <div class="md:hidden mx-auto text-center mt-3">
-              รายการ ({{ sumAllBudget() }} ล้านบาท)
-            </div>
-            <p class="wv-b6 text-center my-2">
-              ตามโครงการที่มีคีย์เวิร์ด <b>“{{ filterData?.key }}”</b>
-              <br />ในเขต <b>“{{ filterData?.district || "ทุกเขต" }}”</b> ชุมชน
-              <b>“{{ filterData?.community || "ทุกชุมชน" }}”</b>
-            </p>
+        </template>
 
-            <div class="relative max-w-[500px] mx-auto">
-              <img
-                src="~/assets/images/searchIcon.svg"
-                class="absolute top-0 left-0 ml-2"
-              />
-              <input
-                v-model="filterSearchKey"
-                type="text"
-                class="border-b border-b-black w-full wv-b5 mb-3 pl-8"
-                placeholder="พิมพ์คีย์เวิร์ด"
-              />
-            </div>
-            <div
+        <template v-else>
+          <div class="fixed w-[25px] md:w-[50px] z-10 top-0 right-0 m-5">
+            <img
+              src="~/assets/images/cancel.svg"
+              class="cursor-pointer"
+              @click="handleModal"
+            />
+          </div>
+          <div class="flex justify-between flex-col h-auto lg:h-full">
+            <div class="mb-4">
+              <!-- ------- header -->
+              <div class="wv-b5 flex space-x-2 items-center justify-center">
+                <p>ปีงบประมาณ</p>
+                <el-select
+                  v-model="selectFilter"
+                  placeholder="Select"
+                  class="ml-2 w-[150px] wv-b4 font-bold"
+                >
+                  <el-option
+                    v-for="(item, index) in yearList"
+                    :key="index"
+                    :label="item"
+                    :value="item"
+                  >
+                  </el-option>
+                </el-select>
+                <span>มี </span>
+                <span class="font-bold">{{ filterYears?.total }}</span>
+                <span class="hidden md:block">โครงการ</span>
+              </div>
+              <div class="md:hidden mx-auto text-center mt-3">โครงการ</div>
+              <p class="wv-b6 text-center my-2">
+                ตามโครงการที่มีคีย์เวิร์ด <b>“{{ filterData?.key }}”</b>
+                <br />ในเขต
+                <b>“{{ filterData?.district || "ทุกเขต" }}”</b> ชุมชน
+                <b>“{{ filterData?.community || "ทุกชุมชน" }}”</b>
+              </p>
+
+              <div class="relative max-w-[500px] mx-auto">
+                <img
+                  src="~/assets/images/searchIcon.svg"
+                  class="absolute top-0 left-0 ml-2"
+                />
+                <input
+                  v-model="filterSearchKey"
+                  type="text"
+                  class="border-b border-b-black w-full wv-b5 mb-3 pl-8"
+                  placeholder="พิมพ์คีย์เวิร์ด"
+                />
+              </div>
+              <!-- <div
               class="text-wv-gray-1 wv-b6 flex space-x-2 justify-center cursor-pointer"
             >
               <p class="">เรียงตาม</p>
@@ -90,47 +85,48 @@
                 >
                 </el-option>
               </el-select>
-            </div>
-            <div v-if="resultKeySearch.total == 0" class="text-center pt-20">
-              ไม่พบข้อมูล
-            </div>
-            <!-- ------- header -->
-            <div class="flex flex-col">
-              <div
-                v-for="(item, id) in paginate(currentPage)"
-                :key="id"
-                @click="() => handleProjectDialog(item)"
-                class="flex justify-between hover:bg-wv-gray-4 border-b border-b-wv-gray-4 cursor-pointer py-[15px] flex-1"
-              >
-                <div class="max-w-[200px] md:max-w-none">
-                  <p class="wv-b4 font-bold">{{ item.project_name }}</p>
-                  <p class="wv-b6 opacity-50">
-                    <span><b>เขต</b> {{ item.district }} </span
-                    ><span><b>ชุมชน</b> {{ item.community }}</span>
-                  </p>
-                </div>
-                <div class="flex text-end">
-                  <span class="wv-b6 font-bold">
-                    <!-- {{ item.amount.toLocaleString("en-US", {}) }}<br /> -->
+            </div> -->
+              <div v-if="resultKeySearch.total == 0" class="text-center pt-20">
+                ไม่พบข้อมูล
+              </div>
+              <!-- ------- header -->
+              <div class="flex flex-col">
+                <div
+                  v-for="(item, id) in paginate(currentPage)"
+                  :key="id"
+                  @click="() => handleProjectDialog(item)"
+                  class="flex justify-between hover:bg-wv-gray-4 border-b border-b-wv-gray-4 cursor-pointer py-[15px] flex-1"
+                >
+                  <div class="max-w-[200px] md:max-w-none">
+                    <p class="wv-b4 font-bold">{{ item.project_name }}</p>
+                    <p class="wv-b6 opacity-50">
+                      <span><b>เขต</b> {{ item.district }} </span
+                      ><span><b>ชุมชน</b> {{ item.community }}</span>
+                    </p>
+                  </div>
+                  <div class="flex text-end">
+                    <!-- <span class="wv-b6 font-bold">
+                    {{ item.amount.toLocaleString("en-US", {}) }}<br />
                   </span>
-                  <span class="wv-b6">บาท</span>
-                  <div class="ml-2 mt-[3px]">
-                    <img src="~/assets/images/list-button.svg" />
+                  <span class="wv-b6">บาท</span> -->
+                    <div class="ml-2 mt-[3px]">
+                      <img src="~/assets/images/list-button.svg" />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <el-pagination
+              v-if="resultKeySearch.total > 0"
+              class="mx-auto"
+              :page-size="perPage"
+              layout="prev, pager, next"
+              :total="filterYears?.total"
+              @current-change="handleCurrentChange"
+            >
+            </el-pagination>
           </div>
-          <el-pagination
-            v-if="resultKeySearch.total > 0"
-            class="mx-auto"
-            :page-size="perPage"
-            layout="prev, pager, next"
-            :total="filterYears?.total"
-            @current-change="handleCurrentChange"
-          >
-          </el-pagination>
-        </div>
+        </template>
       </div>
     </div>
   </div>
@@ -196,22 +192,22 @@ export default {
     },
 
     fetchByYear(year) {
-      const response = this.$store.getters["data/getBudgetItems"]({
-        budgetYear: year,
+      const response = this.$store.getters["data/getCommunity"]({
+        budget_year: year,
       });
       this.updateIsModalDetails(response);
     },
     paginate(pageNumber) {
-      return this.resultKeySearch?.items?.slice(
+      return this.filterYears?.items?.slice(
         (pageNumber - 1) * this.perPage,
         pageNumber * this.perPage
       );
     },
     selectSort(label) {
-      this.selectedFilter = label;
-      const resultFilter = communityFilterBy(label, this.filterYears);
-      this.filterYears = resultFilter;
-      this.resultKeySearch = this.filterYears;
+      // this.selectedFilter = label;
+      // const resultFilter = communityFilterBy(label, this.filterYears);
+      // this.filterYears = resultFilter;
+      // this.resultKeySearch = this.filterYears;
     },
     isSelectedYear(year) {
       if (year === "ทุกปี") {

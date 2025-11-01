@@ -108,8 +108,10 @@
                 </div>
                 <div class="flex mt-3 opacity-50">
                   <p class="w-[100px]">คีย์เวิร์ด</p>
-                  <p class="flex-1 text-center ml-2">จำนวนที่พบ</p>
-                  <p class="flex-1 text-end">งบ (ล้านบาท)</p>
+                  <p class="flex-1 text-center ml-2 justify-end flex">
+                    จำนวนที่พบ
+                  </p>
+                  <!-- <p class="flex-1 text-end">งบ (ล้านบาท)</p> -->
                 </div>
               </div>
             </div>
@@ -138,12 +140,12 @@
                   </div>
                   <p class="wv-b6 font-bold text-left">{{ item.Word }}</p>
                 </div>
-                <p class="wv-b7 opacity-50 flex-1 text-center">
+                <p class="wv-b7 opacity-50 flex-1 text-center justify-end flex">
                   {{ item.total }}
                 </p>
-                <p class="wv-b7 opacity-50 flex-1">
+                <!-- <p class="wv-b7 opacity-50 flex-1">
                   {{ convertMillion(item.amount) }}
-                </p>
+                </p> -->
               </div>
             </div>
           </div>

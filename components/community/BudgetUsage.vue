@@ -146,9 +146,10 @@ export default Vue.extend({
     const chartData = this.$store.getters["data/getCommunity"]();
     const groupYear = _.chain(chartData).groupBy("budget_year").value();
     const sortUpdatedYear = _.sortedUniq(Object.keys(groupYear).reverse());
+
     const groupDistrict = _.chain(groupYear[sortUpdatedYear[0]])
       .groupBy("district")
-      .mapValues((s) => _.sumBy(s, "amount"))
+      .mapValues((s) => s.length)
       .value();
     const districtSort = Object.keys(groupDistrict)
       .sort(function (a, b) {
@@ -157,7 +158,8 @@ export default Vue.extend({
       .reverse();
     this.currentYear = sortUpdatedYear[0];
     this.topDistrict = districtSort[0];
-    this.totalAmount = _.sumBy(groupYear[this.currentYear], "amount");
+    console.log(groupYear[this.currentYear], "groupYear");
+    this.totalAmount = groupYear[this.currentYear].length;
     this.totalCommunity = Object.keys(
       _.groupBy(groupYear[this.currentYear], "community")
     ).length;
@@ -165,8 +167,12 @@ export default Vue.extend({
 
     d3.selectAll(".pathBKK").each(function (d) {
       const district = mapingDistrict(this.id);
+      console.log(groupDistrict[district], "groupDistrict");
       d3.select(this)
-        .attr("fill", mapingColorDistrict(groupDistrict[district]))
+        .attr(
+          "fill",
+          mapingColorDistrict(groupDistrict[district], this.totalAmount)
+        )
         .style("opacity", () => {
           return districtSort[0] !== district ? "50%" : "100%";
         })

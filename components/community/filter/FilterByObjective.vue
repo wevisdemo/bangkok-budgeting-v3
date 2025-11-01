@@ -94,7 +94,7 @@ export default {
     return {
       isOpen: false,
       selectedObjectives: [],
-      selectAll: false,
+      selectAll: true,
       availableObjectives: [],
       objectives: [
         { id: "ด้านเศรษฐกิจ", name: "ด้านเศรษฐกิจ", isDisabled: true },

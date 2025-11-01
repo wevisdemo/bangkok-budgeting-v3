@@ -35,19 +35,21 @@
           :originData="originData"
           :handleFilterData="handleFilterData"
         />
-         <FilterByObjective
-            :filterData="filterData"
-            :originData="originData"
-            :handleFilterData="handleFilterData"
-            :commuData="commuData"
-          />
+        <FilterByObjective
+          :filterData="filterData"
+          :originData="originData"
+          :handleFilterData="handleObjectiveChange"
+          :commuData="commuData"
+        />
       </div>
       <div class="relative">
         <img
           src="~/assets/images/clickHere.svg"
           class="absolute top-[10%] left-0-0 m-5"
         />
-        <div class="absolute  wv-b7 bottom-0 right-0 m-5 flex flex-row space-x-1">
+        <div
+          class="absolute wv-b7 bottom-0 right-0 m-5 flex flex-row space-x-1"
+        >
           <p>1 โครงการ</p>
           <img src="~/assets/images/heatMap.svg" class="w-[80px]" />
           <p>{{ originData.length.toLocaleString() }} โครงการ</p>
@@ -98,8 +100,8 @@
           <FilterByObjective
             :filterData="filterData"
             :originData="originData"
-            :handleFilterData="handleFilterData"
-            :commuData="commuData"
+            :handleFilterData="handleObjectiveChange"
+            :commuData="objectiveFilter"
           />
           <!-- ------------- -->
         </div>
@@ -114,7 +116,7 @@
             <p class="wv-b6 opacity-50">
               ({{ ((maxFilterData() / maxCommu()) * 100).toFixed(0) }} %
               ของงบทั้งหมด) -->
-            </p>
+            <!-- </p> -->
           </div>
           <div class="flex-1 flex justify-end">
             <a
@@ -294,6 +296,7 @@ export default {
         year: "",
         district: "",
         community: "",
+        objectives: [],
       },
       yearData: [],
       commuData: [],
@@ -302,6 +305,7 @@ export default {
       yearGroup: [],
       prevDistrictClick: "",
       sliceDivide: 10,
+      objectiveFilter: [],
     };
   },
   methods: {
@@ -323,10 +327,35 @@ export default {
       document.documentElement.scrollTop = 0;
     },
     handleFilterYear(year) {
-      this.origin = this.yearGroup[year];
+      this.originData = this.formatData(this.yearGroup[year]);
+      this.commuData = this.originData;
+      this.districtData = _.uniqBy(this.commuData?.map((d) => d.district));
       this.filterData = { year };
-      this.commuData = this.origin;
-      this.mapColorMapping(this.origin);
+      this.mapColorMapping(this.commuData, true);
+    },
+    handleObjectiveChange({ district, community, objectives }) {
+      this.filterData = {
+        ...this.filterData,
+        district,
+        community,
+        objectives,
+      };
+
+      if (community && district) {
+        this.commuData = this.originData.filter(
+          (o) => o.district === district && o.community === community
+        );
+        this.objectiveFilter = this.commuData;
+      } else if (district) {
+        this.commuData = this.originData.filter((o) => o.district === district);
+        this.objectiveFilter = this.commuData;
+      }
+      if (objectives && objectives.length > 0) {
+        this.commuData = this.commuData.filter((o) =>
+          objectives.includes(o.project_objective)
+        );
+      }
+      this.commuData = this.formatData(this.commuData);
     },
 
     handleFilterData({ district, community, objectives }) {
@@ -334,23 +363,17 @@ export default {
         ...this.filterData,
         district,
         community,
-        objectives
+        objectives,
       };
-      this.originData = this.formatData();
-      
-      this.commuData = this.formatData();
-      if (district && community) {
+
+      if (community && district) {
         this.commuData = this.originData.filter(
           (o) => o.district === district && o.community === community
         );
+        this.objectiveFilter = this.commuData;
       } else if (district) {
         this.commuData = this.originData.filter((o) => o.district === district);
-      }
-      
-      if (objectives && objectives.length > 0) {
-        this.commuData = this.commuData.filter((o) => {
-          return objectives.includes(o.project_objective);
-        });
+        this.objectiveFilter = this.commuData;
       }
 
       d3.selectAll(".pathBKK").each(function (d) {
@@ -367,27 +390,38 @@ export default {
             });
         }
         if (districtId == district) {
-          const isMobile = this.$mq == "md";
+          const isMobile = window.innerWidth <= 768;
           const bkkDistrictsSquare = document.querySelector(
             ".bkkDistrictsSquare"
           );
-          const originWidth =
-            d3.select(".bkkDistrictsSquare").node().getBoundingClientRect()
-              .width / 1.5;
-          const originY = isMobile
-            ? bkkDistrictsSquare.getBoundingClientRect().height - 20
-            : bkkDistrictsSquare.getBoundingClientRect().height + 20;
+          const tooltipElement = document.querySelector("#tooltip");
+          const elemRect = this.getBoundingClientRect();
+          const squareRect = bkkDistrictsSquare.getBoundingClientRect();
+          const tooltipRect = tooltipElement.getBoundingClientRect();
+          let x =
+            elemRect.x -
+            squareRect.x -
+            tooltipRect.width / 2 +
+            elemRect.width / 2;
+          let y =
+            elemRect.y -
+            squareRect.y -
+            tooltipRect.height +
+            (isMobile && squareRect.height - 60);
 
-          const x =
-            this.getBoundingClientRect().x -
-            bkkDistrictsSquare.getBoundingClientRect().x;
-          const calX = x > originWidth ? x - 50 : x;
-          const y = this.getBoundingClientRect().top - originY;
+          const maxX = squareRect.width - tooltipRect.width;
+          x = Math.max(0, Math.min(x, maxX));
+          if (isMobile) {
+            y = Math.max(0, y);
+          }
 
-          d3.select("#tooltip").style(
-            "transform",
-            "translate(" + calX + "px" + "," + y + "px" + ")"
-          );
+          // Make tooltip visible and set position
+          tooltipElement.style.opacity = "1";
+
+          d3.select("#tooltip")
+            .style("transform", `translate(${x}px, ${y}px)`)
+            .style("visibility", "visible")
+            .style("pointer-events", "none");
         }
       });
       this.mapColorMapping(this.origin);
@@ -427,45 +461,82 @@ export default {
       this.selectedProject = project;
     },
     setToolTip(elem) {
-      const isMobile = this.$mq == "md";
+      const isMobile = window.innerWidth <= 768;
       const bkkDistrictsSquare = document.querySelector(".bkkDistrictsSquare");
-      const originWidth =
-        d3.select(".bkkDistrictsSquare").node().getBoundingClientRect().width /
-        1.5;
-      const originY = isMobile
-        ? bkkDistrictsSquare.getBoundingClientRect().height - 20
-        : bkkDistrictsSquare.getBoundingClientRect().height + 20;
+      const tooltipElement = document.querySelector("#tooltip");
 
-      const x =
-        elem.getBoundingClientRect().x -
-        bkkDistrictsSquare.getBoundingClientRect().x;
-      const calX = x > originWidth ? x - 50 : x;
-      const y = elem.getBoundingClientRect().top - originY;
-      d3.select("#tooltip").style(
-        "transform",
-        "translate(" + calX + "px" + "," + y + "px" + ")"
-      );
+      const elemRect = elem.getBoundingClientRect();
+      const squareRect = bkkDistrictsSquare.getBoundingClientRect();
+      const tooltipRect = tooltipElement.getBoundingClientRect();
+
+      let x =
+        elemRect.x - squareRect.x - tooltipRect.width / 2 + elemRect.width / 2;
+      let y =
+        elemRect.y -
+        squareRect.y -
+        tooltipRect.height +
+        (isMobile && squareRect.height - 60);
+
+      const maxX = squareRect.width - tooltipRect.width;
+      x = Math.max(0, Math.min(x, maxX));
+      if (isMobile) {
+        y = Math.max(0, y);
+      }
+
+      tooltipElement.style.opacity = "1";
+
+      d3.select("#tooltip")
+        .style("transform", `translate(${x}px, ${y}px)`)
+        .style("visibility", "visible")
+        .style("pointer-events", "none");
     },
 
-    mapColorMapping(originData) {
-        if (!originData) {
-          console.warn('originData is undefined');
-          return;
-        }
+    disableCheckBox() {
+      this.$nextTick(() => {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach((checkbox, index) => {
+          checkbox.checked = index === 0;
+        });
+      });
+    },
+
+    mapColorMapping(originData, deselect) {
+      if (!originData) {
+        console.warn("originData is undefined");
+        return;
+      }
       const groupDistrict = _.chain(originData)
         .groupBy("district")
         .mapValues((s) => s.length)
         .value();
 
+      const deselectFunc = () => {
+        this.handleFilterData({
+          district: "",
+          community: "",
+          objectives: [],
+        });
+        this.commuData = this.originData;
+        this.objectiveFilter = this.commuData;
+        d3.selectAll(".pathBKK").each(function (d) {
+          d3.select(this)
+            .style("opacity", () => "100%")
+            .style("stroke", () => "#828282");
+        });
+        this.prevDistrictClick = "";
+      };
+
+      if (deselect) {
+        deselectFunc();
+      }
       const selectedDistrict = (district, elem) => {
-        if (!groupDistrict[district] || this.prevDistrictClick == district) {
-          this.handleFilterData({ district: "", community: "" , objectives: []});
-          d3.selectAll(".pathBKK").each(function (d) {
-            d3.select(this)
-              .style("opacity", () => "100%")
-              .style("stroke", () => "#828282");
-          });
-          this.prevDistrictClick = "";
+        this.disableCheckBox();
+        if (
+          !groupDistrict[district] ||
+          this.prevDistrictClick == district ||
+          deselect
+        ) {
+          deselectFunc();
         } else {
           this.prevDistrictClick = district;
           this.handleFilterData({ district });
@@ -473,17 +544,19 @@ export default {
 
         this.setToolTip(elem);
       };
-      
+
       d3.selectAll(".pathBKK").each(function (_) {
         const district = mapingDistrict(this.id);
         const commuDataLength = originData ? originData.length : 0;
         d3.select(this)
-          .attr("fill", mapingColorDistrict(groupDistrict[district], commuDataLength))
+          .attr(
+            "fill",
+            mapingColorDistrict(groupDistrict[district], commuDataLength)
+          )
           .style("cursor", "pointer");
 
         d3.select(this).on("click", () => selectedDistrict(district, this));
       });
-
     },
 
     handleScroll() {
@@ -503,26 +576,22 @@ export default {
         }
       }
     },
-    formatData() {
-      return orderByStrategy(
-        Object.values(this.yearGroup)[0],
-        "amount",
-        "desc"
-      );
+    formatData(data) {
+      return orderByStrategy(data, "amount", "desc");
     },
   },
   mounted() {
     document.querySelector("#scrollTopTop").style.opacity = "0";
     document.querySelector("#scrollTopBottom").style.opacity = "0";
-    this.commuData = this.$store.getters["data/getCommunity"]();    
+    this.commuData = this.$store.getters["data/getCommunity"]();
     this.yearGroup = _.groupBy(this.commuData, "budget_year");
-    this.originData = this.formatData();
+    this.originData = this.formatData(Object.values(this.yearGroup)[0]);
     this.yearData = Object.keys(this.yearGroup);
     this.commuData = Object.values(this.yearGroup)[0];
     this.districtData = _.uniqBy(
       Object.values(this.yearGroup)[0]?.map((d) => d.district)
     );
-
+    this.objectiveFilter = this.commuData;
     this.filterData = {
       year: this.yearData[0],
       district: this.$route.query.district,
@@ -543,7 +612,7 @@ export default {
   // watch: {
   //   selectedFilter: {
   //     handler(newValue) {
-  //       this.selectFilter(newValue);
+  //       console.log(newValue, "newValue");
   //     },
   //   },
   // },
@@ -568,5 +637,15 @@ html {
 }
 .card {
   box-shadow: 0px 0px 45px 0px #0000001a;
+}
+#tooltip {
+  position: absolute;
+  z-index: 100;
+
+  @media (max-width: 768px) {
+    max-width: calc(100% - 20px);
+    font-size: 12px;
+    padding: 4px 6px;
+  }
 }
 </style>

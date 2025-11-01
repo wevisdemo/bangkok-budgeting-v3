@@ -48,6 +48,12 @@
         :originData="originData"
         :handleFilterData="handleFilterData"
       />
+      <FilterByObjective
+        :filterData="filterData"
+        :originData="originData"
+        :handleFilterData="handleFilterData"
+        :commuData="commuData"
+      />
     </div>
 
     <div class="flex flex-col lg:flex-row mt-3">
@@ -129,8 +135,10 @@
                 </div>
                 <div class="flex mt-3 opacity-50">
                   <p class="w-[100px]">คีย์เวิร์ด</p>
-                  <p class="flex-1 text-center ml-2">จำนวนที่พบ</p>
-                  <p class="flex-1 text-end">งบ (ล้านบาท)</p>
+                  <p class="flex-1 text-center ml-2 justify-end flex">
+                    จำนวนที่พบ
+                  </p>
+                  <!-- <p class="flex-1 text-end">งบ (ล้านบาท)</p> -->
                 </div>
               </div>
             </div>
@@ -160,12 +168,12 @@
                 </div>
                 <p class="wv-b6 font-bold text-left">{{ item.Word }}</p>
               </div>
-              <p class="wv-b7 opacity-50 flex-1 text-center">
+              <p class="wv-b7 opacity-50 flex-1 text-center justify-end flex">
                 {{ item.total }}
               </p>
-              <p class="wv-b7 opacity-50 flex-1">
+              <!-- <p class="wv-b7 opacity-50 flex-1">
                 {{ convertMillion(item.amount) }}
-              </p>
+              </p> -->
             </div>
           </div>
         </div>
@@ -187,13 +195,19 @@
               :originData="originData"
               :handleFilterData="handleFilterData"
             />
+            <FilterByObjective
+              :filterData="filterData"
+              :originData="originData"
+              :handleFilterData="handleFilterData"
+              :commuData="commuData"
+            />
           </div>
           <div class="flex justify-between">
             <div class="mb-3">
               <p class="wv-b3 font-bold wv-kondolar">
                 พบ {{ totalProject?.toLocaleString("en-US", {}) }} โครงการ
               </p>
-              <div class="wv-b5">
+              <!-- <div class="wv-b5">
                 ใช้งบรวม
                 <span class="font-bold"
                   >{{ convertMillion(totalFilterAmout) }} ล้านบาท</span
@@ -202,7 +216,7 @@
                   ({{ ((totalFilterAmout / maxOrigin) * 100).toFixed() }}%
                   ของงบทั้งหมด)
                 </p>
-              </div>
+              </div> -->
               <p class="wv-b6 opacity-50 mb-5">
                 ในคีย์เวิร์ด “{{ selectedKey.Word }}”
               </p>
@@ -268,7 +282,7 @@
                 <div
                   class="translate-y-[-50%] absolute top-0 bg-white text-wv-gray-1 wv-b7"
                 >
-                  {{ item.toFixed(0).toLocaleString("en-US", {}) }}
+                  {{ Number(item.toFixed(0)).toLocaleString() }}
                 </div>
               </div>
             </div>
@@ -294,14 +308,14 @@
                   <div
                     class="absolute top-0 translate-y-[-100%] left-[50%] translate-x-[-50%] wv-b7 font-bold"
                   >
-                    {{ convertMillion(item.amount) }}
+                    {{ item.amount }}
                   </div>
                 </div>
 
                 <div class="flex absolute bottom-0 w-full h-full items-end">
                   <div
                     :key="key"
-                    class="bg-wv-gray-20 flex-1"
+                    class="bg-wv-gray-20 flex-1 relative"
                     :style="{
                       height: isMillion
                         ? `${
@@ -309,7 +323,17 @@
                           }%`
                         : `${100}%`,
                     }"
-                  ></div>
+                  >
+                    <p
+                      class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-[100%] wv-b7 font-bold opacity-50"
+                    >
+                      {{
+                        !isMillion
+                          ? ""
+                          : calOriginFilter()[key].amount?.toLocaleString()
+                      }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -362,12 +386,12 @@ export default {
       itemsChart: [],
       isMillion: true,
       selectFilter: "",
-      selectSort: "งบมากไปน้อย",
+      selectSort: "จำนวนที่พบ",
       totalProject: {},
-      totalFilterAmout: 0,
+      // totalFilterAmout: 0,
       maxOrigin: 0,
       isOpen: false,
-      sortList: ["งบมากไปน้อย", "จำนวนที่พบ", "ตัวอักษร"],
+      sortList: ["จำนวนที่พบ", "ตัวอักษร"],
       mobileKeyword: false,
     };
   },
@@ -388,7 +412,7 @@ export default {
     },
     formatYAxis() {
       const result = [...Array(5)].map(
-        (_, index) => ((parseInt(this.maxOrigin) / 5) * (index + 1)) / 1000000
+        (_, index) => (parseInt(this.maxOrigin) / 5) * (index + 1)
       );
       const percent = [...Array(5)].map((_, index) => (100 / 5) * (index + 1));
       return this.isMillion ? [...result] : [...percent];
@@ -431,26 +455,23 @@ export default {
       return _.chain(this.handleFilterKeyword(this.filterData.key))
         .groupBy("budget_year")
         .mapValues((d) => ({
-          amount: _.sumBy(
-            this.handleFilterKeyword(this.filterData.key).filter(
-              (a) => a.budget_year === d[0].budget_year
-            ),
-            "amount"
-          ),
+          amount: this.originData.filter(
+            (a) => a.budget_year === d[0].budget_year
+          ).length,
         }))
         .value();
     },
-    calByFilter() {
-      return _.chain(this.originData)
-        .groupBy("budget_year")
-        .mapValues((d) => ({
-          amount: _.sumBy(
-            this.originData.filter((a) => a.budget_year === d[0].budget_year),
-            "amount"
-          ),
-        }))
-        .value();
-    },
+    // calByFilter() {
+    //   return _.chain(this.originData)
+    //     .groupBy("budget_year")
+    //     .mapValues((d) => ({
+    //       amount: _.sumBy(
+    //         this.originData.filter((a) => a.budget_year === d[0].budget_year),
+    //         "amount"
+    //       ),
+    //     }))
+    //     .value();
+    // },
     calHeight(item, max) {
       return `${(item / max) * 100}%`;
     },
@@ -459,7 +480,8 @@ export default {
       return this.originData.filter(
         (c) =>
           c.project_name.includes(keyword) ||
-          c.procurement_list.includes(keyword)
+          (Array.isArray(c.procurement_list) &&
+            c.procurement_list.some((item) => item.includes(keyword)))
       );
     },
     formatItem(item) {
@@ -467,10 +489,8 @@ export default {
         years: _.chain(item)
           .groupBy("budget_year")
           .mapValues((d) => ({
-            amount: _.sumBy(
-              item.filter((a) => a.budget_year === d[0].budget_year),
-              "amount"
-            ),
+            amount: item.filter((a) => a.budget_year === d[0].budget_year)
+              ?.length,
           }))
           .value(),
       };
@@ -480,9 +500,11 @@ export default {
       this.commuData = this.handleFilterKeyword(item.Word);
       this.filterData = { key: item.Word };
       this.itemsChart = this.formatItem(this.commuData);
+
       this.totalProject = this.commuData.length;
-      this.totalFilterAmout = _.sumBy(this.commuData, "amount");
-      this.maxOrigin = _.sumBy(this.originData, "amount");
+      // this.totalFilterAmout = _.sumBy(this.commuData, "amount");
+      this.maxOrigin = this.originData.length;
+
       this.districtData = _.uniqBy(
         Object.values(this.commuData)?.map((d) => d.district)
       );
@@ -503,7 +525,7 @@ export default {
       }
 
       this.totalProject = this.commuData.length;
-      this.totalFilterAmout = _.sumBy(this.commuData, "amount");
+      // this.totalFilterAmout = _.sumBy(this.commuData, "amount");
       this.itemsChart = this.formatItem(this.commuData);
     },
     fetchOriginFilterKey() {
@@ -532,13 +554,20 @@ export default {
   },
   mounted() {
     this.originData = this.$store.getters["data/getCommunity"]();
-    this.commuData = this.originData;
-    this.selectKey(
-      keywords().filter((k) => k.Word === this.$route.query.key)[0] ||
-        keywords()[0]
-    );
+    if (!this.originData || !this.originData.length) {
+      console.warn("No data found in store");
+      return;
+    }
+    this.commuData = _.cloneDeep(this.originData);
     this.filterKeyword = this.fetchOriginFilterKey();
-    this.yearGroup = _.groupBy(this.commuData, "budget_year");
+    const initialKeyword =
+      keywords().filter((k) => k.Word === this.$route.query.key)[0] ||
+      keywords()[0];
+    if (initialKeyword) {
+      this.selectKey(initialKeyword);
+    }
+
+    this.filterKeyword = this.fetchOriginFilterKey();
   },
 };
 </script>
