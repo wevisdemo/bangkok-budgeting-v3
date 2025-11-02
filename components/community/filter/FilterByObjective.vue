@@ -46,6 +46,7 @@
             <label class="flex items-center cursor-pointer">
               <input
                 type="checkbox"
+                id="selectAll"
                 v-model="selectAll"
                 @change="handleSelectAll"
                 class="mr-2"
@@ -89,6 +90,7 @@
 
 <script>
 export default {
+  name: "FilterByObjective",
   props: ["filterData", "originData", "handleFilterData", "commuData"],
   data() {
     return {
@@ -97,15 +99,15 @@ export default {
       selectAll: true,
       availableObjectives: [],
       objectives: [
-        { id: "ด้านเศรษฐกิจ", name: "ด้านเศรษฐกิจ", isDisabled: true },
+        { id: "ด้านเศรษฐกิจ", name: "ด้านเศรษฐกิจ", isDisabled: false },
         {
           id: "ด้านกายภาพและสิ่งแวดล้อม",
           name: "ด้านกายภาพและสิ่งแวดล้อม",
-          isDisabled: true,
+          isDisabled: false,
         },
-        { id: "ด้านสังคม", name: "ด้านสังคม", isDisabled: true },
-        { id: "ด้านอนามัย", name: "ด้านอนามัย", isDisabled: true },
-        { id: "ด้านจิตใจ", name: "ด้านจิตใจ", isDisabled: true },
+        { id: "ด้านสังคม", name: "ด้านสังคม", isDisabled: false },
+        { id: "ด้านอนามัย", name: "ด้านอนามัย", isDisabled: false },
+        { id: "ด้านจิตใจ", name: "ด้านจิตใจ", isDisabled: false },
       ],
     };
   },
@@ -142,6 +144,11 @@ export default {
       });
     },
   },
+  mounted() {
+    this.selectedObjectives = this.objectives.map((obj) => obj.id);
+    this.selectAll = true;
+    this.handleFilterChange();
+  },
   watch: {
     filterData: {
       immediate: true,
@@ -157,7 +164,7 @@ export default {
     commuData: {
       immediate: true,
       deep: true,
-      handler() {
+      handler(newValue) {
         this.availableObjectives = this.commuData
           ? [...new Set(this.commuData.map((item) => item.project_objective))]
           : [];

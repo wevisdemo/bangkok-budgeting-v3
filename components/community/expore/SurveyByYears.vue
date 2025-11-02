@@ -39,7 +39,7 @@
           :filterData="filterData"
           :originData="originData"
           :handleFilterData="handleObjectiveChange"
-          :commuData="commuData"
+          :commuData="objectiveFilter"
         />
       </div>
       <div class="relative">
@@ -110,15 +110,37 @@
             <p class="wv-b3 font-bold">
               พบ {{ commuData.length.toLocaleString("en-US", {}) }} โครงการ
             </p>
-            <!-- <p class="wv-b5">
-              ใช้งบรวม <b>{{ convertMillion(maxFilterData()) }} ล้านบาท</b>
-            </p>
-            <p class="wv-b6 opacity-50">
-              ({{ ((maxFilterData() / maxCommu()) * 100).toFixed(0) }} %
-              ของงบทั้งหมด) -->
-            <!-- </p> -->
+            <div class="opacity-50">
+              <p class="wv-b7">
+                ในเขต
+                <b>
+                  “{{
+                    filterData.district ? filterData.district : "ทุกเขต"
+                  }}”</b
+                >
+              </p>
+              <p class="wv-b7">
+                ชุมชน
+                <b>
+                  “{{
+                    filterData.community ? filterData.community : "ทุกชมชน"
+                  }}”</b
+                >
+              </p>
+              <p class="wv-b7">
+                เป้าประสงค์
+                <b>
+                  “{{
+                    filterData.objectives?.length < 5 &&
+                    filterData.objectives.length > 0
+                      ? filterData.objectives.join(", ")
+                      : "ทุกด้าน"
+                  }}”</b
+                >
+              </p>
+            </div>
           </div>
-          <div class="flex-1 flex justify-end">
+          <div class="flex-1 flex justify-end items-start">
             <a
               v-if="filterData.community"
               class="wv-b7 underline opacity-50 flex items-center cursor-pointer"
@@ -330,8 +352,9 @@ export default {
       this.originData = this.formatData(this.yearGroup[year]);
       this.commuData = this.originData;
       this.districtData = _.uniqBy(this.commuData?.map((d) => d.district));
-      this.filterData = { year };
+      this.filterData = { ...this.filterData, year };
       this.mapColorMapping(this.commuData, true);
+      this.disableCheckBox();
     },
     handleObjectiveChange({ district, community, objectives }) {
       this.filterData = {
@@ -340,7 +363,7 @@ export default {
         community,
         objectives,
       };
-
+      this.commuData = this.originData;
       if (community && district) {
         this.commuData = this.originData.filter(
           (o) => o.district === district && o.community === community
@@ -365,17 +388,18 @@ export default {
         community,
         objectives,
       };
-
+      this.commuData = this.originData;
       if (community && district) {
         this.commuData = this.originData.filter(
           (o) => o.district === district && o.community === community
         );
         this.objectiveFilter = this.commuData;
+        this.disableCheckBox();
       } else if (district) {
         this.commuData = this.originData.filter((o) => o.district === district);
         this.objectiveFilter = this.commuData;
+        this.disableCheckBox();
       }
-
       d3.selectAll(".pathBKK").each(function (d) {
         const districtId = mapingDistrict(this.id);
         if (district) {
@@ -414,8 +438,6 @@ export default {
           if (isMobile) {
             y = Math.max(0, y);
           }
-
-          // Make tooltip visible and set position
           tooltipElement.style.opacity = "1";
 
           d3.select("#tooltip")
@@ -426,29 +448,7 @@ export default {
       });
       this.mapColorMapping(this.origin);
     },
-    // selectFilter(label) {
-    //   if (label === "งบมากไปน้อย") {
-    //     return (this.commuData = orderByStrategy(
-    //       this.commuData,
-    //       "amount",
-    //       "desc"
-    //     ));
-    //   }
-    //   if (label === "งบน้อยไปมาก") {
-    //     return (this.commuData = orderByStrategy(
-    //       this.commuData,
-    //       "amount",
-    //       "asc"
-    //     ));
-    //   }
-    //   if (label === "ตัวอักษร") {
-    //     return (this.commuData = orderByStrategy(
-    //       this.commuData,
-    //       "project_name",
-    //       "asc"
-    //     ));
-    //   }
-    // },
+
     drawChart(item) {
       const divide = this.maxValue;
       return `${(item.amount / divide) * 100}%`;
@@ -492,10 +492,21 @@ export default {
     },
 
     disableCheckBox() {
+      const availableObjectives = [
+        ...new Set(this.commuData.map((item) => item.project_objective)),
+      ];
+      this.filterData = {
+        ...this.filterData,
+        objectives: availableObjectives,
+      };
+
       this.$nextTick(() => {
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        checkboxes.forEach((checkbox, index) => {
-          checkbox.checked = index === 0;
+        checkboxes.forEach((checkbox) => {
+          const isDisabled = checkbox
+            .closest("label")
+            ?.classList.contains("disabled-objective");
+          checkbox.checked = !isDisabled;
         });
       });
     },
@@ -594,14 +605,28 @@ export default {
     this.objectiveFilter = this.commuData;
     this.filterData = {
       year: this.yearData[0],
-      district: this.$route.query.district,
-      community: this.$route.query.community,
+      district: this.$route.query.district || "",
+      community: this.$route.query.community || "",
+      objectives: this.$route.query.objective
+        ? [this.$route.query.objective]
+        : [],
     };
-    this.handleFilterData({
-      district: this.filterData.district,
-      community: this.filterData.community,
+
+    if (this.$route.query.objective) {
+      this.commuData = this.originData;
+      this.objectiveFilter = this.originData;
+      this.handleObjectiveChange({
+        district: this.filterData.district,
+        community: this.filterData.community,
+        objectives: [this.$route.query.objective],
+      });
+    } else {
+      this.handleFilterData(this.filterData);
+    }
+    this.$nextTick(() => {
+      this.mapColorMapping(this.originData);
     });
-    this.mapColorMapping(this.originData);
+    console.log(this.filterData, "filterData");
   },
   created() {
     window.addEventListener("scroll", this.handleScroll);
@@ -609,13 +634,6 @@ export default {
   unmounted() {
     window.removeEventListener("scroll", this.handleScroll);
   },
-  // watch: {
-  //   selectedFilter: {
-  //     handler(newValue) {
-  //       console.log(newValue, "newValue");
-  //     },
-  //   },
-  // },
 };
 </script>
 

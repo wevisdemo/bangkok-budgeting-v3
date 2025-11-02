@@ -1,13 +1,15 @@
 <template>
-  <div class="flex overflow-x-auto space-x-1">
-    <div v-for="(item, index) in data" :key="index" class="h-[255px]">
+  <div class="flex overflow-x-auto space-x-2 md:w-full md:justify-center">
+    <div v-for="(item, index) in data" :key="index" class="h-[280px]">
       <div
         class="wv-b6 font-bold items-center flex justify-center w-[190px] h-[55px] text-center p-[10px] rounded-t-md"
         :class="type === BudgetingType.BKK ? 'bg-wv-green' : 'bg-wv-yellow'"
         v-html="item.topic"
       />
-      <div class="text-center border border-gray-300 border-t-0 rounded-b-md">
-        <p class="py-5 wv-b4">{{ item.header }}</p>
+      <div
+        class="text-center border border-gray-300 h-[200px] flex flex-col justify-between border-t-0 rounded-b-md"
+      >
+        <p class="py-5 wv-b4" v-html="item.header"></p>
         <div class="border-t-black border-t w-[120px] mx-auto">
           <p class="hidden">.</p>
         </div>

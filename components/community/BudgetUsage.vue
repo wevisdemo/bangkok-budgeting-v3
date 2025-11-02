@@ -146,7 +146,6 @@ export default Vue.extend({
     const chartData = this.$store.getters["data/getCommunity"]();
     const groupYear = _.chain(chartData).groupBy("budget_year").value();
     const sortUpdatedYear = _.sortedUniq(Object.keys(groupYear).reverse());
-
     const groupDistrict = _.chain(groupYear[sortUpdatedYear[0]])
       .groupBy("district")
       .mapValues((s) => s.length)
@@ -158,7 +157,6 @@ export default Vue.extend({
       .reverse();
     this.currentYear = sortUpdatedYear[0];
     this.topDistrict = districtSort[0];
-    console.log(groupYear[this.currentYear], "groupYear");
     this.totalAmount = groupYear[this.currentYear].length;
     this.totalCommunity = Object.keys(
       _.groupBy(groupYear[this.currentYear], "community")
@@ -167,7 +165,6 @@ export default Vue.extend({
 
     d3.selectAll(".pathBKK").each(function (d) {
       const district = mapingDistrict(this.id);
-      console.log(groupDistrict[district], "groupDistrict");
       d3.select(this)
         .attr(
           "fill",

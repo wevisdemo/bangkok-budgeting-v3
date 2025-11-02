@@ -117,25 +117,29 @@ export default Vue.extend({
       ],
       topInterestYellow: [
         {
-          topic: "เขตที่ได้รับ<br/>การจัดสรรงบมากที่สุด",
+          topic: "เขตที่มีรายการโครงการฯ มากที่สุด",
           header: "หนองจอก",
-          budget: "19.8 ล้านบาท",
+          budget: "163 โครงการ",
           path: "communityfund/explore",
           query: { select: "YearlyBudget", district: "หนองจอก" },
         },
         {
-          topic: "เขตที่เบิกใช้งบ<br/>มากที่สุดในปีปัจจุบัน (2566)",
-          header: "หนองจอก",
-          budget: "13.7 ล้านบาท",
+          topic: "เป้าประสงค์ที่โครงการส่วนใหญ่เลือกใช้",
+          header: "ด้านกายภาพ<br/>และสิ่งแวดล้อม",
+          budget: "1,059 โครงการ",
           path: "communityfund/explore",
-          query: { select: "YearlyBudget", district: "หนองจอก", year: "2566" },
+          query: {
+            select: "YearlyBudget",
+            objective: "ด้านกายภาพและสิ่งแวดล้อม",
+            year: "2566",
+          },
         },
         {
           topic: "รายการชุมชนจัดซื้อมากที่สุด",
-          header: "ชุมชน",
-          budget: "288 รายการ",
+          header: "โต๊ะ",
+          budget: "960 รายการ",
           path: "communityfund/explore",
-          query: { select: "KeyWordBudget", key: "ชุมชน" },
+          query: { select: "KeyWordBudget", key: "โต๊ะ" },
         },
       ],
       surveyBudgetBKK: {

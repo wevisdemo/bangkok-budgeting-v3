@@ -207,16 +207,12 @@
               <p class="wv-b3 font-bold wv-kondolar">
                 พบ {{ totalProject?.toLocaleString("en-US", {}) }} โครงการ
               </p>
-              <!-- <div class="wv-b5">
-                ใช้งบรวม
-                <span class="font-bold"
-                  >{{ convertMillion(totalFilterAmout) }} ล้านบาท</span
-                >
+              <div class="wv-b5">
                 <p class="wv-b6 opacity-50">
-                  ({{ ((totalFilterAmout / maxOrigin) * 100).toFixed() }}%
+                  ({{ ((totalProject / maxOrigin) * 100).toFixed() }}%
                   ของงบทั้งหมด)
                 </p>
-              </div> -->
+              </div>
               <p class="wv-b6 opacity-50 mb-5">
                 ในคีย์เวิร์ด “{{ selectedKey.Word }}”
               </p>
@@ -296,32 +292,37 @@
                 <div
                   class="absolute bottom-0 font-bold wv-b5 translate-y-[120%] left-[50%] translate-x-[-50%] z-20"
                 >
-                  `{{ key }}
+                  `{{ key.substring(2) }}
                 </div>
 
                 <div
                   class="relative z-20 w-full bg-wv-yellow-70"
                   :style="{
-                    height: `${(item.amount / maxOrigin) * 100}%`,
+                    height: `${(item?.amount / maxOrigin) * 100}%`,
                   }"
                 >
                   <div
                     class="absolute top-0 translate-y-[-100%] left-[50%] translate-x-[-50%] wv-b7 font-bold"
                   >
-                    {{ item.amount }}
+                    {{ item?.amount > 0 ? item?.amount : "" }}
                   </div>
                 </div>
 
                 <div class="flex absolute bottom-0 w-full h-full items-end">
                   <div
                     :key="key"
-                    class="bg-wv-gray-20 flex-1 relative"
+                    :class="
+                      key === '2570'
+                        ? ' border-[2px] rounded border-wv-gray-20 border-dashed flex-1 relative'
+                        : ' bg-wv-gray-20 flex-1 rounded relative'
+                    "
                     :style="{
-                      height: isMillion
-                        ? `${
-                            (calOriginFilter()[key].amount / maxOrigin) * 100
-                          }%`
-                        : `${100}%`,
+                      height:
+                        !isMillion || key === '2570'
+                          ? `${100}%`
+                          : `${
+                              (calOriginFilter()[key]?.amount / maxOrigin) * 100
+                            }%`,
                     }"
                   >
                     <p
@@ -330,7 +331,7 @@
                       {{
                         !isMillion
                           ? ""
-                          : calOriginFilter()[key].amount?.toLocaleString()
+                          : calOriginFilter()[key]?.amount?.toLocaleString()
                       }}
                     </p>
                   </div>
@@ -356,6 +357,7 @@ import { keywords } from "~/data/community/keywords";
 import ModalDetails from "./ModalDetails.vue";
 import FilterByDistrict from "../filter/FilterByDistrict.vue";
 import FilterByComnunity from "../filter/FilterByComnunity.vue";
+import FilterByObjective from "../filter/FilterByObjective.vue";
 
 export default {
   components: {
@@ -364,6 +366,7 @@ export default {
     ShareLabel,
     FilterByComnunity,
     FilterByDistrict,
+    FilterByObjective,
   },
   computed: {
     ...mapState(["chartData"]),
@@ -485,14 +488,29 @@ export default {
       );
     },
     formatItem(item) {
+      const years = _.chain(item)
+        .groupBy("budget_year")
+        .mapValues((d) => ({
+          amount: item.filter((a) => a.budget_year === d[0].budget_year)
+            ?.length,
+        }))
+        .value();
+
+      if (!years["2570"]) {
+        years["2570"] = {
+          amount: 0,
+        };
+      }
+
+      const sortedYears = Object.keys(years)
+        .sort()
+        .reduce((obj, key) => {
+          obj[key] = years[key];
+          return obj;
+        }, {});
+
       return {
-        years: _.chain(item)
-          .groupBy("budget_year")
-          .mapValues((d) => ({
-            amount: item.filter((a) => a.budget_year === d[0].budget_year)
-              ?.length,
-          }))
-          .value(),
+        years: sortedYears,
       };
     },
 
@@ -500,7 +518,6 @@ export default {
       this.commuData = this.handleFilterKeyword(item.Word);
       this.filterData = { key: item.Word };
       this.itemsChart = this.formatItem(this.commuData);
-
       this.totalProject = this.commuData.length;
       // this.totalFilterAmout = _.sumBy(this.commuData, "amount");
       this.maxOrigin = this.originData.length;

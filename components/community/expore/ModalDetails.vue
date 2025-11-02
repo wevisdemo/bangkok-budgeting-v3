@@ -49,10 +49,15 @@
               </div>
               <div class="md:hidden mx-auto text-center mt-3">โครงการ</div>
               <p class="wv-b6 text-center my-2">
-                ตามโครงการที่มีคีย์เวิร์ด <b>“{{ filterData?.key }}”</b>
+                ตามโครงการที่มีคีย์เวิร์ด <b>"{{ filterData?.key }}"</b>
                 <br />ในเขต
-                <b>“{{ filterData?.district || "ทุกเขต" }}”</b> ชุมชน
-                <b>“{{ filterData?.community || "ทุกชุมชน" }}”</b>
+                <b>"{{ filterData?.district || "ทุกเขต" }}"</b> ชุมชน
+                <b>"{{ filterData?.community || "ทุกชุมชน" }}"</b>
+                <template v-if="filterData?.objectives?.length">
+                  <br />เป้าประสงค์
+                  <b>"{{ filterData.objectives.join(", ") }}"</b>
+                </template>
+                <template v-else> <br />เป้าประสงค์ <b>"ทุกด้าน"</b> </template>
               </p>
 
               <div class="relative max-w-[500px] mx-auto">

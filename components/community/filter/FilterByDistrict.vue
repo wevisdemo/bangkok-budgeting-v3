@@ -78,6 +78,7 @@ export default {
   methods: {
     handleDialog() {
       this.isOpen = !this.isOpen;
+      if (this.searchBy.length === 0) this.handleSelectedData("clear");
     },
     handleSelectedData(district) {
       if (district === "clear") {
@@ -96,7 +97,7 @@ export default {
     },
   },
   mounted() {
-    this.handleSelectedData(this.filterData.district);
+    // this.handleSelectedData(this.filterData.district);
   },
   watch: {
     filterData: {
@@ -108,7 +109,7 @@ export default {
       handler(newValue) {
         if (newValue === false) {
           this.searchBy = this.districtData;
-          if (this.searchBy.length === 0) this.handleSelectedData("clear");
+          // if (this.searchBy.length === 0) this.handleSelectedData("clear");
         }
         this.inputData = "";
       },
