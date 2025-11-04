@@ -328,6 +328,7 @@ export default {
       prevDistrictClick: "",
       sliceDivide: 10,
       objectiveFilter: [],
+      isDeselected: false,
     };
   },
   methods: {
@@ -353,7 +354,8 @@ export default {
       this.commuData = this.originData;
       this.districtData = _.uniqBy(this.commuData?.map((d) => d.district));
       this.filterData = { ...this.filterData, year };
-      this.mapColorMapping(this.commuData, true);
+      this.isDeselected = true;
+      this.mapColorMapping(this.commuData);
       this.disableCheckBox();
     },
     handleObjectiveChange({ district, community, objectives }) {
@@ -388,6 +390,7 @@ export default {
         community,
         objectives,
       };
+
       this.commuData = this.originData;
       if (community && district) {
         this.commuData = this.originData.filter(
@@ -511,7 +514,7 @@ export default {
       });
     },
 
-    mapColorMapping(originData, deselect) {
+    mapColorMapping(originData) {
       if (!originData) {
         console.warn("originData is undefined");
         return;
@@ -535,9 +538,10 @@ export default {
             .style("stroke", () => "#828282");
         });
         this.prevDistrictClick = "";
+        this.isDeselected = false;
       };
 
-      if (deselect) {
+      if (this.isDeselected) {
         deselectFunc();
       }
       const selectedDistrict = (district, elem) => {
@@ -545,7 +549,7 @@ export default {
         if (
           !groupDistrict[district] ||
           this.prevDistrictClick == district ||
-          deselect
+          this.isDeselected
         ) {
           deselectFunc();
         } else {
@@ -559,14 +563,18 @@ export default {
       d3.selectAll(".pathBKK").each(function (_) {
         const district = mapingDistrict(this.id);
         const commuDataLength = originData ? originData.length : 0;
+
         d3.select(this)
           .attr(
             "fill",
             mapingColorDistrict(groupDistrict[district], commuDataLength)
           )
-          .style("cursor", "pointer");
+          .style("cursor", groupDistrict[district] && "pointer");
 
-        d3.select(this).on("click", () => selectedDistrict(district, this));
+        d3.select(this).on(
+          "click",
+          () => groupDistrict[district] && selectedDistrict(district, this)
+        );
       });
     },
 

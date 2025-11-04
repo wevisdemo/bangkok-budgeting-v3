@@ -11,26 +11,26 @@
             ตามเขตและชุมชนที่คุณสนใจ
           </p>
         </div>
-        <div class="relative md:hidden">
+        <div class="relative md:hidden flex flex-row space-x-1">
           <BkkMap class="w-full" />
-          <img
-            src="~/assets/images/heatMap.svg"
-            class="absolute bottom-0 right-0 m-5"
-          />
+          <div
+            class="flex wv-b7 flex-row space-x-1 absolute bottom-0 right-0 m-5"
+          >
+            <p>1 โครงการ</p>
+            <img src="~/assets/images/heatMap.svg" />
+            <p>{{ this.totalAmount.toLocaleString() }} โครงการ</p>
+          </div>
         </div>
 
         <div class="mb-5">
           <p class="wv-b5">
-            เขตที่ใช้งบประมาณโครงการ<br />
-            ชุมชนเข้มแข็งฯ มากที่สุดในปี <b>{{ currentYear }}</b> คือ
+            เขตทีมีรายการโครงการ<br />
+            ชุมชนเข้มแข็งฯ มากที่สุดในปี <b>{{ currentYear }}</b>
           </p>
           <p class="wv-h5 font-bold">“{{ topDistrict }}”</p>
           <div class="opacity-50 wv-b6">
-            <p>งบประมาณ <b>13,705,656.85</b> บาท</p>
-            <p>
-              ประกอบด้วย <b>100 ชุมชน</b> ดำเนิน
-              <b>197 โครงการ</b>
-            </p>
+            <p>จำนวน <b>103</b> โครงการ</p>
+            <p>จาก <b>16 ชุมชน</b></p>
           </div>
         </div>
         <div class="w-full flex flex-col justify-between gap-4 md:hidden">
@@ -73,10 +73,13 @@
       <div class="hidden flex-1 md:block">
         <div class="relative">
           <BkkMap class="w-full" />
-          <img
-            src="~/assets/images/heatMap.svg"
-            class="absolute bottom-0 right-0 m-5"
-          />
+          <div
+            class="flex wv-b7 flex-row space-x-1 absolute bottom-0 right-0 m-5"
+          >
+            <p>1 โครงการ</p>
+            <img src="~/assets/images/heatMap.svg" />
+            <p>{{ this.totalAmount.toLocaleString() }} โครงการ</p>
+          </div>
         </div>
         <div class="w-full flex flex-col justify-between gap-4">
           <div class="flex justify-center sm:justify-end">
@@ -138,7 +141,6 @@ export default Vue.extend({
       topDistrict: "",
       totalAmount: 0,
       totalCommunity: 0,
-      totalProject: 0,
     };
   },
 
@@ -161,14 +163,13 @@ export default Vue.extend({
     this.totalCommunity = Object.keys(
       _.groupBy(groupYear[this.currentYear], "community")
     ).length;
-    this.totalProject = groupYear[this.currentYear].length;
-
+    const vm = this;
     d3.selectAll(".pathBKK").each(function (d) {
       const district = mapingDistrict(this.id);
       d3.select(this)
         .attr(
           "fill",
-          mapingColorDistrict(groupDistrict[district], this.totalAmount)
+          mapingColorDistrict(groupDistrict[district], vm.totalAmount)
         )
         .style("opacity", () => {
           return districtSort[0] !== district ? "50%" : "100%";

@@ -246,7 +246,8 @@
                 class="flex-1 md:ml-[25px] flex flex-col-reverse items-center relative z-10 h-full"
               >
                 <div
-                  class="absolute bottom-0 wv-b5 translate-y-[120%] left-[50%] translate-x-[-50%] z-20"
+                  class="absolute bottom-0 wv-b5 translate-y-[120%] font-bold left-[50%] translate-x-[-50%] z-20"
+                  :class="key != '70' ? '' : 'opacity-50'"
                 >
                   `{{ key }}
                 </div>
@@ -263,7 +264,7 @@
                   :style="{
                     height: calHeight(
                       displayOrganizeValue(
-                        item.organize[selectFilter],
+                        item.organize[selectFilter] || 0,
                         strategy
                       ),
                       item.amount
@@ -290,7 +291,7 @@
                   <div
                     class="absolute left-[50%] translate-x-[-50%] translate-y-[-100%]"
                   >
-                    {{ convertMillion(item.amount) }}
+                    {{ key != "70" ? convertMillion(item.amount) : "" }}
                   </div>
                 </div>
                 <div
@@ -298,9 +299,11 @@
                   v-if="isMillion && selectFilter !== filterOrganize[0]"
                 >
                   {{
-                    convertMillion(
-                      displayAmoutOrganize(item.organize[selectFilter])
-                    )
+                    key != "70"
+                      ? convertMillion(
+                          displayAmoutOrganize(item.organize[selectFilter])
+                        )
+                      : ""
                   }}
                 </div>
                 <!-- <div
@@ -329,11 +332,16 @@
                 >
                   <div
                     :key="key"
-                    class="bg-wv-gray-4 flex-1 ]"
+                    :class="
+                      key != '70'
+                        ? 'bg-wv-gray-4 flex-1 rounded'
+                        : ' border-[2px] flex-1  border-black opacity-75  rounded border-dashed'
+                    "
                     :style="{
-                      height: isMillion
-                        ? calHeight(displayMaxAmout(key), item.amount)
-                        : '100%',
+                      height:
+                        isMillion && key != '70'
+                          ? calHeight(displayMaxAmout(key) || 0, item?.amount)
+                          : '100%',
                     }"
                   ></div>
                 </div>
@@ -464,8 +472,10 @@ export default {
       );
     },
     displayMaxAmout(year) {
-      return this.chartData.years.filter((d) => d.year === parseInt(year))[0]
-        .amount;
+      return (
+        this.chartData.years.filter((d) => d.year === parseInt(year))[0]
+          .amount || 0
+      );
     },
     selectKey(item) {
       this.isSelectedKey = true;
@@ -511,6 +521,18 @@ export default {
           .value(),
         total: response.total,
       };
+      console.log(this.itemsChart, "this.itemsChart ");
+
+      if (!this.itemsChart.years["70"]) {
+        this.itemsChart.years["70"] = {
+          amount: 0,
+          organize: {},
+          all: {},
+        };
+      }
+
+      console.log(this.itemsChart, "itemsChart");
+
       this.rawData = response;
       this.totalFilterAmout = _.sumBy(response.items, "amount");
       const groupOrganize = Object.keys(

@@ -48,7 +48,7 @@
             </div>
             <div
               v-else
-              class="border-[2px] h-full bg-wv-gray-30 border-wv-gray-30 rounded-[5px] absolute w-full flex-1"
+              class="border-[2px] h-full border-wv-gray-30 border-dashed rounded-[5px] absolute w-full flex-1"
             ></div>
             <div
               v-if="totalBudget?.filter((i) => i.year === item.year)[0]?.amount"
