@@ -133,8 +133,9 @@ export default {
       this.handleFilterChange();
     },
     handleObjectiveChange() {
-      this.selectAll =
-        this.selectedObjectives.length === this.objectives.length;
+      this.selectAll = this.availableObjectives.every((id) =>
+        this.selectedObjectives.includes(id)
+      );
       this.handleFilterChange();
     },
     handleFilterChange() {
@@ -157,9 +158,13 @@ export default {
       deep: true,
       handler(newValue) {
         if (newValue.objectives) {
+          this.availableObjectives = this.commuData
+            ? [...new Set(this.commuData.map((item) => item.project_objective))]
+            : [];
           this.selectedObjectives = newValue.objectives;
-          this.selectAll =
-            this.selectedObjectives.length === this.objectives.length;
+          this.selectAll = this.availableObjectives.every((id) =>
+            this.selectedObjectives.includes(id)
+          );
         }
       },
     },

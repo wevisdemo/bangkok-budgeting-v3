@@ -51,8 +51,8 @@
       <FilterByObjective
         :filterData="filterData"
         :originData="originData"
-        :handleFilterData="handleFilterData"
-        :commuData="commuData"
+        :handleFilterData="handleObjectiveChange"
+        :commuData="objectiveFilter"
       />
     </div>
 
@@ -198,8 +198,8 @@
             <FilterByObjective
               :filterData="filterData"
               :originData="originData"
-              :handleFilterData="handleFilterData"
-              :commuData="commuData"
+              :handleFilterData="handleObjectiveChange"
+              :commuData="objectiveFilter"
             />
           </div>
           <div class="flex justify-between">
@@ -396,6 +396,7 @@ export default {
       isOpen: false,
       sortList: ["จำนวนที่พบ", "ตัวอักษร"],
       mobileKeyword: false,
+      objectiveFilter: [],
     };
   },
   methods: {
@@ -453,6 +454,7 @@ export default {
         district: "",
         community: "",
       };
+      this.disableCheckBox();
     },
     calOriginFilter() {
       return _.chain(this.handleFilterKeyword(this.filterData.key))
@@ -526,19 +528,67 @@ export default {
         Object.values(this.commuData)?.map((d) => d.district)
       );
     },
-    handleFilterData({ district, community }) {
+
+    disableCheckBox() {
+      const availableObjectives = [
+        ...new Set(this.commuData.map((item) => item.project_objective)),
+      ];
+      this.filterData = {
+        ...this.filterData,
+        objectives: availableObjectives,
+      };
+
+      this.$nextTick(() => {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach((checkbox) => {
+          const isDisabled = checkbox
+            .closest("label")
+            ?.classList.contains("disabled-objective");
+          checkbox.checked = !isDisabled;
+        });
+      });
+    },
+    handleObjectiveChange({ district, community, objectives }) {
       this.filterData = {
         ...this.filterData,
         district,
         community,
+        objectives,
+      };
+      this.commuData = this.originData;
+      if (community && district) {
+        this.commuData = this.originData.filter(
+          (o) => o.district === district && o.community === community
+        );
+        this.objectiveFilter = this.commuData;
+      } else if (district) {
+        this.commuData = this.originData.filter((o) => o.district === district);
+        this.objectiveFilter = this.commuData;
+      }
+      if (objectives && objectives.length > 0) {
+        this.commuData = this.commuData.filter((o) =>
+          objectives.includes(o.project_objective)
+        );
+      }
+    },
+    handleFilterData({ district, community, objectives }) {
+      this.filterData = {
+        ...this.filterData,
+        district,
+        community,
+        objectives,
       };
       this.commuData = this.handleFilterKeyword(this.filterData.key);
       if (district && community) {
         this.commuData = this.originData.filter(
           (o) => o.district === district && o.community === community
         );
+        this.objectiveFilter = this.commuData;
+        this.disableCheckBox();
       } else if (district) {
         this.commuData = this.originData.filter((c) => c.district == district);
+        this.objectiveFilter = this.commuData;
+        this.disableCheckBox();
       }
 
       this.totalProject = this.commuData.length;
@@ -576,6 +626,7 @@ export default {
       return;
     }
     this.commuData = _.cloneDeep(this.originData);
+    this.objectiveFilter = this.commuData;
     this.filterKeyword = this.fetchOriginFilterKey();
     const initialKeyword =
       keywords().filter((k) => k.Word === this.$route.query.key)[0] ||
