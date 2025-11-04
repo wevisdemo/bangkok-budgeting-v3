@@ -111,7 +111,7 @@
                   <p class="flex-1 text-center ml-2 justify-end flex">
                     จำนวนที่พบ
                   </p>
-                  <!-- <p class="flex-1 text-end">งบ (ล้านบาท)</p> -->
+                  <p class="flex-1 text-end">งบ (ล้านบาท)</p>
                 </div>
               </div>
             </div>
@@ -143,9 +143,9 @@
                 <p class="wv-b7 opacity-50 flex-1 text-center justify-end flex">
                   {{ item.total }}
                 </p>
-                <!-- <p class="wv-b7 opacity-50 flex-1">
+                <p class="wv-b7 opacity-50 flex-1">
                   {{ convertMillion(item.amount) }}
-                </p> -->
+                </p>
               </div>
             </div>
           </div>
@@ -396,7 +396,7 @@ export default {
   data() {
     return {
       data: "",
-      filterKeyword: "",
+      filterKeyword: [],
       selectedKey: {},
       itemsChart: [],
       isMillion: true,
@@ -521,8 +521,6 @@ export default {
           .value(),
         total: response.total,
       };
-      console.log(this.itemsChart, "this.itemsChart ");
-
       if (!this.itemsChart.years["70"]) {
         this.itemsChart.years["70"] = {
           amount: 0,
@@ -530,8 +528,6 @@ export default {
           all: {},
         };
       }
-
-      console.log(this.itemsChart, "itemsChart");
 
       this.rawData = response;
       this.totalFilterAmout = _.sumBy(response.items, "amount");
