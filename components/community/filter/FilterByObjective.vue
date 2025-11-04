@@ -147,7 +147,9 @@ export default {
   mounted() {
     this.selectedObjectives = this.objectives.map((obj) => obj.id);
     this.selectAll = true;
-    this.handleFilterChange();
+    if (!this.$route.query.objective) {
+      this.handleFilterChange();
+    }
   },
   watch: {
     filterData: {

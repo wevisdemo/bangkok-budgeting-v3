@@ -626,7 +626,6 @@ export default {
     this.$nextTick(() => {
       this.mapColorMapping(this.originData);
     });
-    console.log(this.filterData, "filterData");
   },
   created() {
     window.addEventListener("scroll", this.handleScroll);
