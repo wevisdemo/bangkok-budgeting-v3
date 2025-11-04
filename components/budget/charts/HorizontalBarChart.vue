@@ -89,7 +89,7 @@
         class="flex flex-col-reverse flex-1 pl-[5px] lg:pl-[25px] relative w-full"
       >
         <div
-          class="wv-b5 text-center mt-2 absolute pl-[5px] lg:pl-[25px] bottom-[-5px] translate-y-[100%] left-[50%] translate-x-[-51%]"
+          class="wv-b5 font-bold text-center mt-2 absolute pl-[5px] lg:pl-[25px] bottom-[-5px] translate-y-[100%] left-[50%] translate-x-[-51%]"
         >
           ’{{ d.year }}
         </div>
@@ -204,6 +204,18 @@
             {{ convertMillion(d.amount) }}
           </div>
         </div>
+      </div>
+      <div
+        class="flex flex-col-reverse flex-1 pl-[5px] lg:pl-[25px] relative w-full"
+      >
+        <div
+          class="wv-b5 font-bold opacity-50 text-center mt-2 absolute pl-[5px] lg:pl-[25px] bottom-[-5px] translate-y-[100%] left-[50%] translate-x-[-51%]"
+        >
+          ’70
+        </div>
+        <div
+          class="border-[2px] flex-1 border-black opacity-75 rounded border-dashed w-full h-full"
+        ></div>
       </div>
     </div>
   </div>
