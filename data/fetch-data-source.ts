@@ -31,7 +31,7 @@ export interface CommunityRow {
 }
 
 const BUDGET_SHEET =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxZIXP5NcbvMFDxvSJJYmiYBzttiw1Lq4QmRnxinmo2egj49nGytUDgWJbMytBVmH14dCDmkUVy1DZ/pub?gid=1915709666&single=true&output=csv";
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRq3tqN6CLTImf61D0ZXxn62OAypeldUQnaBIOv4aC9SrRTpauL0qynhUzzM4oxQqfu-D6POL6A355r/pub?gid=1957001187&single=true&output=csv";
 
 const COMMUNITY_SHEET =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSCA-vsvCyfpey3LvV9ZUhkQ5FQlOnAE3cukhfTa0yxiQH2NuRiZ32rSFAc4fNWyGtUCEQDIGCGZOSe/pub?gid=764605226&single=true&output=csv";

@@ -69,6 +69,9 @@ export default {
     ...mapActions({
       updateChartData: "updateChartData",
       updateOrganizeData: "updateOrganizeData",
+      updateSelectYearOrganize: "updateSelectYearOrganize",
+      updateSelectYearStrategy: "updateSelectYearStrategy",
+      updateSelectKeywordStrategy: "updateSelectKeywordStrategy",
     }),
     fetchdata() {
       const chartResponse = this.$store.getters["data/getChartData"]();
@@ -81,6 +84,9 @@ export default {
     chooseTopic(topicValue) {
       this.topic = topicValue;
       this.$router.push({ query: { select: topicValue } });
+      this.updateSelectYearOrganize({ label: "ทุกปี", value: "" });
+      this.updateSelectYearStrategy({ label: "ทุกปี", value: "" });
+      this.updateSelectKeywordStrategy({ label: "ทุกปี", value: "" });
     },
   },
 };

@@ -165,12 +165,12 @@
               <div class="flex items-center">
                 <div v-if="isMillion">
                   <span class="wv-b6 font-bold">
-                    <!-- {{
+                    {{
                       (item.amount / 1000000).toLocaleString("en-US", {
                         maximumFractionDigits: 2,
                         minimumFractionDigits: 2,
                       })
-                    }} -->
+                    }}
                   </span>
                   <span class="wv-b7">ล้านบาท</span>
                 </div>
@@ -312,6 +312,7 @@ export default {
       });
       this.barChartData = filterByOrganize(this.selectedFilter, response);
       this.resultKeySearch = this.barChartData;
+      this.filterTotalAmount = _.sumBy(this.resultKeySearch, "amount");
       this.filterOrganize = "";
     },
 

@@ -100,12 +100,12 @@
                   {{ item.outputProjectName }}
                 </div>
                 <div class="w-[128px] opacity-50">
-                  <!-- {{
+                  {{
                     (item.amount / 1000000).toLocaleString("en-US", {
                       maximumFractionDigits: 2,
                       minimumFractionDigits: 2,
                     })
-                  }} -->
+                  }}
                   ล้านบาท
                 </div>
               </div>
@@ -259,7 +259,9 @@ export default {
       this.resultKeySearch = this.filterYears;
     },
     isOpen(newValue) {
-      if (newValue === false) this.isProject = false;
+      if (newValue === false) {
+        this.isProject = false;
+      }
     },
     selectFilter(newValue) {
       this.isSelectedYear(newValue);
@@ -285,13 +287,21 @@ export default {
     this.filterYears = filterBy(this.selectedFilter, this.isModalDetails);
     this.resultKeySearch = this.filterYears;
     if (this.subTitleModal === "ตามแผนงานพัฒนา 9 ด้าน(ดี)") this.fetchByYear();
-    if (this.page === "organize")
-      this.selectFilter = this.selectYearOrganize.label;
-    if (this.page === "strategy")
-      this.selectFilter = this.selectYearStrategy.label;
-    if (this.page === "keyword")
-      this.selectFilter = this.selectKeywordStrategy.label;
-    this.isSelectedYear();
+    if (this.page === "organize" && this.selectYearOrganize.label !== "ทุกปี") {
+    }
+    this.selectFilter = this.selectYearOrganize;
+    if (this.page === "strategy" && this.selectYearStrategy.label !== "ทุกปี")
+      this.selectFilter = this.selectYearStrategy;
+    if (this.page === "keyword" && this.selectKeywordStrategy.label !== "ทุกปี")
+      this.selectFilter = this.selectKeywordStrategy;
+    if (
+      this.selectYearOrganize.label === "ทุกปี" &&
+      this.selectYearStrategy.label === "ทุกปี" &&
+      this.selectKeywordStrategy.label === "ทุกปี"
+    ) {
+      this.selectFilter = "";
+    }
+    this.isSelectedYear(this.selectFilter);
   },
 };
 </script>

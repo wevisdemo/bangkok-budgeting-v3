@@ -139,10 +139,7 @@
             v-for="subStrategy in strategy.substrategies"
             v-if="pickSubStrategy(d.strategies, strategy.name, subStrategy)"
             :key="subStrategy"
-            :id="
-              'subStrategy-' +
-              pickSubStrategy(d.strategies, strategy.name, subStrategy)?.name
-            "
+            :id="getSubStrategyId(d.strategies, strategy.name, subStrategy)"
             :style="`height: ${
               (pickSubStrategy(d.strategies, strategy.name, subStrategy)
                 ?.amount /
@@ -323,10 +320,24 @@ export default {
           );
       this.prevSelected = this.currentSelected;
     },
+    createValidSelector(text) {
+      return text.toLowerCase().replace(/[\s()]/g, "-"); // Replace spaces and parentheses with dash
+    },
+    getSubStrategyId(strategies, strategyName, subStrategy) {
+      const strategyData = this.pickSubStrategy(
+        strategies,
+        strategyName,
+        subStrategy
+      );
+      if (!strategyData?.name) return "";
+      return `subStrategy-${this.createValidSelector(strategyData.name)}`;
+    },
     handleSubStrategy(strategy) {
       this.currentSelected = strategy;
+      const validSelector = this.createValidSelector(strategy);
       handleAddSelected(".wrapper-sub-strategy", "grayScale");
-      handleRemoveSelected(`[id='subStrategy-${strategy}']`, "grayScale");
+      handleRemoveSelected(`[id='subStrategy-${validSelector}']`, "grayScale");
+
       if (this.prevSelected === this.currentSelected) {
         this.updateChartSelected();
         handleRemoveSelected(".wrapper-sub-strategy", "z-[20]");
@@ -342,7 +353,7 @@ export default {
         }).items;
         this.summaryAmount = _.sumBy(this.filterItems, "amount");
         handleRemoveSelected(".wrapper-sub-strategy", "z-[20]");
-        handleAddSelected(`[id='subStrategy-${strategy}']`, "z-[20]");
+        handleAddSelected(`[id='subStrategy-${validSelector}']`, "z-[20]");
         this.fetchBySubStrategy(strategy);
         strategy === "ไม่พบข้อมูล"
           ? this.updateSubTitleModal(`"${strategy}"`)
