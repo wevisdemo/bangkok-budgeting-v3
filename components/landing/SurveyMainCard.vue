@@ -2,7 +2,7 @@
   <div
     id="SurveyMainCard"
     :class="type === BudgetingType.BKK ? 'bg-wv-green' : 'bg-wv-yellow'"
-    class="px-3 py-4 rounded"
+    class="px-3 py-4 rounded pointer-events-none"
   >
     <NuxtLink :to="{ path: `/${type}` }" class="relative">
       <div class="flex justify-between">

@@ -53,7 +53,7 @@
         <div class="flex justify-center sm:justify-end">
           <NuxtLink
             :to="{
-              path: 'bkkbudget/explore',
+              path: `${!isBkkBudgetPath ? 'explore' : '/bkkbudget/explore'}`,
               query: { select: 'OrganizeBudget' },
             }"
             class="flex items-center py-2 px-2 rounded bg-wv-green text-black h-min"
@@ -102,6 +102,7 @@ export default Vue.extend({
   components: { VizChart, StrategyLegend },
   data() {
     return {
+      isBkkBudgetPath: false,
       chartOrganize: [],
       rawData: [],
       currentYear: [],
@@ -109,6 +110,8 @@ export default Vue.extend({
   },
 
   mounted() {
+    const currentPath = String(this.$route.path || "");
+    this.isBkkBudgetPath = currentPath.includes("bkkbudget");
     this.rawData = filterByOrganize(
       "งบมากไปน้อย",
       this.$store.getters["data/getChartDataGroupByOrganizations"]({ year: 69 })

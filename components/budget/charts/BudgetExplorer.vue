@@ -27,7 +27,7 @@
         <div class="flex justify-center sm:justify-end">
           <NuxtLink
             :to="{
-              path: 'bkkbudget/explore',
+              path: `${!isBkkBudgetPath ? 'explore' : '/bkkbudget/explore'}`,
               query: { select: 'KeyWordBudget' },
             }"
             class="flex items-center py-2 px-2 rounded bg-wv-green border-black h-min"
@@ -75,7 +75,7 @@ export default Vue.extend({
   name: "KeyWordBudget",
   components: { VizChart },
   data() {
-    return {};
+    return { isBkkBudgetPath: false };
   },
   methods: {
     mainKeyWord,
@@ -140,6 +140,8 @@ export default Vue.extend({
     },
   },
   mounted() {
+    const currentPath = String(this.$route.path || "");
+    this.isBkkBudgetPath = currentPath.includes("bkkbudget");
     if (d3.select("#wordCloundWrapper")) this.drawChart();
   },
 });
