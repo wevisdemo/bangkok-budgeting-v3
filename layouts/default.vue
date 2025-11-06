@@ -120,7 +120,8 @@ export default Vue.extend({
     return {
       routes: [
         { label: "สำรวจการใช้งบประมาณ", path: "/bkkbudget" },
-        { label: "พัฒนาชุมชนเมืองให้เข้มแข็ง", path: "/communityfund" },
+        { label: "พัฒนาชุมชนเมืองให้เข้มแข็ง", path: "/" },
+        // { label: "พัฒนาชุมชนเมืองให้เข้มแข็ง", path: "/communityfund" },
         { label: "เกี่ยวกับโครงการ", path: "/about" },
       ],
       footerComponent: "AboutFooter",
@@ -216,7 +217,6 @@ export default Vue.extend({
       this.$store.commit("setCookieState", true);
     }
     const elemtFooter = document.querySelector(".wv_footer .wv_footer__follow");
-    console.log(elemtFooter, "elemtFooter");
     const elemtX = elemtFooter.querySelectorAll("div.wv_footer__follow > a")[1];
 
     elemtX.removeChild(elemtX.querySelector("svg"));
