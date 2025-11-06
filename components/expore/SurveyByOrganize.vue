@@ -85,20 +85,8 @@
             </p>
           </div>
           <a
-            v-if="filterOrganize"
             class="wv-b7 underline opacity-50 flex items-center cursor-pointer"
-            :href="`https://docs.google.com/spreadsheets/d/15Xd-xM-Mi3qVRRyyqMxHrRgXYT3WNmWIzpvdUn9xWZo/gviz/tq?tqx=out:csv&gid=1915709666&&tq=where%20F%20like%20'%25${filterOrganize}%25'`"
-            target="_blank"
-          >
-            <img
-              src="~/assets/images/download.svg"
-              class="w-3 h-3 mr-2"
-            />ดาวน์โหลดข้อมูล</a
-          >
-          <a
-            v-else
-            class="wv-b7 underline opacity-50 flex items-center cursor-pointer"
-            :href="`https://docs.google.com/spreadsheets/d/15Xd-xM-Mi3qVRRyyqMxHrRgXYT3WNmWIzpvdUn9xWZo/gviz/tq?tqx=out:csv&gid=1915709666&&tq=select%20*`"
+            :href="getDownloadUrl()"
             target="_blank"
           >
             <img
@@ -175,7 +163,7 @@
                   <span class="wv-b7">ล้านบาท</span>
                 </div>
                 <div v-else class="wv-b6 font-bold">
-                  {{ ((item.amount / chartData.amount) * 100).toFixed(2) }} %
+                  {{ ((item.amount / filterTotalAmount) * 100).toFixed(2) }} %
                 </div>
                 <div class="ml-1">
                   <img src="~/assets/images/list-button.svg" />
@@ -298,6 +286,23 @@ export default {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
     },
+    getDownloadUrl() {
+      const baseUrl =
+        "https://docs.google.com/spreadsheets/d/15Xd-xM-Mi3qVRRyyqMxHrRgXYT3WNmWIzpvdUn9xWZo/gviz/tq?tqx=out:csv&gid=1915709666&&tq=";
+
+      if (this.filterOrganize) {
+        let query = `${baseUrl}where%20F%20like%20'%25${this.filterOrganize}%25'`;
+        if (this.selectFilterYear) {
+          query += `and%20A%20like%20'%25${this.selectFilterYear}%25'`;
+        }
+        return query;
+      }
+      if (this.selectFilterYear) {
+        return `${baseUrl}where%20A%20like%20'%25${this.selectFilterYear}%25'`;
+      }
+
+      return `${baseUrl}select%20*`;
+    },
     seeMore() {
       this.sliceDivide = this.sliceDivide + 10;
     },
@@ -356,7 +361,7 @@ export default {
       )[0];
       const divide = this.isMillion
         ? this.maxValue.amount
-        : this.chartData.amount;
+        : this.filterTotalAmount;
       return matchStrategy && `${(matchStrategy.amount / divide) * 100}%`;
     },
     toggle() {

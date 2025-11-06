@@ -235,6 +235,7 @@ export default {
           items: itemsList,
           total: itemsList.length,
         });
+        this.currentPage = 1;
       } else {
         if (this.page === "organize")
           this.updateSelectYearOrganize({ label: "ทุกปี", value: "" });
@@ -242,9 +243,11 @@ export default {
           this.updateSelectYearStrategy({ label: "ทุกปี", value: "" });
         if (this.page === "keyword")
           this.updateSelectKeywordStrategy({ label: "ทุกปี", value: "" });
-        this.resultKeySearch = filterBy(this.selectedFilter, {
-          ...this.isModalDetails,
-        });
+        this.resultKeySearch = filterBy(
+          this.selectedFilter,
+          this.isModalDetails
+        );
+        this.currentPage = 1;
       }
     },
     sumAllBudget() {
@@ -265,6 +268,7 @@ export default {
     },
     selectFilter(newValue) {
       this.isSelectedYear(newValue);
+      this.filterProjectName = "";
     },
     selectedFilter(newValue) {
       this.selectSort(newValue);
@@ -273,13 +277,25 @@ export default {
       immediate: true,
       deep: true,
       handler(newValue) {
-        const filter = this.filterYears?.items?.filter((s) =>
-          s.outputProjectName.toString().includes(newValue)
-        );
-        this.resultKeySearch = {
-          items: filter,
-          total: filter?.length,
-        };
+        if (this.selectFilter) {
+          const filter = this.filterYears?.items?.filter((s) => {
+            const nameMatch = s.outputProjectName.toString().includes(newValue);
+            return nameMatch && s.budgetYear === this.selectFilter;
+            return nameMatch;
+          });
+          this.resultKeySearch = {
+            items: filter,
+            total: filter?.length,
+          };
+        } else {
+          const filter = this.isModalDetails?.items?.filter((s) => {
+            return s.outputProjectName.toString().includes(newValue);
+          });
+          this.resultKeySearch = {
+            items: filter,
+            total: filter?.length,
+          };
+        }
       },
     },
   },

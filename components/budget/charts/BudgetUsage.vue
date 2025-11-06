@@ -6,9 +6,9 @@
         class="flex flex-1 flex-col gap-4 justify-between"
       >
         <p class="wv-b3 flex-grow max-w-[253px] text-center sm:text-left mb-3">
-          <span class="font-bold"
-            >5 อันดับหน่วยงานที่ได้รับงบฯ สูงที่สุดในปี </span
-          >25{{ currentYear }} จาก {{ rawData.length }} หน่วยงาน
+          <span class="font-bold">5 อันดับหน่วยงาน</span>ที่ได้รับงบฯ
+          สูงที่สุดในปี 25{{ currentYear }} จาก<br />
+          {{ rawData.length }} หน่วยงาน
         </p>
 
         <div class="hidden lg:block">
