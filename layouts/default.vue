@@ -120,8 +120,7 @@ export default Vue.extend({
     return {
       routes: [
         { label: "สำรวจการใช้งบประมาณ", path: "/bkkbudget" },
-        { label: "พัฒนาชุมชนเมืองให้เข้มแข็ง", path: "/" },
-        // { label: "พัฒนาชุมชนเมืองให้เข้มแข็ง", path: "/communityfund" },
+        { label: "พัฒนาชุมชนเมืองให้เข้มแข็ง", path: "/communityfund" },
         { label: "เกี่ยวกับโครงการ", path: "/about" },
       ],
       footerComponent: "AboutFooter",

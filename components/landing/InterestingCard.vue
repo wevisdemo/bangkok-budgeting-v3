@@ -23,7 +23,7 @@
                 path: item.path,
                 query: item.query,
               }"
-              class="pointer-events-none bg-wv-gray-20 items-center w-fit mx-auto rounded-full py-1 px-3 wv-b6 flex space-x-1 cursor-pointer"
+              class="bg-wv-gray-20 items-center w-fit mx-auto rounded-full py-1 px-3 wv-b6 flex space-x-1 cursor-pointer"
             >
               ดูข้อมูล
               <div class="w-[15px] pointer-events-none">
