@@ -103,7 +103,7 @@ export default Vue.extend({
           return ~~(Math.random() * 2);
         })
         .fontSize(function (d) {
-          return getWidth == "260" ? d.size / 9 : d.size / 6;
+          return getWidth == "260" ? d.size / 20 : d.size / 8;
         })
         .on("end", draw);
       layout.start();

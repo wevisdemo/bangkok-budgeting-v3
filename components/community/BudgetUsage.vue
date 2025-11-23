@@ -18,7 +18,7 @@
           >
             <p>1 โครงการ</p>
             <img src="~/assets/images/heatMap.svg" />
-            <p>{{ this.totalAmount.toLocaleString() }} โครงการ</p>
+            <p>{{ this.maxDistrictCount }} โครงการ</p>
           </div>
         </div>
 
@@ -78,7 +78,7 @@
           >
             <p>1 โครงการ</p>
             <img src="~/assets/images/heatMap.svg" />
-            <p>{{ this.totalAmount.toLocaleString() }} โครงการ</p>
+            <p>{{ this.maxDistrictCount }} โครงการ</p>
           </div>
         </div>
         <div class="w-full flex flex-col justify-between gap-4">
@@ -141,6 +141,7 @@ export default Vue.extend({
       topDistrict: "",
       totalAmount: 0,
       totalCommunity: 0,
+      maxDistrictCount: 0,
     };
   },
 
@@ -157,6 +158,7 @@ export default Vue.extend({
         return groupDistrict[a] - groupDistrict[b];
       })
       .reverse();
+
     this.currentYear = sortUpdatedYear[0];
     this.topDistrict = districtSort[0];
     this.totalAmount = groupYear[this.currentYear].length;
@@ -164,12 +166,16 @@ export default Vue.extend({
       _.groupBy(groupYear[this.currentYear], "community")
     ).length;
     const vm = this;
+    this.maxDistrictCount = this.findMaxDistrict(groupDistrict).count;
     d3.selectAll(".pathBKK").each(function (d) {
       const district = mapingDistrict(this.id);
       d3.select(this)
         .attr(
           "fill",
-          mapingColorDistrict(groupDistrict[district], vm.totalAmount)
+          mapingColorDistrict(
+            groupDistrict[district],
+            vm.findMaxDistrict(groupDistrict).count
+          )
         )
         .style("opacity", () => {
           return districtSort[0] !== district ? "50%" : "100%";
@@ -180,6 +186,12 @@ export default Vue.extend({
   methods: {
     mapingDistrict,
     mapingColorDistrict,
+    findMaxDistrict(districts) {
+      return Object.entries(districts).reduce(
+        (max, [name, count]) => (count > max.count ? { name, count } : max),
+        { name: null, count: -Infinity }
+      );
+    },
   },
 });
 </script>

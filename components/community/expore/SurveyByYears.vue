@@ -52,7 +52,7 @@
         >
           <p>1 โครงการ</p>
           <img src="~/assets/images/heatMap.svg" class="w-[80px]" />
-          <p>{{ originData.length.toLocaleString() }} โครงการ</p>
+          <p>{{ maxDistrictCount }} โครงการ</p>
         </div>
 
         <BkkMap class="my-5 mx-auto w-full md:w-fit" />
@@ -63,7 +63,7 @@
           opacity: filterData.district ? '100%' : '0%',
         }"
         id="tooltip"
-        class="absolute text-center w-[75px] md:w-auto wv-b7 top-0 left-0 bg-white card py-[3px] px-[8px] rounded-[5px] pointer-events-none"
+        class="absolute text-center w-[75px] md:w-auto wv-b7 top-0 left-0 bg-white card py-[3px] px-[8px] rounded-[5px] pointer-events-none z-30"
       >
         <p>เขต{{ filterData.district }}</p>
 
@@ -329,6 +329,7 @@ export default {
       sliceDivide: 10,
       objectiveFilter: [],
       isDeselected: false,
+      maxDistrictCount: 0,
     };
   },
   methods: {
@@ -540,6 +541,12 @@ export default {
         this.prevDistrictClick = "";
         this.isDeselected = false;
       };
+      const findMaxDistrict = (districts) => {
+        return Object.entries(districts).reduce(
+          (max, [name, count]) => (count > max.count ? { name, count } : max),
+          { name: null, count: -Infinity }
+        );
+      };
 
       if (this.isDeselected) {
         deselectFunc();
@@ -559,7 +566,7 @@ export default {
 
         this.setToolTip(elem);
       };
-
+      this.maxDistrictCount = findMaxDistrict(groupDistrict).count;
       d3.selectAll(".pathBKK").each(function (_) {
         const district = mapingDistrict(this.id);
         const commuDataLength = originData ? originData.length : 0;
@@ -567,7 +574,10 @@ export default {
         d3.select(this)
           .attr(
             "fill",
-            mapingColorDistrict(groupDistrict[district], commuDataLength)
+            mapingColorDistrict(
+              groupDistrict[district],
+              findMaxDistrict(groupDistrict).count
+            )
           )
           .style("cursor", groupDistrict[district] && "pointer");
 

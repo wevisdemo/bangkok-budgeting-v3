@@ -1,14 +1,14 @@
 <template>
   <div>
     <slot></slot>
-    <div v-if="isOpen" class="fixed inset-0 z-[50]">
+    <div v-if="isOpen" class="fixed inset-0 z-[50]" style="margin-top: auto">
       <div
         class="fixed inset-0 bg-wv-gray-4 bg-opacity-70 z-40"
         @click="handleModal"
       />
 
       <div
-        class="lg:w-[850px] bg-white overflow-auto px-3 md:px-12 py-8 absolute z-[60] lg:top-[50%] lg:translate-y-[-50%] lg:translate-x-[-50%] lg:left-[50%] lg:h-[600px]"
+        class="w-full h-full lg:w-[850px] bg-white overflow-auto px-3 md:px-12 py-8 absolute z-[60] lg:top-[50%] lg:translate-y-[-50%] lg:translate-x-[-50%] lg:left-[50%] lg:h-[600px]"
       >
         <template v-if="isProjectDialog">
           <ModalProject

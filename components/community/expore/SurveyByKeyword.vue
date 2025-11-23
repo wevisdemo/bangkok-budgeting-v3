@@ -143,7 +143,10 @@
               </div>
             </div>
           </div>
-          <div class="h-[70vh] md:h-[80vh] lg:h-full overflow-auto">
+          <div
+            class="h-[70vh] md:h-[80vh] lg:h-full overflow-auto"
+            ref="scrollContainer"
+          >
             <div
               v-for="(item, index) in filterKeyword.slice(0, 50)"
               :key="index"
@@ -176,6 +179,17 @@
               </p> -->
             </div>
           </div>
+          <button
+            @click="scrollToTop"
+            class="fixed bottom-2 wv-b6 left-[50%] bg-white shadow-lg px-4 py-2 rounded-t-lg flex items-center translate-x-[-50%] space-x-2 text-gray-500 hover:bg-gray-100 z-50"
+          >
+            <img
+              src="~/assets/images/toTop.png"
+              alt="selected"
+              class="w-[15px] h-[15px]"
+            />
+            <span>กลับไปด้านบน</span>
+          </button>
         </div>
       </div>
 
@@ -304,7 +318,13 @@
                   <div
                     class="absolute top-0 translate-y-[-100%] left-[50%] translate-x-[-50%] wv-b7 font-bold"
                   >
-                    {{ item?.amount > 0 ? item?.amount : "" }}
+                    {{
+                      item?.amount > 0
+                        ? !isMillion
+                          ? `${((item?.amount / maxOrigin) * 100).toFixed(0)}%`
+                          : item?.amount
+                        : ""
+                    }}
                   </div>
                 </div>
 
@@ -312,13 +332,13 @@
                   <div
                     :key="key"
                     :class="
-                      key === '2570'
+                      key === '2568'
                         ? ' border-[2px] rounded border-wv-gray-20 border-dashed flex-1 relative'
                         : ' bg-wv-gray-20 flex-1 rounded relative'
                     "
                     :style="{
                       height:
-                        !isMillion || key === '2570'
+                        !isMillion || key === '2568'
                           ? `${100}%`
                           : `${
                               (calOriginFilter()[key]?.amount / maxOrigin) * 100
@@ -414,6 +434,12 @@ export default {
     handleModal() {
       this.isOpen = !this.isOpen;
     },
+    scrollToTop() {
+      const el = this.$refs.scrollContainer;
+      if (el) {
+        el.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    },
     formatYAxis() {
       const result = [...Array(5)].map(
         (_, index) => (parseInt(this.maxOrigin) / 5) * (index + 1)
@@ -498,8 +524,8 @@ export default {
         }))
         .value();
 
-      if (!years["2570"]) {
-        years["2570"] = {
+      if (!years["2568"]) {
+        years["2568"] = {
           amount: 0,
         };
       }
