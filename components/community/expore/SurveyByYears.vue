@@ -351,10 +351,18 @@ export default {
       document.documentElement.scrollTop = 0;
     },
     handleFilterYear(year) {
-      this.originData = this.formatData(this.yearGroup[year]);
+      if (year !== "แสดงทุกปี") {
+        this.originData = this.formatData(this.yearGroup[year]);
+        this.filterData = { ...this.filterData, year };
+      } else {
+        this.originData = this.formatData(
+          this.$store.getters["data/getCommunity"]()
+        );
+        this.filterData = { ...this.filterData, year: "แสดงทุกปี" };
+      }
       this.commuData = this.originData;
       this.districtData = _.uniqBy(this.commuData?.map((d) => d.district));
-      this.filterData = { ...this.filterData, year };
+
       this.isDeselected = true;
       this.mapColorMapping(this.commuData);
       this.disableCheckBox();
@@ -614,8 +622,9 @@ export default {
     document.querySelector("#scrollTopBottom").style.opacity = "0";
     this.commuData = this.$store.getters["data/getCommunity"]();
     this.yearGroup = _.groupBy(this.commuData, "budget_year");
-    this.originData = this.formatData(Object.values(this.yearGroup)[0]);
-    this.yearData = Object.keys(this.yearGroup);
+    this.originData = this.commuData;
+    this.yearData = ["แสดงทุกปี", ...Object.keys(this.yearGroup)];
+
     this.commuData = Object.values(this.yearGroup)[0];
     this.districtData = _.uniqBy(
       Object.values(this.yearGroup)[0]?.map((d) => d.district)
@@ -629,7 +638,6 @@ export default {
         ? [this.$route.query.objective]
         : [],
     };
-
     if (this.$route.query.objective) {
       this.commuData = this.originData;
       this.objectiveFilter = this.originData;

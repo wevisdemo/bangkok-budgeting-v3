@@ -7,8 +7,8 @@
     >
       <img src="~/assets/images/download.svg" class="w-3 h-3 mr-2" />
       <div>
-        <p class="wv-b6">ดาวน์โหลดข้อมูลงบประมาณรายจ่าย</p>
-        <p class="wv-b7 opacity-50">ตามโครงการชุมชนเข้มแข็ง</p>
+        <p class="wv-b6">ดาวน์โหลดข้อมูลโครงการชุมชนเข้มแข็งฯ</p>
+        <!-- <p class="wv-b7 opacity-50">ตามโครงการชุมชนเข้มแข็ง</p> -->
       </div>
     </a>
     <div

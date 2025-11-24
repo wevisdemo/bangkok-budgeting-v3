@@ -24,7 +24,7 @@
 
         <div class="mb-5">
           <p class="wv-b5">
-            เขตทีมีรายการโครงการ<br />
+            เขตที่มีรายการโครงการ<br />
             ชุมชนเข้มแข็งฯ มากที่สุดในปี <b>{{ currentYear }}</b>
           </p>
           <p class="wv-h5 font-bold">“{{ topDistrict }}”</p>

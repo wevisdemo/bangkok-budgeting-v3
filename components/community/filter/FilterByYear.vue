@@ -45,13 +45,17 @@
           :class="filterData?.year == item ? 'font-bold' : ''"
           @click="() => handleFilter(item)"
         >
-          งบในปี {{ item }}
+          {{ item === "แสดงทุกปี" ? item : "แสดงเฉพาะปี" + item }}
         </button>
       </div>
     </el-popover>
-    <el-button v-popover:popover1 class="filterBtn"
-      >งบในปี {{ filterData?.year }}</el-button
-    >
+    <el-button v-popover:popover1 class="filterBtn">
+      {{
+        filterData?.year === "แสดงทุกปี"
+          ? filterData?.year
+          : "แสดงเฉพาะปี" + filterData?.year
+      }}
+    </el-button>
   </div>
 </template>
 <script>

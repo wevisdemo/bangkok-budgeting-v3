@@ -218,18 +218,28 @@
           </div>
           <div class="flex justify-between">
             <div class="mb-3">
+              <p class="wv-b5">
+                พบใน
+                {{
+                  sumProcurementListLength(commuData)?.toLocaleString(
+                    "en-US",
+                    {}
+                  )
+                }}
+                รายการ
+              </p>
               <p class="wv-b3 font-bold wv-kondolar">
-                พบ {{ totalProject?.toLocaleString("en-US", {}) }} โครงการ
+                ใน {{ totalProject?.toLocaleString("en-US", {}) }} โครงการ
               </p>
               <div class="wv-b5">
                 <p class="wv-b6 opacity-50">
                   ({{ ((totalProject / maxOrigin) * 100).toFixed() }}%
-                  ของงบทั้งหมด)
+                  ของโครงการทั้งหมด)
                 </p>
               </div>
-              <p class="wv-b6 opacity-50 mb-5">
+              <!-- <p class="wv-b6 opacity-50 mb-5">
                 ในคีย์เวิร์ด “{{ selectedKey.Word }}”
-              </p>
+              </p> -->
             </div>
             <ModalDetails
               :handle-modal="() => handleModal()"
@@ -553,6 +563,14 @@ export default {
       this.districtData = _.uniqBy(
         Object.values(this.commuData)?.map((d) => d.district)
       );
+    },
+    sumProcurementListLength(arr) {
+      return arr.reduce((sum, item) => {
+        if (item && Array.isArray(item.procurement_list)) {
+          return sum + item.procurement_list.length;
+        }
+        return sum;
+      }, 0);
     },
 
     disableCheckBox() {
