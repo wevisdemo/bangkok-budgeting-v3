@@ -1,15 +1,8 @@
 <template>
   <div class="fixed inset-0 z-40" @click.self="handleProject">
     <div
-      class="bg-white z-30 relative py-[70px] h-screen md:h-fit top-[50%] translate-y-[-50%] max-w-[800px] left-[50%] translate-x-[-50%] card px-[50px]"
+      class="bg-white z-30 relative py-[70px] h-screen md:h-fit max-w-[800px] left-[50%] translate-x-[-50%] px-[50px] overflow-auto lg:top-[50%] lg:translate-y-[-50%] lg:absolute lg:shadow-lg lg:rounded-lg"
     >
-      <div class="absolute w-[25px] md:w-[50px] z-50 top-0 right-0 m-5">
-        <img
-          src="~/assets/images/cancel.svg"
-          class="cursor-pointer"
-          @click="() => handleProject()"
-        />
-      </div>
       <p class="wv-b3 font-bold">{{ project.project_name }}</p>
 
       <div class="flex py-5">

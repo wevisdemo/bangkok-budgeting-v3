@@ -10,6 +10,16 @@
       <div
         class="w-full h-full lg:w-[850px] bg-white overflow-auto px-3 md:px-12 py-8 absolute z-[60] lg:top-[50%] lg:translate-y-[-50%] lg:translate-x-[-50%] lg:left-[50%] lg:h-[600px]"
       >
+        <div
+          class="sticky w-[25px] md:w-[50px] z-50 top-0 left-[100%] m-5"
+          v-if="isProjectDialog"
+        >
+          <img
+            src="~/assets/images/cancel.svg"
+            class="cursor-pointer"
+            @click="() => handleProjectDialog()"
+          />
+        </div>
         <template v-if="isProjectDialog">
           <ModalProject
             :handleProject="handleProjectDialog"
