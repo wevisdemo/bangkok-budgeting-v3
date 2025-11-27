@@ -31,7 +31,7 @@ jobs:
           cache: yarn
 
       - name: Install dependencies 👨🏻‍💻
-        run: yarn
+        run: yarn --frozen-lockfile --ignore-scripts
 
       - name: Generate Nuxt
         run: yarn generate
