@@ -554,6 +554,7 @@ export default {
 
     initFilterByKey(item) {
       this.commuData = this.handleFilterKeyword(item.Word);
+
       this.filterData = { key: item.Word };
       this.itemsChart = this.formatItem(this.commuData);
       this.totalProject = this.commuData.length;
@@ -622,15 +623,16 @@ export default {
         community,
         objectives,
       };
+      this.commuData = this.originData;
       this.commuData = this.handleFilterKeyword(this.filterData.key);
       if (district && community) {
-        this.commuData = this.originData.filter(
+        this.commuData = this.commuData.filter(
           (o) => o.district === district && o.community === community
         );
         this.objectiveFilter = this.commuData;
         this.disableCheckBox();
       } else if (district) {
-        this.commuData = this.originData.filter((c) => c.district == district);
+        this.commuData = this.commuData.filter((c) => c.district == district);
         this.objectiveFilter = this.commuData;
         this.disableCheckBox();
       }

@@ -1,8 +1,14 @@
 <template>
   <div class="fixed inset-0 z-40" @click.self="handleProject">
     <div
-      class="bg-white z-30 relative py-[70px] h-screen md:h-fit max-w-[800px] left-[50%] translate-x-[-50%] px-[50px] overflow-auto lg:top-[50%] lg:translate-y-[-50%] lg:absolute lg:shadow-lg lg:rounded-lg"
+      class="bg-white z-30 relative pt-[30px] pb-[20px] h-screen md:h-fit md:w-full left-[50%] lg:w-[850px] lg:h-[600px] translate-x-[-50%] px-[20px] md:px-[50px] overflow-auto lg:top-[50%] lg:translate-y-[-50%] lg:absolute lg:shadow-lg"
     >
+      <div
+        class="absolute w-[25px] md:w-[50px] z-50 top-0 right-0 m-5"
+        @click="handleProject"
+      >
+        <img src="~/assets/images/cancel.svg" class="cursor-pointer" />
+      </div>
       <p class="wv-b3 font-bold">{{ project.project_name }}</p>
 
       <div class="flex py-5">
@@ -52,7 +58,7 @@
       <div class="py-5 border-t border-t-gray-300">
         <p class="font-bold wv-b7">รายการใช้จ่าย</p>
         <p
-          class="wv-b5 mt-2"
+          class="wv-b6 mt-2"
           v-html="
             project.procurement_list
               .map((item) => item.replace(/(?:\r\n|\r|\n)/g, '<br />'))
