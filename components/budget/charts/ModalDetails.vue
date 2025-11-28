@@ -85,7 +85,7 @@
               ไม่พบข้อมูล
             </div>
             <!-- ------- header -->
-            <div class="flex flex-col">
+            <div class="flex flex-col" v-else>
               <div
                 v-for="(item, id) in paginate(currentPage)"
                 :key="id"
