@@ -481,8 +481,14 @@ export default {
       this.isMillion = !this.isMillion;
     },
     handleProjectDialog(project) {
-      this.isProjectDialog = !this.isProjectDialog;
+      const willOpen = !this.isProjectDialog;
+      this.isProjectDialog = willOpen;
       this.selectedProject = project;
+
+      const tooltip = document.getElementById("tooltip");
+      if (tooltip) {
+        tooltip.style.visibility = willOpen ? "hidden" : "visible";
+      }
     },
     setToolTip(elem) {
       const isMobile = window.innerWidth <= 768;
