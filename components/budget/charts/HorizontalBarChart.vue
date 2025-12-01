@@ -66,7 +66,11 @@
         >
       </ModalDetails>
     </div>
-    <ToggleUnit :toggle="() => toggle()" :is-million="isMillion" />
+    <ToggleUnit
+      :toggle="() => toggle()"
+      :is-million="isMillion"
+      :isBudget="true"
+    />
     <div
       class="flex pl-[35px] md:pl-[50px] lg:pl-[25px] flex-1 mx-auto w-full md:h-[500px] md:min-h-[500px] md:max-h-[500px] min-h-[250px] h-[250px] relative mt-5"
     >

@@ -111,7 +111,11 @@
           </div>
         </div>
         <div class="flex justify-between mt-5">
-          <ToggleUnit :toggle="() => toggle()" :is-million="isMillion" />
+          <ToggleUnit
+            :toggle="() => toggle()"
+            :is-million="isMillion"
+            :isBudget="true"
+          />
           <div
             class="text-wv-gray-1 wv-b6 flex space-x-2 justify-center cursor-pointer mb-4"
           >

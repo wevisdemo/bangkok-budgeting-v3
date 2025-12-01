@@ -223,7 +223,11 @@
             </el-select>
           </div>
           <!--  -->
-          <ToggleUnit :toggle="() => toggle()" :isMillion="isMillion" />
+          <ToggleUnit
+            :toggle="() => toggle()"
+            :isMillion="isMillion"
+            :isBudget="true"
+          />
           <div class="h-[500px] mt-10 relative pl-[35px]">
             <div class="absolute inset-0 flex flex-col-reverse mt-[0.5px]">
               <div
